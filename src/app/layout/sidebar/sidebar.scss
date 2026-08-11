@@ -42,12 +42,26 @@
     gap: $spacing-sm;
     padding-left: 56px;
     color: $color-text-muted;
+    cursor: pointer;
     text-decoration: none;
+    transition: background-color $transition-fast, color $transition-fast;
+
+    &:hover,
+    &--active {
+      color: $color-bg;
+      background: $color-sidebar-active;
+    }
   }
 
   &__navigation-link img {
     width: 30px;
     height: 30px;
+    transition: filter $transition-fast;
+  }
+
+  &__navigation-link:hover img,
+  &__navigation-link--active img {
+    filter: brightness(0) invert(1);
   }
 
   &__legal {
@@ -63,6 +77,14 @@
   &__legal a {
     padding: $spacing-sm;
     color: $color-text-muted;
+    cursor: pointer;
     text-decoration: none;
+    transition: color $transition-fast;
+
+    &:hover,
+    &.sidebar__legal-link--active {
+      color: $color-accent;
+      font-weight: $font-weight-bold;
+    }
   }
 }

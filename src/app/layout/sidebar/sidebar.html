@@ -9,6 +9,7 @@
         class="sidebar__navigation-link"
         [routerLink]="item.route"
         routerLinkActive="sidebar__navigation-link--active"
+        ariaCurrentWhenActive="page"
       >
         <img [src]="'assets/icons/' + item.icon" alt="">
         <span>{{ item.label }}</span>
@@ -17,7 +18,15 @@
   </nav>
 
   <nav class="sidebar__legal" aria-label="Legal navigation">
-    <a routerLink="/privacy-policy">Privacy Policy</a>
-    <a routerLink="/legal-notice">Legal notice</a>
+    <a
+      routerLink="/privacy-policy"
+      routerLinkActive="sidebar__legal-link--active"
+      ariaCurrentWhenActive="page"
+    >Privacy Policy</a>
+    <a
+      routerLink="/legal-notice"
+      routerLinkActive="sidebar__legal-link--active"
+      ariaCurrentWhenActive="page"
+    >Legal notice</a>
   </nav>
 </aside>
