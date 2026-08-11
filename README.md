@@ -1,5 +1,23 @@
 # Join
 
+Kanban Project Management Tool – Gruppenprojekt im Rahmen der DA Akademie.
+
+## Team
+
+- [Daniel K. Ahmad A. Christian W]
+
+## Tech-Stack
+
+- Angular 22
+- SCSS
+- Supabase
+
+## Setup
+
+\`\`\`bash
+npm install
+ng serve
+\`\`\`
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.7.
 
 ## Development server
