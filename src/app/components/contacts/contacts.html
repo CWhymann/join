@@ -1,8 +1,16 @@
 <div class="contacts">
   <div class="contacts__list">
-    <app-contact-list></app-contact-list>
+    <app-contact-list (addClicked)="openForm()"></app-contact-list>
   </div>
   <div class="contacts__detail">
     <app-contact-detail></app-contact-detail>
   </div>
+
+  @if (showForm()) {
+    <div class="contacts__overlay" (click)="closeForm()">
+      <div class="contacts__modal" (click)="$event.stopPropagation()">
+        <app-contact-form (closed)="closeForm()"></app-contact-form>
+      </div>
+    </div>
+  }
 </div>

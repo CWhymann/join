@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Contact } from '../../../core/models/contact';
 import { ContactsService } from '../../../core/services/contacts.service';
@@ -12,6 +12,8 @@ import { ContactsService } from '../../../core/services/contacts.service';
 })
 export class ContactList {
   private contactsService = inject(ContactsService);
+
+  addClicked = output<void>();
 
   // TODO: Array + getColor()-Methode komplett entfernen, sobald avatarColor
   // aus Supabase geliefert wird (Person D). Dann in contact-list.html direkt

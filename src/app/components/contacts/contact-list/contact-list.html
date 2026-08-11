@@ -1,5 +1,5 @@
 <div class="contact-list">
-  <button class="contact-list__add-btn">Add new contact</button>
+  <button class="contact-list__add-btn" (click)="addClicked.emit()">Add new contact</button>
 
   @for (group of groupedContacts() | keyvalue; track group.key) {
     <div class="contact-list__group">

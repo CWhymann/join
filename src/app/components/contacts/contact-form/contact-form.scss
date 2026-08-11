@@ -1,0 +1,83 @@
+@use '../../../../styles/abstracts' as *;
+
+.contact-form {
+  padding: $spacing-lg;
+  max-width: 480px;
+
+  &__title {
+    font-family: $font-primary;
+    font-weight: $font-weight-bold;
+    font-size: 24px;
+    color: $color-text;
+    margin-bottom: $spacing-lg;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: $spacing-md;
+  }
+
+  &__input {
+    border: unset;
+    border-bottom: 1px solid $color-border;
+    padding: $spacing-sm 0;
+    font-family: $font-primary;
+    font-size: 14px;
+    color: $color-text;
+    outline: none;
+    transition: $transition-fast;
+
+    &:focus {
+      border-bottom-color: $color-accent;
+    }
+  }
+
+  &__error {
+    color: $color-error;
+    font-size: 12px;
+    margin-top: $spacing-xs;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: $spacing-md;
+    margin-top: $spacing-lg;
+  }
+
+  &__cancel {
+    background: none;
+    border: unset;
+    color: $color-text-muted;
+    cursor: pointer;
+    font-family: $font-primary;
+    padding: $spacing-sm $spacing-md;
+    transition: $transition-fast;
+
+    &:hover {
+      color: $color-text;
+    }
+  }
+
+  &__submit {
+    background-color: $color-sidebar-bg;
+    color: #ffffff;
+    border: unset;
+    border-radius: 8px;
+    padding: $spacing-sm $spacing-lg;
+    font-family: $font-primary;
+    font-weight: $font-weight-semibold;
+    cursor: pointer;
+    transition: $transition-fast;
+
+    &:hover:not(:disabled) {
+      background-color: $color-sidebar-active;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
