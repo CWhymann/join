@@ -1,0 +1,32 @@
+<aside class="sidebar">
+  <a class="sidebar__logo" routerLink="/summary" aria-label="Go to summary">
+    <img src="assets/icons/join-logo.svg" alt="Join">
+  </a>
+
+  <nav class="sidebar__navigation" aria-label="Main navigation">
+    @for (item of navigationItems; track item.route) {
+      <a
+        class="sidebar__navigation-link"
+        [routerLink]="item.route"
+        routerLinkActive="sidebar__navigation-link--active"
+        ariaCurrentWhenActive="page"
+      >
+        <img [src]="'assets/icons/' + item.icon" alt="">
+        <span>{{ item.label }}</span>
+      </a>
+    }
+  </nav>
+
+  <nav class="sidebar__legal" aria-label="Legal navigation">
+    <a
+      routerLink="/privacy-policy"
+      routerLinkActive="sidebar__legal-link--active"
+      ariaCurrentWhenActive="page"
+    >Privacy Policy</a>
+    <a
+      routerLink="/legal-notice"
+      routerLinkActive="sidebar__legal-link--active"
+      ariaCurrentWhenActive="page"
+    >Legal notice</a>
+  </nav>
+</aside>

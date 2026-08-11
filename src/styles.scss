@@ -1,1 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+@use 'styles/abstracts' as *;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: $font-primary;
+  font-weight: $font-weight-regular;
+  color: $color-text;
+  background-color: $color-bg;
+}
