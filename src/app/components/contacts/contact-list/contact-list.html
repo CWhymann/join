@@ -1,17 +1,17 @@
 <div class="contact-list">
   <button class="contact-list__add-btn" (click)="addClicked.emit()">Add new contact</button>
 
-  @for (group of groupedContacts() | keyvalue; track group.key) {
+  @for (group of groups(); track group.letter) {
     <div class="contact-list__group">
-      <span class="contact-list__letter">{{ group.key }}</span>
+      <span class="contact-list__letter">{{ group.letter }}</span>
 
-      @for (contact of group.value; track contact.id) {
+      @for (contact of group.contacts; track contact.id) {
         <div
           class="contact-list__item"
-          [class.contact-list__item--active]="contact.id === selectedId()"
+          [class.contact-list__item--active]="contact.id === selectedId"
           (click)="onSelect(contact)"
         >
-          <span class="contact-list__avatar" [style.background-color]="getColor(contact.name)">
+          <span class="contact-list__avatar" [style.background-color]="contact.color">
             {{ getInitials(contact.name) }}
           </span>
           <div class="contact-list__info">

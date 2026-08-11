@@ -2,7 +2,7 @@ import { Component, inject, input, output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ContactsService } from '../../../core/services/contacts.service';
-import { Contact } from '../../../core/models/contact';
+import { Contact } from '../../../core/models/contact.model';
 
 @Component({
   selector: 'app-contact-form',
@@ -49,7 +49,7 @@ export class ContactForm implements OnInit {
     return hasTwoParts && hasNoNumbers ? null : { invalidName: true };
   }
 
-  onSubmit(): void {
+  async onSubmit(): Promise<void> {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
@@ -61,24 +61,17 @@ export class ContactForm implements OnInit {
     const contact = this.editingContact();
 
     if (this.isEditMode && contact) {
-      // TODO: Provisorisch — sobald Person D's ContactsService mit Supabase
-      // steht, ersetzen durch:
-      //   await this.contactsService.updateContact(contact.id, { name: name!, email: email!, phone: phone! });
-      this.contactsService.contacts.update((list) =>
-        list.map((c) =>
-          c.id === contact.id ? { ...c, name: name!, email: email!, phone: phone! } : c,
-        ),
-      );
+      await this.contactsService.updateContact(contact.id, {
+        name: name!,
+        email: email!,
+        phone: phone!,
+      });
     } else {
-      // TODO: Provisorisch — sobald Person D's ContactsService mit Supabase
-      // steht, diesen Block ersetzen durch:
-      //   await this.contactsService.addContact({ name: name!, email: email!, phone: phone!, avatarColor: '' });
-      // Methode wird dann async (siehe onSubmit-Signatur oben anpassen),
-      // Aufruf mit await versehen, kein direktes Signal-Update mehr hier.
-      this.contactsService.contacts.update((list) => [
-        ...list,
-        { id: crypto.randomUUID(), name: name!, email: email!, phone: phone!, avatarColor: '' },
-      ]);
+      await this.contactsService.addContact({
+        name: name!,
+        email: email!,
+        phone: phone!,
+      });
     }
 
     this.isSubmitting = false;

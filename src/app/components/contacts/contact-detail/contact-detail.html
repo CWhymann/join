@@ -1,14 +1,14 @@
 @if (contact(); as c) {
   <div class="contact-detail">
     <div class="contact-detail__header">
-      <span class="contact-detail__avatar" [style.background-color]="getColor(c.name)">
+      <span class="contact-detail__avatar" [style.background-color]="c.color">
         {{ getInitials(c.name) }}
       </span>
       <div>
         <h2 class="contact-detail__name">{{ c.name }}</h2>
         <div class="contact-detail__actions">
           <button class="contact-detail__action" (click)="onEdit(c)">Edit</button>
-          <button class="contact-detail__action">Delete</button>
+          <button class="contact-detail__action" (click)="onDelete(c)">Delete</button>
         </div>
       </div>
     </div>
