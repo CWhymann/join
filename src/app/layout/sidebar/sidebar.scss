@@ -1,1 +1,68 @@
+@use '../../../styles/abstracts' as *;
 
+:host {
+  display: block;
+}
+
+.sidebar {
+  position: fixed;
+  z-index: 20;
+  inset: 0 auto 0 0;
+  display: flex;
+  width: $sidebar-width;
+  flex-direction: column;
+  align-items: center;
+  background: $color-sidebar-bg;
+  box-shadow: 0 0 4px rgb(0 0 0 / 10%);
+
+  &__logo {
+    width: 100px;
+    height: 122px;
+    margin-top: 64px;
+  }
+
+  &__logo img {
+    width: 100%;
+    height: 100%;
+  }
+
+  &__navigation {
+    display: flex;
+    width: 100%;
+    margin-top: 114px;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  &__navigation-link {
+    display: flex;
+    width: 100%;
+    height: 46px;
+    align-items: center;
+    gap: $spacing-sm;
+    padding-left: 56px;
+    color: $color-text-muted;
+    text-decoration: none;
+  }
+
+  &__navigation-link img {
+    width: 30px;
+    height: 30px;
+  }
+
+  &__legal {
+    display: flex;
+    width: 100%;
+    margin-top: auto;
+    margin-bottom: 60px;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacing-xs;
+  }
+
+  &__legal a {
+    padding: $spacing-sm;
+    color: $color-text-muted;
+    text-decoration: none;
+  }
+}
