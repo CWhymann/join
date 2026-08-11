@@ -1,0 +1,85 @@
+@use '../../../../styles/abstracts' as *;
+
+.contact-detail {
+  padding: $spacing-lg;
+
+  &--empty {
+    color: $color-text-muted;
+    font-style: italic;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: $spacing-lg;
+    margin-bottom: $spacing-xl;
+  }
+
+  &__avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    color: #ffffff;
+    font-weight: $font-weight-bold;
+    font-size: 24px;
+    flex-shrink: 0;
+    border: 3px solid #ffffff;
+  }
+
+  &__name {
+    font-family: $font-primary;
+    font-weight: $font-weight-bold;
+    font-size: 24px;
+    color: $color-text;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__actions {
+    display: flex;
+    gap: $spacing-md;
+  }
+
+  &__action {
+    background: none;
+    border: none;
+    color: $color-text-muted;
+    cursor: pointer;
+    font-family: $font-primary;
+    font-size: 13px;
+    transition: $transition-fast;
+
+    &:hover {
+      color: $color-accent;
+    }
+  }
+
+  &__section-title {
+    font-family: $font-primary;
+    font-weight: $font-weight-semibold;
+    color: $color-text;
+    margin-bottom: $spacing-md;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+    margin-bottom: $spacing-md;
+  }
+
+  &__label {
+    font-size: 12px;
+    color: $color-text-muted;
+  }
+
+  &__value {
+    color: $color-text;
+
+    &--accent {
+      color: $color-accent;
+    }
+  }
+}
