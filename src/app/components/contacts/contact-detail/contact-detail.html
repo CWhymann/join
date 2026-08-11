@@ -1,0 +1,32 @@
+@if (contact(); as c) {
+  <div class="contact-detail">
+    <div class="contact-detail__header">
+      <span class="contact-detail__avatar" [style.background-color]="getColor(c.name)">
+        {{ getInitials(c.name) }}
+      </span>
+      <div>
+        <h2 class="contact-detail__name">{{ c.name }}</h2>
+        <div class="contact-detail__actions">
+          <button class="contact-detail__action" (click)="onEdit(c)">Edit</button>
+          <button class="contact-detail__action">Delete</button>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="contact-detail__section-title">Contact Information</h3>
+
+    <div class="contact-detail__field">
+      <span class="contact-detail__label">Email</span>
+      <span class="contact-detail__value contact-detail__value--accent">{{ c.email }}</span>
+    </div>
+
+    <div class="contact-detail__field">
+      <span class="contact-detail__label">Phone</span>
+      <span class="contact-detail__value">{{ c.phone }}</span>
+    </div>
+  </div>
+} @else {
+  <div class="contact-detail contact-detail--empty">
+    <p>Wähle einen Kontakt aus der Liste aus.</p>
+  </div>
+}

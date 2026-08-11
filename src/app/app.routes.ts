@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { MainLayout } from './layout/main-layout/main-layout';
-import { RoutePlaceholder } from './pages/route-placeholder/route-placeholder';
+import { Contacts } from './components/contacts/contacts';
 
 export const routes: Routes = [
   {
@@ -8,8 +8,8 @@ export const routes: Routes = [
     component: MainLayout,
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'contacts' },
-      { path: 'contacts', component: RoutePlaceholder },
-    ]
+      { path: 'contacts', component: Contacts },
+    ],
   },
-  { path: '**', redirectTo: 'contacts' }
+  { path: '**', redirectTo: 'contacts' },
 ];

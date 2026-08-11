@@ -1,0 +1,32 @@
+@use '../../../styles/abstracts' as *;
+
+.contacts {
+  display: flex;
+  height: 100%;
+  background-color: #ffffff;
+
+  &__list {
+    width: 360px;
+    border-right: 1px solid $color-border;
+    overflow-y: auto;
+  }
+
+  &__detail {
+    flex: 1;
+  }
+  &__overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+  }
+
+  &__modal {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+  }
+}
