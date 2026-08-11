@@ -1,0 +1,98 @@
+@use '../../../styles/abstracts' as *;
+
+:host {
+  display: block;
+}
+
+.topbar {
+  position: fixed;
+  z-index: 10;
+  inset: 0 0 auto $sidebar-width;
+  display: flex;
+  height: $topbar-height;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px 0 116px;
+  background: $color-bg;
+  box-shadow: 0 4px 4px rgb(0 0 0 / 10%);
+
+  &__title {
+    color: #000000;
+    font-family: $font-primary;
+    font-size: 20px;
+    font-weight: $font-weight-regular;
+    line-height: 24px;
+  }
+
+  &__actions {
+    display: flex;
+    height: 56px;
+    align-items: center;
+    gap: $spacing-md;
+  }
+
+  &__help {
+    display: grid;
+    width: 32px;
+    height: 32px;
+    place-items: center;
+  }
+
+  &__help img {
+    width: 20px;
+    height: 20px;
+  }
+
+  &__profile {
+    width: 56px;
+    height: 56px;
+    padding: 0;
+    color: $color-accent;
+    background: $color-bg;
+    border: 3px solid $color-text;
+    border-radius: 50%;
+    cursor: pointer;
+    font-family: $font-primary;
+    font-size: 20px;
+    font-weight: $font-weight-bold;
+    line-height: 24px;
+    transition: background-color $transition-fast;
+
+    &:hover {
+      background: #e2e6ec;
+    }
+  }
+
+  &__mobile-logo {
+    display: none;
+  }
+
+  @include mobile {
+    inset: 0 0 auto 0;
+    height: 80px;
+    padding: 0 $spacing-md;
+
+    &__title,
+    &__help {
+      display: none;
+    }
+
+    &__mobile-logo {
+      display: block;
+      width: 32px;
+      height: 39px;
+    }
+
+    &__actions {
+      height: 40px;
+    }
+
+    &__profile {
+      width: 40px;
+      height: 40px;
+      border-width: 2px;
+      font-size: 16px;
+      line-height: 19px;
+    }
+  }
+}
