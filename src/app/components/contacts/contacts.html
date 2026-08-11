@@ -1,9 +1,16 @@
 <div class="contacts">
   <div class="contacts__list">
-    <app-contact-list (addClicked)="openAddForm()"></app-contact-list>
+    <app-contact-list
+      (addClicked)="openAddForm()"
+      (contactSelected)="onContactSelected($event)"
+    ></app-contact-list>
   </div>
   <div class="contacts__detail">
-    <app-contact-detail (editClicked)="openEditForm($event)"></app-contact-detail>
+    <app-contact-detail
+      [contact]="selectedContact()"
+      (editClicked)="openEditForm($event)"
+      (deleteClicked)="onDeleteContact($event)"
+    ></app-contact-detail>
   </div>
 
   @if (showForm()) {
