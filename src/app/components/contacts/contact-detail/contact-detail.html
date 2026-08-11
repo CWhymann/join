@@ -7,7 +7,7 @@
       <div>
         <h2 class="contact-detail__name">{{ c.name }}</h2>
         <div class="contact-detail__actions">
-          <button class="contact-detail__action">Edit</button>
+          <button class="contact-detail__action" (click)="onEdit(c)">Edit</button>
           <button class="contact-detail__action">Delete</button>
         </div>
       </div>

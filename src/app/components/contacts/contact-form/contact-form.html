@@ -1,5 +1,5 @@
 <div class="contact-form">
-  <h2 class="contact-form__title">Add new contact</h2>
+  <h2 class="contact-form__title">{{ isEditMode ? 'Edit contact' : 'Add new contact' }}</h2>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
     <div class="contact-form__field">
@@ -44,7 +44,7 @@
     <div class="contact-form__actions">
       <button type="button" class="contact-form__cancel" (click)="onCancel()">Cancel</button>
       <button type="submit" class="contact-form__submit" [disabled]="isSubmitting">
-        Create contact
+        {{ isEditMode ? 'Save' : 'Create contact' }}
       </button>
     </div>
   </form>

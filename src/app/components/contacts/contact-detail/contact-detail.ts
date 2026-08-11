@@ -1,6 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ContactsService } from '../../../core/services/contacts.service';
+import { Contact } from '../../../core/models/contact';
 
 @Component({
   selector: 'app-contact-detail',
@@ -13,6 +14,8 @@ export class ContactDetail {
   private contactsService = inject(ContactsService);
 
   contact = this.contactsService.selectedContact;
+
+  editClicked = output<Contact>();
 
   // TODO: Array + getColor()-Methode komplett entfernen, sobald avatarColor
   // aus Supabase geliefert wird (Person D). Dann in contact-detail.html direkt
@@ -40,11 +43,12 @@ export class ContactDetail {
       .toUpperCase();
   }
 
-  // TODO: Provisorische Avatar-Farblogik entfernen, sobald Person D's
-  // Supabase-Anbindung gemerged ist. Dann avatarColor direkt aus dem
-  // Contact-Objekt verwenden statt getColor().
   getColor(name: string): string {
     const charSum = name.split('').reduce((sum, char) => sum + char.charCodeAt(0), 0);
     return this.avatarColors[charSum % this.avatarColors.length];
+  }
+
+  onEdit(contact: Contact): void {
+    this.editClicked.emit(contact);
   }
 }
