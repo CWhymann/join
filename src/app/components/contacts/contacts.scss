@@ -14,6 +14,7 @@
   &__detail {
     flex: 1;
   }
+
   &__overlay {
     position: fixed;
     inset: 0;
@@ -25,8 +26,9 @@
   }
 
   &__modal {
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+    max-height: 90vh;
+    overflow: auto;
+    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.25);
+    border-radius: 30px;
   }
 }

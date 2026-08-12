@@ -1,51 +1,92 @@
 <div class="contact-form">
-  <h2 class="contact-form__title">{{ isEditMode ? 'Edit contact' : 'Add new contact' }}</h2>
+  <div class="contact-form__left">
+    <div class="contact-form__logo">
+      <img src="/icons/join-logo.svg" alt="Join Logo" class="contact-form__logo-img" />
+    </div>
+    <h2 class="contact-form__title">{{ isEditMode ? 'Edit contact' : 'Add contact' }}</h2>
+    <p class="contact-form__subtitle">Tasks are better with a team!</p>
+    <span class="contact-form__underline"></span>
+  </div>
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
-    <div class="contact-form__field">
-      <input type="text" formControlName="name" placeholder="Name" class="contact-form__input" />
-      @if (form.get('name')?.touched && form.get('name')?.invalid) {
-        <span class="contact-form__error">
-          @if (form.get('name')?.errors?.['required']) {
-            Name ist ein Pflichtfeld.
-          } @else if (form.get('name')?.errors?.['invalidName']) {
-            Bitte Vor- und Nachnamen ohne Zahlen eingeben.
+  <div class="contact-form__right">
+    <button type="button" class="contact-form__close" (click)="onCancel()" aria-label="Close">
+      ✕
+    </button>
+
+    <div class="contact-form__body">
+      <div class="contact-form__avatar">
+        @if (isEditMode) {
+          <span class="contact-form__avatar-initials">{{ initials }}</span>
+        } @else {
+          <img src="/icons/name_icon.svg" alt="" class="contact-form__avatar-icon" />
+        }
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+        <div class="contact-form__field">
+          <input
+            type="text"
+            formControlName="name"
+            placeholder="Name"
+            class="contact-form__input"
+          />
+          <img src="/icons/name_icon.svg" alt="" class="contact-form__icon" />
+          @if (form.get('name')?.touched && form.get('name')?.invalid) {
+            <span class="contact-form__error">
+              @if (form.get('name')?.errors?.['required']) {
+                Name ist ein Pflichtfeld.
+              } @else if (form.get('name')?.errors?.['invalidName']) {
+                Bitte Vor- und Nachnamen ohne Zahlen eingeben.
+              }
+            </span>
           }
-        </span>
-      }
-    </div>
+        </div>
 
-    <div class="contact-form__field">
-      <input type="text" formControlName="email" placeholder="Email" class="contact-form__input" />
-      @if (form.get('email')?.touched && form.get('email')?.invalid) {
-        <span class="contact-form__error">
-          @if (form.get('email')?.errors?.['required']) {
-            Email ist ein Pflichtfeld.
-          } @else if (form.get('email')?.errors?.['pattern']) {
-            Bitte eine gültige Email-Adresse eingeben.
+        <div class="contact-form__field">
+          <input
+            type="text"
+            formControlName="email"
+            placeholder="Email"
+            class="contact-form__input"
+          />
+          <img src="/icons/mail_icon.svg" alt="" class="contact-form__icon" />
+          @if (form.get('email')?.touched && form.get('email')?.invalid) {
+            <span class="contact-form__error">
+              @if (form.get('email')?.errors?.['required']) {
+                Email ist ein Pflichtfeld.
+              } @else if (form.get('email')?.errors?.['pattern']) {
+                Bitte eine gültige Email-Adresse eingeben.
+              }
+            </span>
           }
-        </span>
-      }
-    </div>
+        </div>
 
-    <div class="contact-form__field">
-      <input type="text" formControlName="phone" placeholder="Phone" class="contact-form__input" />
-      @if (form.get('phone')?.touched && form.get('phone')?.invalid) {
-        <span class="contact-form__error">
-          @if (form.get('phone')?.errors?.['required']) {
-            Telefonnummer ist ein Pflichtfeld.
-          } @else if (form.get('phone')?.errors?.['pattern']) {
-            Nur Ziffern und optional ein führendes "+" erlaubt.
+        <div class="contact-form__field">
+          <input
+            type="text"
+            formControlName="phone"
+            placeholder="Phone"
+            class="contact-form__input"
+          />
+          <img src="/icons/phone_icon.svg" alt="" class="contact-form__icon" />
+          @if (form.get('phone')?.touched && form.get('phone')?.invalid) {
+            <span class="contact-form__error">
+              @if (form.get('phone')?.errors?.['required']) {
+                Telefonnummer ist ein Pflichtfeld.
+              } @else if (form.get('phone')?.errors?.['pattern']) {
+                Nur Ziffern und optional ein führendes "+" erlaubt.
+              }
+            </span>
           }
-        </span>
-      }
-    </div>
+        </div>
 
-    <div class="contact-form__actions">
-      <button type="button" class="contact-form__cancel" (click)="onCancel()">Cancel</button>
-      <button type="submit" class="contact-form__submit" [disabled]="isSubmitting">
-        {{ isEditMode ? 'Save' : 'Create contact' }}
-      </button>
+        <div class="contact-form__actions">
+          <button type="button" class="contact-form__cancel" (click)="onCancel()">Cancel ✕</button>
+          <button type="submit" class="contact-form__submit" [disabled]="isSubmitting">
+            {{ isEditMode ? 'Save' : 'Create contact' }} ✓
+          </button>
+        </div>
+      </form>
     </div>
-  </form>
+  </div>
 </div>

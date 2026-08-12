@@ -28,6 +28,16 @@ export class ContactForm implements OnInit {
 
   get isEditMode(): boolean {
     return this.editingContact() !== null;
+    }
+    
+  get initials(): string {
+    const contact = this.editingContact();
+    if (!contact) return '';
+    return contact.name
+      .split(' ')
+      .map((part) => part.charAt(0))
+      .join('')
+      .toUpperCase();
   }
 
   ngOnInit(): void {
