@@ -1,11 +1,5 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import {
-  Contact,
-  ContactGroup,
-  ContactInput,
-  ContactUpdate,
-  NewContact,
-} from '../models/contact.model';
+import { Contact, ContactGroup, ContactInput, ContactUpdate, NewContact,} from '../models/contact.model';
 import { createAvatarColor } from '../utils/avatar.utils';
 import { groupContactsByLetter, sortContactsByName } from '../utils/contact-list.utils';
 import { SupabaseService } from './supabase.service';
