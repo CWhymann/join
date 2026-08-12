@@ -5,9 +5,10 @@ export interface Contact {
   phone: string;
   color: string;
   created_at: string;
+  is_protected: boolean;
 }
 
-export type NewContact = Omit<Contact, 'id' | 'created_at'>;
+export type NewContact = Omit<Contact, 'id' | 'created_at' | 'is_protected'>;
 export type ContactUpdate = Partial<NewContact>;
 export type ContactInput = Omit<NewContact, 'color'> & { color?: string };
 export interface ContactGroup {

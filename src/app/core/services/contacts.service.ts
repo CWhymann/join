@@ -1,5 +1,5 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { Contact, ContactGroup, ContactInput, ContactUpdate, NewContact,} from '../models/contact.model';
+import { Contact, ContactGroup, ContactInput, ContactUpdate, NewContact } from '../models/contact.model';
 import { createAvatarColor } from '../utils/avatar.utils';
 import { groupContactsByLetter, sortContactsByName } from '../utils/contact-list.utils';
 import { SupabaseService } from './supabase.service';
@@ -59,9 +59,13 @@ export class ContactsService {
 
   async deleteContact(id: string): Promise<boolean> {
     this.startRequest();
-    const { error } = await this.supabase.from(TABLE).delete().eq('id', id);
+    const { data, error } = await this.supabase.from(TABLE).delete().eq('id', id).select();
     if (error) {
       this.failRequest(error.message);
+      return false;
+    }
+    if (!data || data.length === 0) {
+      this.failRequest('Dieser Kontakt ist geschützt und kann nicht gelöscht werden.');
       return false;
     }
     await this.loadContacts();
