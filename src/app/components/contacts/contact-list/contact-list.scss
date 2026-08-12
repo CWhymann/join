@@ -14,7 +14,7 @@
     color: #ffffff;
     border: none;
     border-radius: 8px;
-    padding: $spacing-sm $spacing-md;
+    padding: $spacing-md;
     font-family: $font-primary;
     font-weight: $font-weight-semibold;
     cursor: pointer;
@@ -24,6 +24,11 @@
     &:hover {
       background-color: $color-sidebar-active;
     }
+  }
+
+  &__add-icon {
+    width: 20px;
+    height: 20px;
   }
 
   &__group {

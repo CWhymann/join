@@ -1,5 +1,8 @@
 <div class="contact-list">
-  <button class="contact-list__add-btn" (click)="addClicked.emit()">Add new contact</button>
+  <button class="contact-list__add-btn" (click)="addClicked.emit()">
+    Add new contact
+    <img src="/icons/addnewcontact.svg" alt="" class="contact-list__add-icon" />
+  </button>
 
   @for (group of groups(); track group.letter) {
     <div class="contact-list__group">

@@ -7,8 +7,14 @@
       <div>
         <h2 class="contact-detail__name">{{ c.name }}</h2>
         <div class="contact-detail__actions">
-          <button class="contact-detail__action" (click)="onEdit(c)">Edit</button>
-          <button class="contact-detail__action" (click)="onDelete(c)">Delete</button>
+          <button class="contact-detail__action" (click)="onEdit(c)">
+            <img src="/icons/edit.svg" alt="" class="contact-detail__action-icon" />
+            Edit
+          </button>
+          <button class="contact-detail__action" (click)="onDelete(c)">
+            <img src="/icons/maintrash.svg" alt="" class="contact-detail__action-icon" />
+            Delete
+          </button>
         </div>
       </div>
     </div>

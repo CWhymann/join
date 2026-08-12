@@ -6,6 +6,12 @@
     ></app-contact-list>
   </div>
   <div class="contacts__detail">
+    <div class="contacts__heading">
+      <h1 class="contacts__title">Contacts</h1>
+      <span class="contacts__divider"></span>
+      <p class="contacts__subtitle">Better with a team</p>
+    </div>
+
     <app-contact-detail
       [contact]="selectedContact()"
       (editClicked)="openEditForm($event)"

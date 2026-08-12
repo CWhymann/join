@@ -43,8 +43,11 @@
   }
 
   &__action {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
     background: none;
-    border: none;
+    border: unset;
     color: $color-text-muted;
     cursor: pointer;
     font-family: $font-primary;
@@ -54,6 +57,11 @@
     &:hover {
       color: $color-accent;
     }
+  }
+
+  &__action-icon {
+    width: 16px;
+    height: 16px;
   }
 
   &__section-title {
