@@ -2,6 +2,7 @@
 
 .contact-detail {
   padding: $spacing-lg;
+  position: relative;
 
   &--empty {
     color: $color-text-muted;
@@ -40,6 +41,10 @@
   &__actions {
     display: flex;
     gap: $spacing-md;
+
+    @include mobile {
+      display: none;
+    }
   }
 
   &__action {
@@ -88,6 +93,71 @@
 
     &--accent {
       color: $color-accent;
+    }
+  }
+
+  &__fab {
+    display: none;
+
+    @include mobile {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      bottom: 90px;
+      right: $spacing-lg;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background-color: $color-sidebar-bg;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      z-index: 50;
+
+      img {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+
+  &__menu {
+    display: none;
+
+    @include mobile {
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      bottom: 150px;
+      right: $spacing-lg;
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+      z-index: 60;
+    }
+  }
+
+  &__menu-item {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    padding: $spacing-md $spacing-lg;
+    background: none;
+    border: unset;
+    cursor: pointer;
+    font-family: $font-primary;
+    color: $color-text;
+    white-space: nowrap;
+
+    img {
+      width: 16px;
+      height: 16px;
+    }
+
+    &:hover {
+      background-color: #f5f5f5;
     }
   }
 }

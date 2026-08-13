@@ -30,6 +30,23 @@
       <span class="contact-detail__label">Phone</span>
       <span class="contact-detail__value">{{ c.phone }}</span>
     </div>
+
+    <button class="contact-detail__fab" (click)="toggleMenu()" aria-label="More options">
+      <img src="/icons/menu_contact_options.svg" alt="" />
+    </button>
+
+    @if (menuOpen()) {
+      <div class="contact-detail__menu">
+        <button class="contact-detail__menu-item" (click)="onEdit(c); toggleMenu()">
+          <img src="/icons/edit.svg" alt="" />
+          Edit
+        </button>
+        <button class="contact-detail__menu-item" (click)="onDelete(c); toggleMenu()">
+          <img src="/icons/maintrash.svg" alt="" />
+          Delete
+        </button>
+      </div>
+    }
   </div>
 } @else {
   <div class="contact-detail contact-detail--empty">

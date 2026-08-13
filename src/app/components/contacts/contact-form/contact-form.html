@@ -1,5 +1,13 @@
 <div class="contact-form">
   <div class="contact-form__left">
+    <button
+      type="button"
+      class="contact-form__close-mobile"
+      (click)="onCancel()"
+      aria-label="Close"
+    >
+      ✕
+    </button>
     <div class="contact-form__logo">
       <img src="/icons/join-logo.svg" alt="Join Logo" class="contact-form__logo-img" />
     </div>
@@ -8,19 +16,27 @@
     <span class="contact-form__underline"></span>
   </div>
 
+  <span class="contact-form__avatar contact-form__avatar--overlap">
+    @if (isEditMode) {
+      <span class="contact-form__avatar-initials">{{ initials }}</span>
+    } @else {
+      <img src="/icons/name_icon.svg" alt="" class="contact-form__avatar-icon" />
+    }
+  </span>
+
   <div class="contact-form__right">
     <button type="button" class="contact-form__close" (click)="onCancel()" aria-label="Close">
       ✕
     </button>
 
     <div class="contact-form__body">
-      <div class="contact-form__avatar">
+      <span class="contact-form__avatar contact-form__avatar--desktop">
         @if (isEditMode) {
           <span class="contact-form__avatar-initials">{{ initials }}</span>
         } @else {
           <img src="/icons/name_icon.svg" alt="" class="contact-form__avatar-icon" />
         }
-      </div>
+      </span>
 
       <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
         <div class="contact-form__field">
@@ -82,6 +98,15 @@
 
         <div class="contact-form__actions">
           <button type="button" class="contact-form__cancel" (click)="onCancel()">Cancel ✕</button>
+          @if (isEditMode) {
+            <button
+              type="button"
+              class="contact-form__cancel contact-form__cancel--mobile-delete"
+              (click)="onCancel()"
+            >
+              Delete
+            </button>
+          }
           <button type="submit" class="contact-form__submit" [disabled]="isSubmitting">
             {{ isEditMode ? 'Save' : 'Create contact' }} ✓
           </button>

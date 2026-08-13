@@ -18,6 +18,8 @@ export class Contacts implements OnInit {
   selectedContact = signal<Contact | null>(null);
   showForm = signal(false);
   editingContact = signal<Contact | null>(null);
+  showToast = signal(false);
+  toastMessage = signal('');
 
   ngOnInit(): void {
     this.contactsService.loadContacts();
@@ -25,6 +27,10 @@ export class Contacts implements OnInit {
 
   onContactSelected(contact: Contact): void {
     this.selectedContact.set(contact);
+  }
+
+  onBackToList(): void {
+    this.selectedContact.set(null);
   }
 
   openAddForm(): void {
@@ -47,5 +53,13 @@ export class Contacts implements OnInit {
   closeForm(): void {
     this.showForm.set(false);
     this.editingContact.set(null);
+  }
+
+  onFormSaved(success: boolean): void {
+    this.showForm.set(false);
+    this.editingContact.set(null);
+    this.toastMessage.set(success ? 'Contact saved' : 'Something went wrong');
+    this.showToast.set(true);
+    setTimeout(() => this.showToast.set(false), 2500);
   }
 }

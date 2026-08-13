@@ -5,15 +5,37 @@
   height: 100%;
   background-color: #ffffff;
 
+  @include mobile {
+    flex-direction: column;
+  }
+
   &__list {
     width: 360px;
     border-right: 1px solid $color-border;
     overflow-y: auto;
+
+    @include mobile {
+      width: 100%;
+      border-right: none;
+
+      &.contacts__list--hidden-mobile {
+        display: none;
+      }
+    }
   }
 
   &__detail {
     flex: 1;
     padding: $spacing-xl;
+
+    @include mobile {
+      display: none;
+      padding: $spacing-md;
+
+      &.contacts__detail--visible-mobile {
+        display: block;
+      }
+    }
   }
 
   &__heading {
@@ -21,6 +43,13 @@
     align-items: center;
     gap: $spacing-md;
     margin-bottom: $spacing-xl;
+    position: relative;
+
+    @include mobile {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: $spacing-xs;
+    }
   }
 
   &__title {
@@ -29,6 +58,10 @@
     font-size: 48px;
     color: $color-text;
     margin: 0;
+
+    @include mobile {
+      font-size: 32px;
+    }
   }
 
   &__divider {
@@ -36,6 +69,11 @@
     height: 40px;
     background-color: $color-accent;
     border-radius: 2px;
+
+    @include mobile {
+      width: 40px;
+      height: 3px;
+    }
   }
 
   &__subtitle {
@@ -43,6 +81,26 @@
     font-size: 20px;
     color: $color-text-muted;
     margin: 0;
+
+    @include mobile {
+      font-size: 16px;
+    }
+  }
+
+  &__back {
+    display: none;
+    background: none;
+    border: unset;
+    font-size: 24px;
+    color: $color-text;
+    cursor: pointer;
+
+    @include mobile {
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
   }
 
   &__overlay {
@@ -53,6 +111,11 @@
     align-items: center;
     justify-content: center;
     z-index: 100;
+
+    @include mobile {
+      align-items: flex-end;
+      padding: 0;
+    }
   }
 
   &__modal {
@@ -60,5 +123,47 @@
     overflow: auto;
     box-shadow: 0 4px 32px rgba(0, 0, 0, 0.25);
     border-radius: 30px;
+
+    @include mobile {
+      max-height: 100vh;
+      height: 100%;
+      width: 100%;
+      border-radius: 24px 24px 0 0;
+    }
+  }
+
+  &__toast {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: $color-sidebar-bg;
+    color: #ffffff;
+    padding: $spacing-md $spacing-xl;
+    border-radius: 12px;
+    font-family: $font-primary;
+    font-weight: $font-weight-semibold;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    z-index: 200;
+    animation: fadeInOut 2.5s ease-in-out;
+  }
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+  15% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  85% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
   }
 }
