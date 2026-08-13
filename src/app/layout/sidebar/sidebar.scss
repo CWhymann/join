@@ -124,13 +124,13 @@
       gap: $spacing-xs;
       padding-left: 0;
       border-radius: 16px;
-      font-size: clamp(12px, 3.5vw, 14px);
-      line-height: clamp(15px, 4.2vw, 17px);
+      font-size: clamp(14px, 4vw, 16px);
+      line-height: clamp(17px, 4.75vw, 19px);
     }
 
     &__navigation-link img {
-      width: clamp(22px, 5.6vw, 24px);
-      height: clamp(22px, 5.6vw, 24px);
+      width: clamp(22px, 6vw, 24px);
+      height: clamp(22px, 6vw, 24px);
     }
 
     &__navigation-link:not(.sidebar__navigation-link--active):hover {
