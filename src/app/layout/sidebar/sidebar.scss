@@ -109,9 +109,10 @@
     &__navigation {
       height: 100%;
       margin-top: 0;
+      padding: 0 $spacing-md;
       flex-direction: row;
       align-items: center;
-      justify-content: space-around;
+      justify-content: space-between;
       gap: 0;
     }
 
@@ -123,13 +124,13 @@
       gap: $spacing-xs;
       padding-left: 0;
       border-radius: 16px;
-      font-size: 14px;
-      line-height: 17px;
+      font-size: clamp(14px, 4vw, 16px);
+      line-height: clamp(17px, 4.75vw, 19px);
     }
 
     &__navigation-link img {
-      width: 24px;
-      height: 24px;
+      width: clamp(22px, 6vw, 24px);
+      height: clamp(22px, 6vw, 24px);
     }
 
     &__navigation-link:not(.sidebar__navigation-link--active):hover {
