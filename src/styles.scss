@@ -13,3 +13,8 @@ body {
   color: $color-text;
   background-color: $color-bg;
 }
+
+body.modal-open {
+  position: fixed;
+  width: 100%;
+}

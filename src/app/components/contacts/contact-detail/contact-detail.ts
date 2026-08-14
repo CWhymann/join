@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Contact } from '../../../core/models/contact.model';
 
@@ -15,6 +15,8 @@ export class ContactDetail {
   editClicked = output<Contact>();
   deleteClicked = output<Contact>();
 
+  menuOpen = signal(false);
+
   getInitials(name: string): string {
     return name
       .split(' ')
@@ -29,5 +31,9 @@ export class ContactDetail {
 
   onDelete(contact: Contact): void {
     this.deleteClicked.emit(contact);
+  }
+
+  toggleMenu(): void {
+    this.menuOpen.update((v) => !v);
   }
 }

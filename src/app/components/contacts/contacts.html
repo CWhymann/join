@@ -1,15 +1,17 @@
 <div class="contacts">
-  <div class="contacts__list">
+  <div class="contacts__list" [class.contacts__list--hidden-mobile]="selectedContact()">
     <app-contact-list
       (addClicked)="openAddForm()"
       (contactSelected)="onContactSelected($event)"
     ></app-contact-list>
   </div>
-  <div class="contacts__detail">
+
+  <div class="contacts__detail" [class.contacts__detail--visible-mobile]="selectedContact()">
     <div class="contacts__heading">
       <h1 class="contacts__title">Contacts</h1>
       <span class="contacts__divider"></span>
       <p class="contacts__subtitle">Better with a team</p>
+      <button class="contacts__back" (click)="onBackToList()" aria-label="Back to list">←</button>
     </div>
 
     <app-contact-detail
@@ -25,8 +27,13 @@
         <app-contact-form
           [editingContact]="editingContact()"
           (closed)="closeForm()"
+          (saved)="onFormSaved($event)"
         ></app-contact-form>
       </div>
     </div>
+  }
+
+  @if (showToast()) {
+    <div class="contacts__toast">{{ toastMessage() }}</div>
   }
 </div>

@@ -1,4 +1,5 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, Renderer2 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { ContactList } from './contact-list/contact-list';
 import { ContactDetail } from './contact-detail/contact-detail';
 import { ContactForm } from './contact-form/contact-form';
@@ -14,10 +15,14 @@ import { ContactsService } from '../../core/services/contacts.service';
 })
 export class Contacts implements OnInit {
   private contactsService = inject(ContactsService);
+  private renderer = inject(Renderer2);
+  private document = inject(DOCUMENT);
 
   selectedContact = signal<Contact | null>(null);
   showForm = signal(false);
   editingContact = signal<Contact | null>(null);
+  showToast = signal(false);
+  toastMessage = signal('');
 
   ngOnInit(): void {
     this.contactsService.loadContacts();
@@ -27,14 +32,20 @@ export class Contacts implements OnInit {
     this.selectedContact.set(contact);
   }
 
+  onBackToList(): void {
+    this.selectedContact.set(null);
+  }
+
   openAddForm(): void {
     this.editingContact.set(null);
     this.showForm.set(true);
+    this.renderer.addClass(this.document.body, 'modal-open');
   }
 
   openEditForm(contact: Contact): void {
     this.editingContact.set(contact);
     this.showForm.set(true);
+    this.renderer.addClass(this.document.body, 'modal-open');
   }
 
   async onDeleteContact(contact: Contact): Promise<void> {
@@ -47,5 +58,15 @@ export class Contacts implements OnInit {
   closeForm(): void {
     this.showForm.set(false);
     this.editingContact.set(null);
+    this.renderer.removeClass(this.document.body, 'modal-open');
+  }
+
+  onFormSaved(success: boolean): void {
+    this.showForm.set(false);
+    this.editingContact.set(null);
+    this.renderer.removeClass(this.document.body, 'modal-open');
+    this.toastMessage.set(success ? 'Contact saved' : 'Something went wrong');
+    this.showToast.set(true);
+    setTimeout(() => this.showToast.set(false), 2500);
   }
 }

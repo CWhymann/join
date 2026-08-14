@@ -17,6 +17,7 @@ export class ContactForm implements OnInit {
 
   editingContact = input<Contact | null>(null);
   closed = output<void>();
+  saved = output<boolean>();
 
   isSubmitting = false;
 
@@ -28,16 +29,6 @@ export class ContactForm implements OnInit {
 
   get isEditMode(): boolean {
     return this.editingContact() !== null;
-    }
-    
-  get initials(): string {
-    const contact = this.editingContact();
-    if (!contact) return '';
-    return contact.name
-      .split(' ')
-      .map((part) => part.charAt(0))
-      .join('')
-      .toUpperCase();
   }
 
   ngOnInit(): void {
@@ -49,6 +40,16 @@ export class ContactForm implements OnInit {
         phone: contact.phone,
       });
     }
+  }
+
+  get initials(): string {
+    const contact = this.editingContact();
+    if (!contact) return '';
+    return contact.name
+      .split(' ')
+      .map((part) => part.charAt(0))
+      .join('')
+      .toUpperCase();
   }
 
   private nameValidator(control: any) {
@@ -86,6 +87,7 @@ export class ContactForm implements OnInit {
 
     this.isSubmitting = false;
     this.form.reset();
+    this.saved.emit(this.isEditMode);
     this.closed.emit();
   }
 
