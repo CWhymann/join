@@ -1,392 +1,419 @@
 @use '../../../../styles/abstracts' as *;
 
 .contact-form {
-  display: flex;
-  width: 1212px;
-  height: 594px;
-  max-width: 90vw;
-  border-radius: 30px;
-  overflow: hidden;
-  position: relative;
-
-  @include tablet {
-    width: 100%;
-    height: auto;
-    max-height: 85vh;
-  }
-
-  @include mobile {
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    max-width: 100%;
-    border-radius: 24px 24px 0 0;
-  }
-
-  &__left {
-    width: 467px;
-    flex-shrink: 0;
-    background-color: $color-sidebar-bg;
-    color: #ffffff;
-    padding: 66px 48px;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border-radius: 10px;
+    width: 1212px;
+    height: 594px;
+    max-width: 90vw;
+    border-radius: 30px;
+    overflow: hidden;
     position: relative;
 
     @include tablet {
-      width: 300px;
-      padding: 40px 32px;
+        width: 100%;
+        max-width: 1100px;
+        height: auto;
+        min-height: 480px;
+        max-height: 85vh;
     }
 
     @include mobile {
-      width: 100%;
-      height: clamp(50vh, 50vh, 50vh);
-      padding: $spacing-xl $spacing-lg $spacing-xl * 2 $spacing-lg;
-      border-radius: 24px 24px 0 0;
-      justify-content: center;
-    }
-  }
-
-  &__close-mobile {
-    display: none;
-
-    @include mobile {
-      display: block;
-      position: absolute;
-      top: $spacing-md;
-      right: $spacing-md;
-      background: none;
-      border: unset;
-      color: #ffffff;
-      font-size: 18px;
-      cursor: pointer;
-    }
-  }
-
-  &__logo {
-    margin-bottom: $spacing-lg;
-
-    @include mobile {
-      display: none;
-    }
-  }
-
-  &__logo-img {
-    height: 64px;
-
-    @include tablet {
-      height: 48px;
-    }
-  }
-
-  &__title {
-    font-family: $font-primary;
-    font-weight: $font-weight-extrabold;
-    font-size: 56px;
-    line-height: 1.2;
-    margin-bottom: $spacing-sm;
-
-    @include tablet {
-      font-size: 34px;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        border-radius: 24px 24px 0 0;
     }
 
-    @include mobile {
-      font-size: clamp(47px, 47px, 47px);
-      white-space: nowrap;
-      margin: 0;
-    }
-  }
+    &__left {
+        width: 467px;
+        flex-shrink: 0;
+        background-color: $color-sidebar-bg;
+        color: #ffffff;
+        padding: 66px 48px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
 
-  &__subtitle {
-    font-family: $font-primary;
-    font-size: 18px;
-    color: #cccccc;
-    margin-bottom: $spacing-md;
+        @include tablet {
+            width: 40%;
+            padding: 32px 24px;
+        }
 
-    @include tablet {
-      font-size: 15px;
-    }
-
-    @include mobile {
-      font-size: clamp(20px, 20px, 20px);
-      white-space: nowrap;
-      margin: 0;
-    }
-  }
-
-  &__underline {
-    width: 60px;
-    height: 3px;
-    background-color: $color-accent;
-    border-radius: 2px;
-
-    @include mobile {
-      margin-top: clamp(0.5rem, 2vw, 1rem);
-    }
-  }
-  &__right {
-    flex: 1;
-    background-color: #ffffff;
-    padding: 160px 72px 48px 72px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    border-radius: 10px;
-
-    @include tablet {
-      padding: 48px 32px;
-      overflow-y: auto;
+        @include mobile {
+            width: 100%;
+            height: clamp(50vh, 50vh, 50vh);
+            padding: $spacing-xl $spacing-lg $spacing-xl * 2 $spacing-lg;
+            border-radius: 24px 24px 0 0;
+            justify-content: center;
+        }
     }
 
-    @include mobile {
-      width: 100%;
-      padding: ($spacing-xl * 3) $spacing-lg $spacing-xl $spacing-lg;
-      border-radius: 0 0 24px 24px;
-      overflow-y: auto;
-    }
-  }
+    &__close-mobile {
+        display: none;
 
-  &__close {
-    position: absolute;
-    top: 32px;
-    right: 32px;
-    background: none;
-    border: unset;
-    font-size: 18px;
-    cursor: pointer;
-    color: $color-text-muted;
-    transition: $transition-fast;
-
-    @include tablet {
-      top: 16px;
-      right: 16px;
+        @include mobile {
+            display: block;
+            position: absolute;
+            top: $spacing-md;
+            right: $spacing-md;
+            background: none;
+            border: unset;
+            color: #ffffff;
+            font-size: 18px;
+            cursor: pointer;
+        }
     }
 
-    &:hover {
-      color: $color-text;
+    &__logo {
+        margin-bottom: $spacing-lg;
+
+        @include mobile {
+            display: none;
+        }
     }
 
-    @include mobile {
-      display: none;
-    }
-  }
+    &__logo-img {
+        height: 64px;
 
-  &__body {
-    display: flex;
-    align-items: center;
-    gap: 72px;
-
-    @include tablet {
-      gap: 32px;
+        @include tablet {
+            height: 40px;
+        }
     }
 
-    @include mobile {
-      display: block;
-    }
-  }
+    &__title {
+        font-family: $font-primary;
+        font-weight: $font-weight-extrabold;
+        font-size: 56px;
+        line-height: 1.2;
+        margin-bottom: $spacing-sm;
 
-  &__avatar {
-    flex-shrink: 0;
-    align-self: center;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    background-color: #eeeeee;
-    border: 3px solid #ffffff;
-    box-shadow: 0 0 0 1px $color-border;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+        @include tablet {
+            font-size: 28px;
+        }
 
-    @include tablet {
-      width: 96px;
-      height: 96px;
-    }
-  }
-
-  &__avatar--desktop {
-    @include mobile {
-      display: none;
-    }
-  }
-
-  &__avatar--overlap {
-    display: none;
-
-    @include mobile {
-      display: flex;
-      position: absolute;
-      top: calc(50% - 60px);
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 10;
-    }
-  }
-
-  &__avatar-icon {
-    width: 48px;
-    height: 48px;
-  }
-
-  &__avatar-initials {
-    font-family: $font-primary;
-    font-weight: $font-weight-bold;
-    font-size: 32px;
-    color: $color-text;
-  }
-
-  form {
-    width: 422px;
-
-    @include tablet {
-      width: 100%;
+        @include mobile {
+            font-size: clamp(47px, 47px, 47px);
+            white-space: nowrap;
+            margin: 0;
+        }
     }
 
-    @include mobile {
-      width: 100%;
-    }
-  }
+    &__subtitle {
+        font-family: $font-primary;
+        font-size: 18px;
+        color: #cccccc;
+        margin-bottom: $spacing-md;
 
-  &__field {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 32px;
+        @include tablet {
+            font-size: 13px;
+        }
 
-    @include tablet {
-      margin-bottom: 10px;
-    }
-    @include mobile {
-      margin-bottom: 15px;
-    }
-    &:last-of-type {
-      margin-bottom: 0;
-    }
-  }
-
-  &__input {
-    width: 100%;
-    border: 1px solid $color-border;
-    border-radius: 10px;
-    padding: $spacing-sm $spacing-xl $spacing-sm $spacing-md;
-    font-family: $font-primary;
-    font-size: 16px;
-    color: $color-text;
-    outline: none;
-    transition: $transition-fast;
-
-    &::placeholder {
-      color: $color-text-muted;
+        @include mobile {
+            font-size: clamp(20px, 20px, 20px);
+            white-space: nowrap;
+            margin: 0;
+        }
     }
 
-    &:focus {
-      border-color: $color-accent;
+    &__underline {
+        width: 60px;
+        height: 3px;
+        background-color: $color-accent;
+        border-radius: 2px;
+
+        @include mobile {
+            margin-top: clamp(0.5rem, 2vw, 1rem);
+        }
     }
-    @include mobile {
-      height: 30px;
-      box-sizing: border-box;
-      padding: 4px 6px;
-      margin-top: -6px;
-    }
-  }
+    &__right {
+        flex: 1;
+        background-color: #ffffff;
+        padding: 160px 72px 48px 72px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
 
-  &__icon {
-    position: absolute;
-    right: $spacing-md;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 18px;
-    height: 18px;
-    pointer-events: none;
-  }
+        @include tablet {
+            padding: 24px;
+            justify-content: center;
+            overflow-y: auto;
+        }
 
-  &__error {
-    color: $color-error;
-    font-size: 12px;
-    margin-top: $spacing-xs;
-  }
-
-  &__actions {
-    display: flex;
-    justify-content: flex-start;
-    gap: $spacing-md;
-    margin-top: 28px;
-
-    @include mobile {
-      flex-wrap: nowrap;
-      justify-content: center;
-      flex-direction: row;
-    }
-  }
-
-  &__cancel {
-    display: flex;
-    align-items: center;
-    gap: $spacing-xs;
-    background: none;
-    border: 1px solid $color-border;
-    border-radius: 10px;
-    color: $color-text;
-    cursor: pointer;
-    font-family: $font-primary;
-    font-weight: $font-weight-semibold;
-    padding: $spacing-sm $spacing-lg;
-    transition: $transition-fast;
-
-    @include tablet {
-      padding: 6px 16px;
-      font-size: 14px;
+        @include mobile {
+            width: 100%;
+            padding: ($spacing-xl * 3) $spacing-lg $spacing-xl $spacing-lg;
+            border-radius: 0 0 24px 24px;
+            overflow-y: auto;
+        }
     }
 
-    &:hover {
-      border-color: $color-sidebar-bg;
-      background-color: #f5f5f5;
+    &__close {
+        position: absolute;
+        top: 32px;
+        right: 32px;
+        background: none;
+        border: unset;
+        font-size: 18px;
+        cursor: pointer;
+        color: $color-text-muted;
+        transition: $transition-fast;
+
+        @include tablet {
+            top: 16px;
+            right: 16px;
+        }
+
+        &:hover {
+            color: $color-text;
+        }
+
+        @include mobile {
+            display: none;
+        }
     }
 
-    @include mobile {
-      display: none;
-    }
-  }
+    &__body {
+        display: flex;
+        align-items: center;
+        gap: 72px;
 
-  &__cancel--mobile-delete {
-    @include mobile {
-      display: flex;
-    }
-  }
+        @include tablet {
+            gap: 24px;
+        }
 
-  &__submit {
-    display: flex;
-    align-items: center;
-    gap: $spacing-xs;
-    background-color: $color-sidebar-bg;
-    color: #ffffff;
-    border: unset;
-    border-radius: 10px;
-    padding: $spacing-sm $spacing-lg;
-    font-family: $font-primary;
-    font-weight: $font-weight-semibold;
-    cursor: pointer;
-    transition: $transition-fast;
-
-    @include tablet {
-      padding: 6px 16px;
-      font-size: 16px;
+        @include mobile {
+            display: block;
+        }
     }
 
-    &:hover:not(:disabled) {
-      background-color: $color-sidebar-active;
+    &__avatar {
+        flex-shrink: 0;
+        align-self: center;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background-color: #eeeeee;
+        border: 3px solid #ffffff;
+        box-shadow: 0 0 0 1px $color-border;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        @include tablet {
+            width: 72px;
+            height: 72px;
+        }
     }
 
-    &:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
+    &__avatar--desktop {
+        @include mobile {
+            display: none;
+        }
     }
 
-    @include mobile {
-      width: clamp(180px, 60%, 320px);
-      justify-content: center;
+    &__avatar--overlap {
+        display: none;
+
+        @include mobile {
+            display: flex;
+            position: absolute;
+            top: calc(50% - 60px);
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
     }
-  }
+
+    &__avatar-icon {
+        width: 48px;
+        height: 48px;
+
+        @include tablet {
+            width: 32px;
+            height: 32px;
+        }
+    }
+
+    &__avatar-initials {
+        font-family: $font-primary;
+        font-weight: $font-weight-bold;
+        font-size: 32px;
+        color: $color-text;
+
+        @include tablet {
+            font-size: 22px;
+        }
+    }
+
+    form {
+        width: 422px;
+
+        @include tablet {
+            width: 100%;
+        }
+
+        @include mobile {
+            width: 100%;
+        }
+    }
+
+    &__field {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 32px;
+
+        @include tablet {
+            margin-bottom: 10px;
+        }
+        @include mobile {
+            margin-bottom: 15px;
+        }
+        &:last-of-type {
+            margin-bottom: 0;
+        }
+    }
+
+    &__input-wrap {
+        position: relative;
+        display: flex;
+    }
+
+    &__input {
+        width: 100%;
+        border: 1px solid $color-border;
+        border-radius: 10px;
+        padding: $spacing-sm $spacing-xl $spacing-sm $spacing-md;
+        font-family: $font-primary;
+        font-size: 16px;
+        color: $color-text;
+        outline: none;
+        transition: $transition-fast;
+
+        &::placeholder {
+            color: $color-text-muted;
+        }
+
+        &:focus {
+            border-color: $color-accent;
+        }
+
+        @include tablet {
+            padding: 8px $spacing-xl 8px $spacing-sm;
+            font-size: 14px;
+        }
+
+        @include mobile {
+            height: 30px;
+            box-sizing: border-box;
+            padding: 4px 6px;
+        }
+    }
+
+    &__icon {
+        position: absolute;
+        right: $spacing-md;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 18px;
+        height: 18px;
+        pointer-events: none;
+    }
+
+    &__error {
+        display: block;
+        color: $color-error;
+        font-size: 12px;
+        line-height: 14px;
+        min-height: 14px;
+        margin-top: $spacing-xs;
+    }
+
+    &__actions {
+        display: flex;
+        justify-content: flex-start;
+        gap: $spacing-md;
+        margin-top: 28px;
+
+        @include tablet {
+            margin-top: 16px;
+        }
+
+        @include mobile {
+            flex-wrap: nowrap;
+            justify-content: center;
+            flex-direction: row;
+        }
+    }
+
+    &__cancel {
+        display: flex;
+        align-items: center;
+        gap: $spacing-xs;
+        background: none;
+        border: 1px solid $color-border;
+        border-radius: 10px;
+        color: $color-text;
+        cursor: pointer;
+        font-family: $font-primary;
+        font-weight: $font-weight-semibold;
+        padding: $spacing-sm $spacing-lg;
+        transition: $transition-fast;
+
+        @include tablet {
+            padding: 6px 16px;
+            font-size: 14px;
+        }
+
+        &:hover {
+            border-color: $color-sidebar-bg;
+            background-color: #f5f5f5;
+        }
+
+        @include mobile {
+            display: none;
+        }
+    }
+
+    &__cancel--mobile-delete {
+        @include mobile {
+            display: flex;
+        }
+    }
+
+    &__submit {
+        display: flex;
+        align-items: center;
+        gap: $spacing-xs;
+        background-color: $color-sidebar-bg;
+        color: #ffffff;
+        border: unset;
+        border-radius: 10px;
+        padding: $spacing-sm $spacing-lg;
+        font-family: $font-primary;
+        font-weight: $font-weight-semibold;
+        cursor: pointer;
+        transition: $transition-fast;
+        white-space: nowrap;
+
+        @include tablet {
+            padding: 6px 16px;
+            font-size: 14px;
+        }
+
+        &:hover:not(:disabled) {
+            background-color: $color-sidebar-active;
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        @include mobile {
+            width: clamp(180px, 60%, 320px);
+            justify-content: center;
+        }
+    }
 }
