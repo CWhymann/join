@@ -1,0 +1,112 @@
+@use '../../../styles/abstracts' as *;
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+.help {
+  height: 100%;
+  padding: 116px 96px 64px;
+  overflow-y: auto;
+  color: #000000;
+  font-family: $font-primary;
+  font-size: 16px;
+  line-height: 1.2;
+
+  p {
+    margin: 0 0 16px;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 26px;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 61px;
+    font-weight: $font-weight-bold;
+  }
+
+  &__back {
+    display: grid;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    place-items: center;
+    transition: background-color $transition-fast;
+
+    &:hover {
+      background-color: #e2e6ec;
+    }
+
+    img {
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  &__section-title {
+    margin: 24px 0 16px;
+    font-size: 27px;
+    font-weight: $font-weight-bold;
+  }
+
+  &__steps {
+    margin: 0;
+    padding-left: 56px;
+  }
+
+  &__step {
+    margin-bottom: 16px;
+
+    &::marker {
+      font-size: 27px;
+      font-weight: $font-weight-bold;
+    }
+  }
+
+  &__step-title {
+    margin: 0 0 $spacing-xs;
+    font-size: 20px;
+    font-weight: $font-weight-bold;
+  }
+
+  &__brand {
+    color: #124658;
+  }
+
+  &__link {
+    color: $color-accent;
+  }
+
+  &__outro {
+    margin-top: 24px;
+    font-size: 27px;
+    font-weight: $font-weight-bold;
+  }
+
+  @include mobile {
+    padding: $spacing-lg $spacing-md 48px;
+
+    &__title {
+      font-size: 32px;
+    }
+
+    &__section-title,
+    &__outro {
+      font-size: 22px;
+    }
+
+    &__steps {
+      padding-left: 28px;
+    }
+  }
+}
