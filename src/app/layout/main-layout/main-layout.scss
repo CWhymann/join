@@ -1,6 +1,7 @@
 @use '../../../styles/abstracts' as *;
 
 .main-layout__content {
+  max-width: calc($max-width - $sidebar-width);
   min-height: 100dvh;
   margin-left: $sidebar-width;
   padding-top: $topbar-height;
