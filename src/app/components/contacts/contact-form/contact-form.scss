@@ -1,17 +1,19 @@
 @use '../../../../styles/abstracts' as *;
+@use '../../../../styles/abstracts/confirm-dialog' as *;
+@use '../../../../styles/abstracts/buttons' as *;
 
 .contact-form {
     display: flex;
-    width: 1212px;
+    width: min(1212px, 90vw);
     height: 594px;
-    max-width: 90vw;
+    box-sizing: border-box;
     border-radius: 30px;
     overflow: hidden;
     position: relative;
 
     @include tablet {
         width: 100%;
-        max-width: 1100px;
+        max-width: 700px;
         height: auto;
         min-height: 480px;
         max-height: 85vh;
@@ -127,6 +129,7 @@
             margin-top: clamp(0.5rem, 2vw, 1rem);
         }
     }
+
     &__right {
         flex: 1;
         background-color: #ffffff;
@@ -134,6 +137,10 @@
         position: relative;
         display: flex;
         flex-direction: column;
+
+        @include desktop {
+            padding: 80px 40px 40px 40px;
+        }
 
         @include tablet {
             padding: 24px;
@@ -178,6 +185,10 @@
         display: flex;
         align-items: center;
         gap: 72px;
+
+        @include desktop {
+            gap: 40px;
+        }
 
         @include tablet {
             gap: 24px;
@@ -249,6 +260,11 @@
 
     form {
         width: 422px;
+
+        @include desktop {
+            width: 100%;
+            max-width: 422px;
+        }
 
         @include tablet {
             width: 100%;
@@ -348,27 +364,15 @@
     }
 
     &__cancel {
-        display: flex;
-        align-items: center;
-        gap: $spacing-xs;
-        background: none;
-        border: 1px solid $color-border;
-        border-radius: 10px;
-        color: $color-text;
-        cursor: pointer;
-        font-family: $font-primary;
-        font-weight: $font-weight-semibold;
-        padding: $spacing-sm $spacing-lg;
-        transition: $transition-fast;
-
-        @include tablet {
-            padding: 6px 16px;
-            font-size: 14px;
-        }
+        @include action-button(
+            $bg: none,
+            $color: $color-text,
+            $hover-bg: #f5f5f5,
+            $border: 1px solid $color-border
+        );
 
         &:hover {
             border-color: $color-sidebar-bg;
-            background-color: #f5f5f5;
         }
 
         @include mobile {
@@ -383,24 +387,7 @@
     }
 
     &__submit {
-        display: flex;
-        align-items: center;
-        gap: $spacing-xs;
-        background-color: $color-sidebar-bg;
-        color: #ffffff;
-        border: unset;
-        border-radius: 10px;
-        padding: $spacing-sm $spacing-lg;
-        font-family: $font-primary;
-        font-weight: $font-weight-semibold;
-        cursor: pointer;
-        transition: $transition-fast;
-        white-space: nowrap;
-
-        @include tablet {
-            padding: 6px 16px;
-            font-size: 14px;
-        }
+        @include action-button($bg: $color-sidebar-bg, $color: #ffffff);
 
         &:hover:not(:disabled) {
             background-color: $color-sidebar-active;
@@ -416,4 +403,6 @@
             justify-content: center;
         }
     }
+
+    @include confirm-dialog($overlay-radius: 30px, $overlay-radius-mobile: 24px 24px 0 0);
 }

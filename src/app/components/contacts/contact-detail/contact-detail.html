@@ -1,55 +1,84 @@
 @if (contact(); as c) {
-  <div class="contact-detail">
-    <div class="contact-detail__header">
-      <span class="contact-detail__avatar" [style.background-color]="c.color">
-        {{ getInitials(c.name) }}
-      </span>
-      <div>
-        <h2 class="contact-detail__name">{{ c.name }}</h2>
-        <div class="contact-detail__actions">
-          <button class="contact-detail__action" (click)="onEdit(c)">
-            <img src="/icons/edit.svg" alt="" class="contact-detail__action-icon" />
-            Edit
-          </button>
-          <button class="contact-detail__action" (click)="onDelete(c)">
-            <img src="/icons/maintrash.svg" alt="" class="contact-detail__action-icon" />
-            Delete
-          </button>
+    <div class="contact-detail">
+        <div class="contact-detail__header">
+            <span class="contact-detail__avatar" [style.background-color]="c.color">
+                {{ getInitials(c.name) }}
+            </span>
+            <div>
+                <h2 class="contact-detail__name">{{ c.name }}</h2>
+                <div class="contact-detail__actions">
+                    <button class="contact-detail__action" (click)="onEdit(c)">
+                        <img src="/icons/edit.svg" alt="" class="contact-detail__action-icon" />
+                        Edit
+                    </button>
+                    <button class="contact-detail__action" (click)="onDelete()">
+                        <img
+                            src="/icons/maintrash.svg"
+                            alt=""
+                            class="contact-detail__action-icon"
+                        />
+                        Delete
+                    </button>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <h3 class="contact-detail__section-title">Contact Information</h3>
+        <h3 class="contact-detail__section-title">Contact Information</h3>
 
-    <div class="contact-detail__field">
-      <span class="contact-detail__label">Email</span>
-      <span class="contact-detail__value contact-detail__value--accent">{{ c.email }}</span>
-    </div>
+        <div class="contact-detail__field">
+            <span class="contact-detail__label">Email</span>
+            <span class="contact-detail__value contact-detail__value--accent">{{ c.email }}</span>
+        </div>
 
-    <div class="contact-detail__field">
-      <span class="contact-detail__label">Phone</span>
-      <span class="contact-detail__value">{{ c.phone }}</span>
-    </div>
+        <div class="contact-detail__field">
+            <span class="contact-detail__label">Phone</span>
+            <span class="contact-detail__value">{{ c.phone }}</span>
+        </div>
 
-    <button class="contact-detail__fab" (click)="toggleMenu()" aria-label="More options">
-      <img src="/icons/menu_contact_options.svg" alt="" />
-    </button>
-
-    @if (menuOpen()) {
-      <div class="contact-detail__menu">
-        <button class="contact-detail__menu-item" (click)="onEdit(c); toggleMenu()">
-          <img src="/icons/edit.svg" alt="" />
-          Edit
+        <button class="contact-detail__fab" (click)="toggleMenu()" aria-label="More options">
+            <img src="/icons/menu_contact_options.svg" alt="" />
         </button>
-        <button class="contact-detail__menu-item" (click)="onDelete(c); toggleMenu()">
-          <img src="/icons/maintrash.svg" alt="" />
-          Delete
-        </button>
-      </div>
-    }
-  </div>
+
+        @if (menuOpen()) {
+            <div class="contact-detail__menu">
+                <button class="contact-detail__menu-item" (click)="onEdit(c); toggleMenu()">
+                    <img src="/icons/edit.svg" alt="" />
+                    Edit
+                </button>
+                <button class="contact-detail__menu-item" (click)="onDelete(); toggleMenu()">
+                    <img src="/icons/maintrash.svg" alt="" />
+                    Delete
+                </button>
+            </div>
+        }
+
+        @if (deleteConfirmOpen()) {
+            <div class="contact-detail__overlay">
+                <div class="contact-detail__confirm">
+                    <p class="contact-detail__confirm-text">
+                        Delete contact <strong>{{ c.name }}</strong
+                        >?
+                    </p>
+                    <div class="contact-detail__confirm-actions">
+                        <button
+                            class="contact-detail__confirm-btn contact-detail__confirm-btn--cancel"
+                            (click)="cancelDelete()"
+                        >
+                            No
+                        </button>
+                        <button
+                            class="contact-detail__confirm-btn contact-detail__confirm-btn--confirm"
+                            (click)="confirmDelete(c)"
+                        >
+                            Yes
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 } @else {
-  <div class="contact-detail contact-detail--empty">
-    <p>Wähle einen Kontakt aus der Liste aus.</p>
-  </div>
+    <div class="contact-detail contact-detail--empty">
+        <p>Wähle einen Kontakt aus der Liste aus.</p>
+    </div>
 }

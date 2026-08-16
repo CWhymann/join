@@ -110,7 +110,7 @@
                         <button
                             type="button"
                             class="contact-form__cancel contact-form__cancel--mobile-delete"
-                            (click)="onCancel()"
+                            (click)="onDeleteClick()"
                         >
                             Delete
                         </button>
@@ -122,4 +122,32 @@
             </form>
         </div>
     </div>
+
+    @if (deleteConfirmOpen()) {
+        <div class="contact-form__overlay">
+            <div class="contact-form__confirm">
+                <p class="contact-form__confirm-text">
+                    Delete contact <strong>{{ editingContact()?.name }}</strong
+                    >?
+                </p>
+                @if (deleteError()) {
+                    <p class="contact-form__confirm-error">{{ deleteError() }}</p>
+                }
+                <div class="contact-form__confirm-actions">
+                    <button
+                        class="contact-form__confirm-btn contact-form__confirm-btn--cancel"
+                        (click)="cancelDelete()"
+                    >
+                        No
+                    </button>
+                    <button
+                        class="contact-form__confirm-btn contact-form__confirm-btn--confirm"
+                        (click)="confirmDelete()"
+                    >
+                        Yes
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
 </div>
