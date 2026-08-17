@@ -65,7 +65,7 @@ export class ContactsService {
       return false;
     }
     if (!data || data.length === 0) {
-      this.failRequest('Dieser Kontakt ist geschützt und kann nicht gelöscht werden.');
+      this.failRequest('This Contact could not be deleted.');
       return false;
     }
     await this.loadContacts();
