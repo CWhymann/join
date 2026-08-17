@@ -1,6 +1,6 @@
 <aside class="sidebar">
   <a class="sidebar__logo" routerLink="/summary" aria-label="Go to summary">
-    <img src="/icons/join-logo.svg" alt="Join">
+    <img src="icons/join-logo.svg" alt="Join">
   </a>
 
   <nav class="sidebar__navigation" aria-label="Main navigation">
@@ -11,7 +11,7 @@
         routerLinkActive="sidebar__navigation-link--active"
         ariaCurrentWhenActive="page"
       >
-        <img [src]="'/icons/' + item.icon" alt="">
+        <img [src]="'icons/' + item.icon" alt="">
         <span>{{ item.label }}</span>
       </a>
     }
