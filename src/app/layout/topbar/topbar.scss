@@ -8,13 +8,18 @@
   position: fixed;
   z-index: 10;
   inset: 0 0 auto $sidebar-width;
-  display: flex;
   height: $topbar-height;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 40px 0 116px;
   background: $color-bg;
   box-shadow: 0 4px 4px rgb(0 0 0 / 10%);
+
+  &__inner {
+    display: flex;
+    height: 100%;
+    max-width: calc($max-width - $sidebar-width);
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px 0 116px;
+  }
 
   &__title {
     color: #000000;
@@ -111,7 +116,10 @@
   @include mobile {
     inset: 0 0 auto 0;
     height: 80px;
-    padding: 0 $spacing-md;
+
+    &__inner {
+      padding: 0 $spacing-md;
+    }
 
     &__title,
     &__help {

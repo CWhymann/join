@@ -1,26 +1,28 @@
 <header class="topbar">
-  <img class="topbar__mobile-logo" src="/icons/join-logo-mobile.svg" alt="Join">
-  <span class="topbar__title">Kanban Project Management Tool</span>
-  <div class="topbar__actions">
-    <a class="topbar__help" routerLink="/help" aria-label="Help">
-      <img src="/icons/help.svg" alt="">
-    </a>
-    <button
-      class="topbar__profile"
-      type="button"
-      aria-label="Open profile menu"
-      aria-haspopup="menu"
-      [attr.aria-expanded]="isProfileMenuOpen"
-      (click)="toggleProfileMenu($event)"
-    >SM</button>
+  <div class="topbar__inner">
+    <img class="topbar__mobile-logo" src="/icons/join-logo-mobile.svg" alt="Join">
+    <span class="topbar__title">Kanban Project Management Tool</span>
+    <div class="topbar__actions">
+      <a class="topbar__help" routerLink="/help" aria-label="Help">
+        <img src="/icons/help.svg" alt="">
+      </a>
+      <button
+        class="topbar__profile"
+        type="button"
+        aria-label="Open profile menu"
+        aria-haspopup="menu"
+        [attr.aria-expanded]="isProfileMenuOpen"
+        (click)="toggleProfileMenu($event)"
+      >SM</button>
 
-    @if (isProfileMenuOpen) {
-      <nav class="topbar__profile-menu" aria-label="Profile menu" role="menu" (click)="$event.stopPropagation()">
-        <a class="topbar__profile-menu-link topbar__profile-menu-link--mobile" routerLink="/help" role="menuitem" (click)="closeProfileMenu()">Help</a>
-        <a class="topbar__profile-menu-link" routerLink="/legal-notice" role="menuitem" (click)="closeProfileMenu()">Legal Notice</a>
-        <a class="topbar__profile-menu-link" routerLink="/privacy-policy" role="menuitem" (click)="closeProfileMenu()">Privacy Policy</a>
-        <button class="topbar__profile-menu-link" type="button" role="menuitem" (click)="logout()">Log out</button>
-      </nav>
-    }
+      @if (isProfileMenuOpen) {
+        <nav class="topbar__profile-menu" aria-label="Profile menu" role="menu" (click)="$event.stopPropagation()">
+          <a class="topbar__profile-menu-link topbar__profile-menu-link--mobile" routerLink="/help" role="menuitem" (click)="closeProfileMenu()">Help</a>
+          <a class="topbar__profile-menu-link" routerLink="/legal-notice" role="menuitem" (click)="closeProfileMenu()">Legal Notice</a>
+          <a class="topbar__profile-menu-link" routerLink="/privacy-policy" role="menuitem" (click)="closeProfileMenu()">Privacy Policy</a>
+          <button class="topbar__profile-menu-link" type="button" role="menuitem" (click)="logout()">Log out</button>
+        </nav>
+      }
+    </div>
   </div>
 </header>
