@@ -6,20 +6,22 @@
     ></app-contact-list>
   </div>
 
-  <div class="contacts__detail" [class.contacts__detail--visible-mobile]="selectedContact()">
-    <div class="contacts__heading">
-      <h1 class="contacts__title">Contacts</h1>
-      <span class="contacts__divider"></span>
-      <p class="contacts__subtitle">Better with a team</p>
-      <button class="contacts__back" (click)="onBackToList()" aria-label="Back to list">←</button>
-    </div>
+  @for (version of [contactSelectionVersion()]; track version) {
+    <div class="contacts__detail" [class.contacts__detail--visible-mobile]="selectedContact()">
+      <div class="contacts__heading">
+        <h1 class="contacts__title">Contacts</h1>
+        <span class="contacts__divider"></span>
+        <p class="contacts__subtitle">Better with a team</p>
+        <button class="contacts__back" (click)="onBackToList()" aria-label="Back to list">←</button>
+      </div>
 
-    <app-contact-detail
-      [contact]="selectedContact()"
-      (editClicked)="openEditForm($event)"
-      (deleteClicked)="onDeleteContact($event)"
-    ></app-contact-detail>
-  </div>
+      <app-contact-detail
+        [contact]="selectedContact()"
+        (editClicked)="openEditForm($event)"
+        (deleteClicked)="onDeleteContact($event)"
+      ></app-contact-detail>
+    </div>
+  }
 
   @if (showForm()) {
     <div class="contacts__overlay" (click)="closeForm()">

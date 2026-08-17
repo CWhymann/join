@@ -19,6 +19,7 @@ export class Contacts implements OnInit {
     private document = inject(DOCUMENT);
 
     selectedContact = signal<Contact | null>(null);
+    contactSelectionVersion = signal(0);
     showForm = signal(false);
     editingContact = signal<Contact | null>(null);
     showToast = signal(false);
@@ -30,6 +31,7 @@ export class Contacts implements OnInit {
 
     onContactSelected(contact: Contact): void {
         this.selectedContact.set(contact);
+        this.contactSelectionVersion.update((version) => version + 1);
         this.document.defaultView?.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
