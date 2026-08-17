@@ -68,24 +68,15 @@ export class ContactForm implements OnInit {
 
         const { name, email, phone } = this.form.value;
         const contact = this.editingContact();
+        const input = { name: name!, email: email!, phone: phone! };
 
-        if (this.isEditMode && contact) {
-            await this.contactsService.updateContact(contact.id, {
-                name: name!,
-                email: email!,
-                phone: phone!,
-            });
-        } else {
-            await this.contactsService.addContact({
-                name: name!,
-                email: email!,
-                phone: phone!,
-            });
-        }
+        const result = contact
+            ? await this.contactsService.updateContact(contact.id, input)
+            : await this.contactsService.addContact(input);
 
         this.isSubmitting = false;
         this.form.reset();
-        this.saved.emit(this.isEditMode);
+        this.saved.emit(result !== null);
         this.closed.emit();
     }
 
