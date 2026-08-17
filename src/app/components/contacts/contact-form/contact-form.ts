@@ -85,7 +85,6 @@ export class ContactForm implements OnInit {
     }
 
     onDeleteClick(): void {
-        // öffnet die Ja/Nein-Bestätigung statt sofort zu löschen
         this.deleteError.set(null);
         this.deleteConfirmOpen.set(true);
     }
@@ -108,11 +107,11 @@ export class ContactForm implements OnInit {
                 this.deleted.emit();
                 this.closed.emit();
             } else {
-                // Dialog bleibt offen, Fehlermeldung aus dem Service anzeigen
+                
                 this.deleteError.set(this.contactsService.error());
             }
         } catch {
-            // z. B. bei fehlender Internetverbindung / ungefangener Exception im Service
+            
             this.deleteError.set('Something went wrong');
         }
     }

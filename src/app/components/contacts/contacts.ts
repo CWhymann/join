@@ -30,8 +30,6 @@ export class Contacts implements OnInit {
 
     onContactSelected(contact: Contact): void {
         this.selectedContact.set(contact);
-        // scrollt nach oben, damit die Detail-Ansicht sichtbar wird, auch wenn
-        // weiter unten in der Liste ausgewählt wurde
         this.document.defaultView?.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -62,7 +60,7 @@ export class Contacts implements OnInit {
                 this.showErrorToast();
             }
         } catch {
-            // z. B. bei fehlender Internetverbindung / ungefangener Exception im Service
+
             this.showErrorToast();
         }
     }

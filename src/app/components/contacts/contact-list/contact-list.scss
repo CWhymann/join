@@ -1,128 +1,132 @@
 @use '../../../../styles/abstracts' as *;
 
 .contact-list {
-  display: flex;
-  flex-direction: column;
-  padding: $spacing-md;
-  position: relative;
-
-  &__add-btn {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: $spacing-sm;
-    background-color: $color-sidebar-bg;
-    color: #ffffff;
-    border: none;
-    border-radius: 8px;
+    flex-direction: column;
     padding: $spacing-md;
-    font-family: $font-primary;
-    font-weight: $font-weight-semibold;
-    cursor: pointer;
-    margin-bottom: $spacing-md;
-    transition: $transition-fast;
+    position: relative;
 
-    &:hover {
-      background-color: $color-sidebar-active;
+    &__add-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: $spacing-sm;
+        background-color: $color-sidebar-bg;
+        color: #ffffff;
+        border: none;
+        border-radius: 8px;
+        padding: $spacing-md;
+        font-family: $font-primary;
+        font-weight: $font-weight-semibold;
+        cursor: pointer;
+        margin-bottom: $spacing-md;
+        transition: $transition-fast;
+
+        &:hover {
+            background-color: $color-sidebar-active;
+        }
+
+        @include mobile {
+            display: none;
+        }
     }
 
-    @include mobile {
-      display: none;
+    &__add-icon {
+        width: 20px;
+        height: 20px;
     }
-  }
 
-  &__add-icon {
-    width: 20px;
-    height: 20px;
-  }
-
-  &__group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: $spacing-sm;
-  }
-
-  &__letter {
-    font-family: $font-primary;
-    font-weight: $font-weight-bold;
-    color: $color-text;
-    padding: $spacing-sm $spacing-md;
-    border-bottom: 1px solid $color-border;
-  }
-
-  &__item {
-    display: flex;
-    align-items: center;
-    gap: $spacing-md;
-    padding: $spacing-sm $spacing-md;
-    cursor: pointer;
-    transition: $transition-fast;
-    border-radius: 8px;
-
-    &:hover {
-      background-color: #eeeeee;
+    &__group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: $spacing-sm;
     }
-  }
 
-  &__item--active {
-    background-color: $color-sidebar-active;
-
-    .contact-list__name {
-      color: #ffffff;
+    &__letter {
+        font-family: $font-primary;
+        font-weight: $font-weight-bold;
+        color: $color-text;
+        padding: $spacing-sm $spacing-md;
+        border-bottom: 1px solid $color-border;
     }
-  }
 
-  &__avatar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    color: #ffffff;
-    font-weight: $font-weight-bold;
-    font-size: 14px;
-    flex-shrink: 0;
-  }
+    &__item {
+        display: flex;
+        align-items: center;
+        gap: $spacing-md;
+        padding: $spacing-sm $spacing-md;
+        cursor: pointer;
+        transition: $transition-fast;
+        border-radius: 8px;
 
-  &__info {
-    display: flex;
-    flex-direction: column;
-  }
+        &:hover {
+            background-color: #eeeeee;
 
-  &__name {
-    font-family: $font-primary;
-    color: $color-text;
-  }
-
-  &__email {
-    font-size: 12px;
-    color: $color-accent;
-  }
-
-  &__fab {
-    display: none;
-
-    @include mobile {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: fixed;
-      bottom: 90px;
-      right: $spacing-lg;
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      background-color: $color-sidebar-bg;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-      z-index: 50;
-
-      img {
-        width: 28px;
-        height: 28px;
-      }
+            .contact-list__name {
+                color: $color-text;
+            }
+        }
     }
-  }
+
+    &__item--active {
+        background-color: $color-sidebar-active;
+
+        .contact-list__name {
+            color: #ffffff;
+        }
+    }
+
+    &__avatar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        color: #ffffff;
+        font-weight: $font-weight-bold;
+        font-size: 14px;
+        flex-shrink: 0;
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__name {
+        font-family: $font-primary;
+        color: $color-text;
+    }
+
+    &__email {
+        font-size: 12px;
+        color: $color-accent;
+    }
+
+    &__fab {
+        display: none;
+
+        @include mobile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            bottom: 90px;
+            right: $spacing-lg;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background-color: $color-sidebar-bg;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 50;
+
+            img {
+                width: 28px;
+                height: 28px;
+            }
+        }
+    }
 }
