@@ -8,12 +8,12 @@
                 <h2 class="contact-detail__name">{{ c.name }}</h2>
                 <div class="contact-detail__actions">
                     <button class="contact-detail__action" (click)="onEdit(c)">
-                        <img src="/icons/edit.svg" alt="" class="contact-detail__action-icon" />
+                        <img src="icons/edit.svg" alt="" class="contact-detail__action-icon" />
                         Edit
                     </button>
                     <button class="contact-detail__action" (click)="onDelete()">
                         <img
-                            src="/icons/maintrash.svg"
+                            src="icons/maintrash.svg"
                             alt=""
                             class="contact-detail__action-icon"
                         />
@@ -36,17 +36,17 @@
         </div>
 
         <button class="contact-detail__fab" (click)="toggleMenu()" aria-label="More options">
-            <img src="/icons/menu_contact_options.svg" alt="" />
+            <img src="icons/menu_contact_options.svg" alt="" />
         </button>
 
         @if (menuOpen()) {
             <div class="contact-detail__menu">
                 <button class="contact-detail__menu-item" (click)="onEdit(c); toggleMenu()">
-                    <img src="/icons/edit.svg" alt="" />
+                    <img src="icons/edit.svg" alt="" />
                     Edit
                 </button>
                 <button class="contact-detail__menu-item" (click)="onDelete(); toggleMenu()">
-                    <img src="/icons/maintrash.svg" alt="" />
+                    <img src="icons/maintrash.svg" alt="" />
                     Delete
                 </button>
             </div>

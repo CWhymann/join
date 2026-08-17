@@ -20,7 +20,7 @@
         @if (isEditMode) {
             <span class="contact-form__avatar-initials">{{ initials }}</span>
         } @else {
-            <img src="/icons/name_icon.svg" alt="" class="contact-form__avatar-icon" />
+            <img src="icons/name_icon.svg" alt="" class="contact-form__avatar-icon" />
         }
     </span>
 
@@ -34,7 +34,7 @@
                 @if (isEditMode) {
                     <span class="contact-form__avatar-initials">{{ initials }}</span>
                 } @else {
-                    <img src="/icons/name_icon.svg" alt="" class="contact-form__avatar-icon" />
+                    <img src="icons/name_icon.svg" alt="" class="contact-form__avatar-icon" />
                 }
             </span>
 
@@ -47,7 +47,7 @@
                             placeholder="Name"
                             class="contact-form__input"
                         />
-                        <img src="/icons/name_icon.svg" alt="" class="contact-form__icon" />
+                        <img src="icons/name_icon.svg" alt="" class="contact-form__icon" />
                     </div>
                     <span class="contact-form__error">
                         @if (form.get('name')?.touched && form.get('name')?.invalid) {
@@ -68,7 +68,7 @@
                             placeholder="Email"
                             class="contact-form__input"
                         />
-                        <img src="/icons/mail_icon.svg" alt="" class="contact-form__icon" />
+                        <img src="icons/mail_icon.svg" alt="" class="contact-form__icon" />
                     </div>
                     <span class="contact-form__error">
                         @if (form.get('email')?.touched && form.get('email')?.invalid) {
@@ -89,7 +89,7 @@
                             placeholder="Phone"
                             class="contact-form__input"
                         />
-                        <img src="/icons/phone_icon.svg" alt="" class="contact-form__icon" />
+                        <img src="icons/phone_icon.svg" alt="" class="contact-form__icon" />
                     </div>
                     <span class="contact-form__error">
                         @if (form.get('phone')?.touched && form.get('phone')?.invalid) {
