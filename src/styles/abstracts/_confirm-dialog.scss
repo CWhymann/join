@@ -1,0 +1,77 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+@mixin confirm-dialog($overlay-radius: 20px, $overlay-radius-mobile: null) {
+    &__overlay {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 100;
+        border-radius: $overlay-radius;
+
+        @if $overlay-radius-mobile {
+            @include mobile {
+                border-radius: $overlay-radius-mobile;
+            }
+        }
+    }
+
+    &__confirm {
+        background-color: #ffffff;
+        border-radius: 20px;
+        padding: $spacing-xl;
+        max-width: 320px;
+        width: 90%;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        text-align: center;
+    }
+
+    &__confirm-text {
+        font-family: $font-primary;
+        color: $color-text;
+        margin-bottom: $spacing-lg;
+    }
+
+    &__confirm-error {
+        color: $color-error;
+        font-size: 12px;
+        margin-bottom: $spacing-sm;
+    }
+
+    &__confirm-actions {
+        display: flex;
+        justify-content: center;
+        gap: $spacing-md;
+    }
+
+    &__confirm-btn {
+        font-family: $font-primary;
+        font-weight: $font-weight-semibold;
+        padding: $spacing-sm $spacing-lg;
+        border-radius: 10px;
+        cursor: pointer;
+        border: unset;
+        transition: $transition-fast;
+
+        &--cancel {
+            background-color: #f5f5f5;
+            color: $color-text;
+
+            &:hover {
+                background-color: #eaeaea;
+            }
+        }
+
+        &--confirm {
+            background-color: $color-accent;
+            color: #ffffff;
+
+            &:hover {
+                opacity: 0.85;
+            }
+        }
+    }
+}

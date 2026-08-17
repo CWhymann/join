@@ -7,66 +7,84 @@ import { Contact } from '../../core/models/contact.model';
 import { ContactsService } from '../../core/services/contacts.service';
 
 @Component({
-  selector: 'app-contacts',
-  standalone: true,
-  imports: [ContactList, ContactDetail, ContactForm],
-  templateUrl: './contacts.html',
-  styleUrl: './contacts.scss',
+    selector: 'app-contacts',
+    standalone: true,
+    imports: [ContactList, ContactDetail, ContactForm],
+    templateUrl: './contacts.html',
+    styleUrl: './contacts.scss',
 })
 export class Contacts implements OnInit {
-  private contactsService = inject(ContactsService);
-  private renderer = inject(Renderer2);
-  private document = inject(DOCUMENT);
+    private contactsService = inject(ContactsService);
+    private renderer = inject(Renderer2);
+    private document = inject(DOCUMENT);
 
-  selectedContact = signal<Contact | null>(null);
-  showForm = signal(false);
-  editingContact = signal<Contact | null>(null);
-  showToast = signal(false);
-  toastMessage = signal('');
+    selectedContact = signal<Contact | null>(null);
+    showForm = signal(false);
+    editingContact = signal<Contact | null>(null);
+    showToast = signal(false);
+    toastMessage = signal('');
 
-  ngOnInit(): void {
-    this.contactsService.loadContacts();
-  }
-
-  onContactSelected(contact: Contact): void {
-    this.selectedContact.set(contact);
-  }
-
-  onBackToList(): void {
-    this.selectedContact.set(null);
-  }
-
-  openAddForm(): void {
-    this.editingContact.set(null);
-    this.showForm.set(true);
-    this.renderer.addClass(this.document.body, 'modal-open');
-  }
-
-  openEditForm(contact: Contact): void {
-    this.editingContact.set(contact);
-    this.showForm.set(true);
-    this.renderer.addClass(this.document.body, 'modal-open');
-  }
-
-  async onDeleteContact(contact: Contact): Promise<void> {
-    const success = await this.contactsService.deleteContact(contact.id);
-    if (success && this.selectedContact()?.id === contact.id) {
-      this.selectedContact.set(null);
+    ngOnInit(): void {
+        this.contactsService.loadContacts();
     }
-  }
 
-  closeForm(): void {
-    this.showForm.set(false);
-    this.editingContact.set(null);
-    this.renderer.removeClass(this.document.body, 'modal-open');
-  }
+    onContactSelected(contact: Contact): void {
+        this.selectedContact.set(contact);
+        // scrollt nach oben, damit die Detail-Ansicht sichtbar wird, auch wenn
+        // weiter unten in der Liste ausgewählt wurde
+        this.document.defaultView?.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
-  onFormSaved(success: boolean): void {
-    this.showForm.set(false);
-    this.editingContact.set(null);
-    this.renderer.removeClass(this.document.body, 'modal-open');
-    this.toastMessage.set(success ? 'Contact saved' : 'Something went wrong');
-    this.showToast.set(true);
-    setTimeout(() => this.showToast.set(false), 2500);
-  }
+    onBackToList(): void {
+        this.selectedContact.set(null);
+    }
+
+    openAddForm(): void {
+        this.editingContact.set(null);
+        this.showForm.set(true);
+        this.renderer.addClass(this.document.body, 'modal-open');
+    }
+
+    openEditForm(contact: Contact): void {
+        this.editingContact.set(contact);
+        this.showForm.set(true);
+        this.renderer.addClass(this.document.body, 'modal-open');
+    }
+
+    async onDeleteContact(contact: Contact): Promise<void> {
+        try {
+            const success = await this.contactsService.deleteContact(contact.id);
+            if (success) {
+                if (this.selectedContact()?.id === contact.id) {
+                    this.selectedContact.set(null);
+                }
+            } else {
+                this.showErrorToast();
+            }
+        } catch {
+            // z. B. bei fehlender Internetverbindung / ungefangener Exception im Service
+            this.showErrorToast();
+        }
+    }
+
+    private showErrorToast(): void {
+        this.toastMessage.set('Something went wrong');
+        this.showToast.set(true);
+        setTimeout(() => this.showToast.set(false), 2500);
+    }
+
+    closeForm(): void {
+        this.showForm.set(false);
+        this.editingContact.set(null);
+        this.renderer.removeClass(this.document.body, 'modal-open');
+    }
+
+    onFormSaved(success: boolean): void {
+        this.showForm.set(false);
+        this.editingContact.set(null);
+        this.renderer.removeClass(this.document.body, 'modal-open');
+        this.toastMessage.set(success ? 'Contact saved' : 'Something went wrong');
+        this.showToast.set(true);
+        setTimeout(() => this.showToast.set(false), 2500);
+    }
 }

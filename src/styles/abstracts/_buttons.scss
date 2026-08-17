@@ -1,0 +1,41 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+@mixin action-button($bg, $color, $hover-bg: null, $hover-opacity: null, $border: unset) {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    background-color: $bg;
+    color: $color;
+    border: $border;
+    border-radius: 6px;
+    padding: $spacing-sm $spacing-lg;
+    font-family: $font-primary;
+    font-weight: $font-weight-semibold;
+    cursor: pointer;
+    transition: $transition-fast;
+    white-space: nowrap;
+
+    @include desktop {
+        padding: 8px 20px;
+        font-size: 15px;
+    }
+
+    @include tablet {
+        padding: 6px 16px;
+        font-size: 14px;
+        line-height: 1;
+    }
+
+    @if $hover-bg {
+        &:hover {
+            background-color: $hover-bg;
+        }
+    }
+
+    @if $hover-opacity {
+        &:hover {
+            opacity: $hover-opacity;
+        }
+    }
+}

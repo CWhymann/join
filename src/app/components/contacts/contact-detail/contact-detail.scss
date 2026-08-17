@@ -1,163 +1,166 @@
 @use '../../../../styles/abstracts' as *;
+@use '../../../../styles/abstracts/confirm-dialog' as *;
 
 .contact-detail {
-  padding: $spacing-lg;
-  position: relative;
+    padding: $spacing-lg;
+    position: relative;
 
-  &--empty {
-    color: $color-text-muted;
-    font-style: italic;
-  }
-
-  &__header {
-    display: flex;
-    align-items: center;
-    gap: $spacing-lg;
-    margin-bottom: $spacing-xl;
-  }
-
-  &__avatar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    color: #ffffff;
-    font-weight: $font-weight-bold;
-    font-size: 24px;
-    flex-shrink: 0;
-    border: 3px solid #ffffff;
-  }
-
-  &__name {
-    font-family: $font-primary;
-    font-weight: $font-weight-bold;
-    font-size: 24px;
-    color: $color-text;
-    margin-bottom: $spacing-sm;
-  }
-
-  &__actions {
-    display: flex;
-    gap: $spacing-md;
-
-    @include mobile {
-      display: none;
-    }
-  }
-
-  &__action {
-    display: flex;
-    align-items: center;
-    gap: $spacing-xs;
-    background: none;
-    border: unset;
-    color: $color-text-muted;
-    cursor: pointer;
-    font-family: $font-primary;
-    font-size: 13px;
-    transition: $transition-fast;
-
-    &:hover {
-      color: $color-accent;
-    }
-  }
-
-  &__action-icon {
-    width: 16px;
-    height: 16px;
-  }
-
-  &__section-title {
-    font-family: $font-primary;
-    font-weight: $font-weight-semibold;
-    color: $color-text;
-    margin-bottom: $spacing-md;
-  }
-
-  &__field {
-    display: flex;
-    flex-direction: column;
-    gap: $spacing-xs;
-    margin-bottom: $spacing-md;
-  }
-
-  &__label {
-    font-size: 12px;
-    color: $color-text-muted;
-  }
-
-  &__value {
-    color: $color-text;
-
-    &--accent {
-      color: $color-accent;
-    }
-  }
-
-  &__fab {
-    display: none;
-
-    @include mobile {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: fixed;
-      bottom: 90px;
-      right: $spacing-lg;
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      background-color: $color-sidebar-bg;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-      z-index: 50;
-
-      img {
-        width: 24px;
-        height: 24px;
-      }
-    }
-  }
-
-  &__menu {
-    display: none;
-
-    @include mobile {
-      display: flex;
-      flex-direction: column;
-      position: fixed;
-      bottom: 150px;
-      right: $spacing-lg;
-      background-color: #ffffff;
-      border-radius: 12px;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
-      overflow: hidden;
-      z-index: 60;
-    }
-  }
-
-  &__menu-item {
-    display: flex;
-    align-items: center;
-    gap: $spacing-sm;
-    padding: $spacing-md $spacing-lg;
-    background: none;
-    border: unset;
-    cursor: pointer;
-    font-family: $font-primary;
-    color: $color-text;
-    white-space: nowrap;
-
-    img {
-      width: 16px;
-      height: 16px;
+    &--empty {
+        color: $color-text-muted;
+        font-style: italic;
     }
 
-    &:hover {
-      background-color: #f5f5f5;
+    &__header {
+        display: flex;
+        align-items: center;
+        gap: $spacing-lg;
+        margin-bottom: $spacing-xl;
     }
-  }
+
+    &__avatar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        color: #ffffff;
+        font-weight: $font-weight-bold;
+        font-size: 24px;
+        flex-shrink: 0;
+        border: 3px solid #ffffff;
+    }
+
+    &__name {
+        font-family: $font-primary;
+        font-weight: $font-weight-bold;
+        font-size: 24px;
+        color: $color-text;
+        margin-bottom: $spacing-sm;
+    }
+
+    &__actions {
+        display: flex;
+        gap: $spacing-md;
+
+        @include mobile {
+            display: none;
+        }
+    }
+
+    &__action {
+        display: flex;
+        align-items: center;
+        gap: $spacing-xs;
+        background: none;
+        border: unset;
+        color: $color-text-muted;
+        cursor: pointer;
+        font-family: $font-primary;
+        font-size: 13px;
+        transition: $transition-fast;
+
+        &:hover {
+            color: $color-accent;
+        }
+    }
+
+    &__action-icon {
+        width: 16px;
+        height: 16px;
+    }
+
+    &__section-title {
+        font-family: $font-primary;
+        font-weight: $font-weight-semibold;
+        color: $color-text;
+        margin-bottom: $spacing-md;
+    }
+
+    &__field {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-xs;
+        margin-bottom: $spacing-md;
+    }
+
+    &__label {
+        font-size: 12px;
+        color: $color-text-muted;
+    }
+
+    &__value {
+        color: $color-text;
+
+        &--accent {
+            color: $color-accent;
+        }
+    }
+
+    &__fab {
+        display: none;
+
+        @include mobile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            bottom: 90px;
+            right: $spacing-lg;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background-color: $color-sidebar-bg;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 50;
+
+            img {
+                width: 24px;
+                height: 24px;
+            }
+        }
+    }
+
+    &__menu {
+        display: none;
+
+        @include mobile {
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            bottom: 150px;
+            right: $spacing-lg;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            z-index: 60;
+        }
+    }
+
+    &__menu-item {
+        display: flex;
+        align-items: center;
+        gap: $spacing-sm;
+        padding: $spacing-md $spacing-lg;
+        background: none;
+        border: unset;
+        cursor: pointer;
+        font-family: $font-primary;
+        color: $color-text;
+        white-space: nowrap;
+
+        img {
+            width: 16px;
+            height: 16px;
+        }
+
+        &:hover {
+            background-color: #f5f5f5;
+        }
+    }
+
+    @include confirm-dialog;
 }
