@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ContactsService } from '../../../core/services/contacts.service';
 import { Contact } from '../../../core/models/contact.model';
+import { getInitials } from '../../../core/utils/avatar.utils';
 
 @Component({
     selector: 'app-contact-form',
@@ -46,13 +47,7 @@ export class ContactForm implements OnInit {
     }
 
     get initials(): string {
-        const contact = this.editingContact();
-        if (!contact) return '';
-        return contact.name
-            .split(' ')
-            .map((part) => part.charAt(0))
-            .join('')
-            .toUpperCase();
+        return getInitials(this.editingContact()?.name ?? '');
     }
 
     private nameValidator(control: any) {
@@ -73,24 +68,15 @@ export class ContactForm implements OnInit {
 
         const { name, email, phone } = this.form.value;
         const contact = this.editingContact();
+        const input = { name: name!, email: email!, phone: phone! };
 
-        if (this.isEditMode && contact) {
-            await this.contactsService.updateContact(contact.id, {
-                name: name!,
-                email: email!,
-                phone: phone!,
-            });
-        } else {
-            await this.contactsService.addContact({
-                name: name!,
-                email: email!,
-                phone: phone!,
-            });
-        }
+        const result = contact
+            ? await this.contactsService.updateContact(contact.id, input)
+            : await this.contactsService.addContact(input);
 
         this.isSubmitting = false;
         this.form.reset();
-        this.saved.emit(this.isEditMode);
+        this.saved.emit(result !== null);
         this.closed.emit();
     }
 

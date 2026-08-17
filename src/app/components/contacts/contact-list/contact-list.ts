@@ -2,6 +2,7 @@ import { Component, inject, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Contact } from '../../../core/models/contact.model';
 import { ContactsService } from '../../../core/services/contacts.service';
+import { getInitials } from '../../../core/utils/avatar.utils';
 
 @Component({
   selector: 'app-contact-list',
@@ -19,13 +20,7 @@ export class ContactList {
 
   selectedId: string | null = null;
 
-  getInitials(name: string): string {
-    return name
-      .split(' ')
-      .map((part) => part.charAt(0))
-      .join('')
-      .toUpperCase();
-  }
+  getInitials = getInitials;
 
   onSelect(contact: Contact): void {
     this.selectedId = contact.id;

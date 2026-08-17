@@ -1,6 +1,7 @@
 import { Component, input, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Contact } from '../../../core/models/contact.model';
+import { getInitials } from '../../../core/utils/avatar.utils';
 
 @Component({
     selector: 'app-contact-detail',
@@ -18,13 +19,7 @@ export class ContactDetail {
     menuOpen = signal(false);
     deleteConfirmOpen = signal(false);
 
-    getInitials(name: string): string {
-        return name
-            .split(' ')
-            .map((part) => part.charAt(0))
-            .join('')
-            .toUpperCase();
-    }
+    getInitials = getInitials;
 
     onEdit(contact: Contact): void {
         this.editClicked.emit(contact);
