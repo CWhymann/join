@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ContactsService } from '../../../core/services/contacts.service';
 import { Contact } from '../../../core/models/contact.model';
+import { getInitials } from '../../../core/utils/avatar.utils';
 
 @Component({
     selector: 'app-contact-form',
@@ -46,13 +47,7 @@ export class ContactForm implements OnInit {
     }
 
     get initials(): string {
-        const contact = this.editingContact();
-        if (!contact) return '';
-        return contact.name
-            .split(' ')
-            .map((part) => part.charAt(0))
-            .join('')
-            .toUpperCase();
+        return getInitials(this.editingContact()?.name ?? '');
     }
 
     private nameValidator(control: any) {

@@ -4,11 +4,13 @@ const AVATAR_SATURATION = 65;
 const AVATAR_LIGHTNESS = 35;
 
 export function getInitials(name: string): string {
-  const words = name.trim().split(/\s+/).filter(Boolean);
-  if (words.length === 0) return '';
-  const first = words[0][0];
-  const last = words.length > 1 ? words[words.length - 1][0] : '';
-  return (first + last).toUpperCase();
+  return name
+    .trim()
+    .split(/\s+/)
+    .slice(0, 3)
+    .map((part) => part.charAt(0))
+    .join('')
+    .toUpperCase();
 }
 
 export function getInitialLetter(name: string): string {
