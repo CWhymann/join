@@ -15,7 +15,6 @@ export class ContactDetail {
 
     editClicked = output<Contact>();
     deleteClicked = output<Contact>();
-
     menuOpen = signal(false);
     deleteConfirmOpen = signal(false);
 
@@ -26,7 +25,6 @@ export class ContactDetail {
     }
 
     onDelete(): void {
-        // öffnet die Ja/Nein-Bestätigung statt sofort zu löschen
         this.deleteConfirmOpen.set(true);
     }
 
