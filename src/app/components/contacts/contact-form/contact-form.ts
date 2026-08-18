@@ -34,7 +34,7 @@ export class ContactForm implements OnInit {
             [
                 Validators.required,
                 Validators.maxLength(80),
-                Validators.pattern(/^[\w+-]+(\.[\w+-]+)*@[\w-]+(\.[\w-]+)*\.[a-z]{2,}$/i),
+                Validators.pattern(/^[\w+-]+(\.[\w+-]+)*@([a-z\d]([a-z\d-]*[a-z\d])?\.){1,3}[a-z]{2,}$/i),
             ],
         ],
         phone: ['', [Validators.required, Validators.maxLength(20), Validators.pattern(/^\+?[0-9]+$/)]],
