@@ -5,6 +5,14 @@
     padding: $spacing-lg;
     position: relative;
 
+    &:not(.contact-detail--empty) {
+        animation: contact-detail-slide-in 300ms cubic-bezier(0, 0, 0.58, 1);
+
+        @include mobile {
+            animation: none;
+        }
+    }
+
     &--empty {
         color: $color-text-muted;
         font-style: italic;
@@ -170,4 +178,14 @@
     }
 
     @include confirm-dialog;
+}
+
+@keyframes contact-detail-slide-in {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
 }
