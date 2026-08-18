@@ -17,7 +17,7 @@
         border-radius: 8px;
         padding: $spacing-md;
         font-family: $font-primary;
-        font-weight: $font-weight-semibold;
+        font-weight: $font-weight-bold;
         font-size: 21px;
         cursor: pointer;
         margin-bottom: $spacing-md;
@@ -45,7 +45,8 @@
 
     &__letter {
         font-family: $font-primary;
-        font-weight: $font-weight-bold;
+        font-weight: $font-weight-regular;
+        font-size: 20px;
         color: $color-text;
         padding: $spacing-sm $spacing-md;
         border-bottom: 1px solid $color-border;
@@ -81,11 +82,11 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 40px;
-        height: 40px;
+        width: 42px;
+        height: 42px;
         border-radius: 50%;
         color: #ffffff;
-        font-weight: $font-weight-bold;
+        font-weight: $font-weight-regular;
         font-size: 16px;
         flex-shrink: 0;
     }
@@ -105,6 +106,7 @@
 
     &__name {
         font-family: $font-primary;
+        font-size: 20px;
         color: $color-text;
     }
 

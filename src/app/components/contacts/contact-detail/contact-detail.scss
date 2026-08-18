@@ -33,11 +33,18 @@
         height: 120px;
         border-radius: 50%;
         color: #ffffff;
-        font-weight: $font-weight-bold;
-        font-size: 46px;
+        font-weight: $font-weight-semibold;
+        font-size: 47px;
         flex-shrink: 0;
         border: 3px solid #ffffff;
         box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4);
+
+        @include mobile {
+            width: 80px;
+            height: 80px;
+            font-size: 27px;
+            font-weight: $font-weight-regular;
+        }
     }
 
     &__info {
@@ -46,11 +53,16 @@
 
     &__name {
         font-family: $font-primary;
-        font-weight: $font-weight-bold;
-        font-size: 24px;
+        font-weight: $font-weight-semibold;
+        font-size: 47px;
         color: $color-text;
         margin-bottom: $spacing-sm;
         overflow-wrap: anywhere;
+
+        @include mobile {
+            font-size: 36px;
+            font-weight: $font-weight-bold;
+        }
     }
 
     &__actions {
@@ -86,7 +98,8 @@
 
     &__section-title {
         font-family: $font-primary;
-        font-weight: $font-weight-semibold;
+        font-weight: $font-weight-regular;
+        font-size: 20px;
         color: $color-text;
         margin-bottom: $spacing-md;
     }
@@ -100,7 +113,8 @@
 
     &__label {
         font-size: 16px;
-        color: $color-text-muted;
+        font-weight: $font-weight-bold;
+        color: #000000;
     }
 
     &__value {
