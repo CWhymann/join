@@ -11,16 +11,22 @@
 
                 @for (contact of group.contacts; track contact.id) {
                     <div
+                        #item
+                        [attr.data-id]="contact.id"
                         class="contact-list__item"
-                        [class.contact-list__item--active]="contact.id === selectedId"
-                        (click)="onSelect(contact)"
+                        [class.contact-list__item--active]="contact.id === selectedId()"
+                        (click)="contactSelected.emit(contact)"
                     >
                         <span class="contact-list__avatar" [style.background-color]="contact.color">
                             {{ getInitials(contact.name) }}
                         </span>
                         <div class="contact-list__info">
-                            <span class="contact-list__name">{{ contact.name }}</span>
-                            <span class="contact-list__email">{{ contact.email }}</span>
+                            <span class="contact-list__name" [title]="contact.name">
+                                {{ contact.name }}
+                            </span>
+                            <span class="contact-list__email" [title]="contact.email">
+                                {{ contact.email }}
+                            </span>
                         </div>
                     </div>
                 }

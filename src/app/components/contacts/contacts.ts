@@ -50,23 +50,24 @@ export class Contacts implements OnInit {
     }
 
     async onDeleteContact(contact: Contact): Promise<void> {
-        try {
-            const success = await this.contactsService.deleteContact(contact.id);
-            if (success) {
-                if (this.selectedContact()?.id === contact.id) {
-                    this.selectedContact.set(null);
-                }
-            } else {
-                this.showErrorToast();
-            }
-        } catch {
-
-            this.showErrorToast();
+        const success = await this.contactsService.deleteContact(contact.id);
+        if (!success) {
+            this.showToastMessage('Something went wrong');
+            return;
         }
+        if (this.selectedContact()?.id === contact.id) {
+            this.selectedContact.set(null);
+        }
+        this.showToastMessage('Contact deleted');
     }
 
-    private showErrorToast(): void {
-        this.toastMessage.set('Something went wrong');
+    onFormDeleted(): void {
+        this.selectedContact.set(null);
+        this.showToastMessage('Contact deleted');
+    }
+
+    private showToastMessage(message: string): void {
+        this.toastMessage.set(message);
         this.showToast.set(true);
         setTimeout(() => this.showToast.set(false), 2500);
     }
@@ -77,12 +78,11 @@ export class Contacts implements OnInit {
         this.renderer.removeClass(this.document.body, 'modal-open');
     }
 
-    onFormSaved(success: boolean): void {
+    onFormSaved(contact: Contact | null): void {
         this.showForm.set(false);
         this.editingContact.set(null);
         this.renderer.removeClass(this.document.body, 'modal-open');
-        this.toastMessage.set(success ? 'Contact saved' : 'Something went wrong');
-        this.showToast.set(true);
-        setTimeout(() => this.showToast.set(false), 2500);
+        if (contact) this.selectedContact.set(contact);
+        this.showToastMessage(contact ? 'Contact saved' : 'Something went wrong');
     }
 }
