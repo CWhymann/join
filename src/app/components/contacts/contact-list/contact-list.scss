@@ -128,15 +128,16 @@
             width: 56px;
             height: 56px;
             border-radius: 50%;
-            background-color: $color-sidebar-bg;
+            background: none;
+
             border: none;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            box-shadow: none;
             z-index: 50;
 
             img {
-                width: 28px;
-                height: 28px;
+                width: 56px;
+                height: 56px;
             }
         }
     }
