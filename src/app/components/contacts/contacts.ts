@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal, Renderer2 } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, signal, Renderer2, ViewChild } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { ContactList } from './contact-list/contact-list';
 import { ContactDetail } from './contact-detail/contact-detail';
@@ -14,6 +14,8 @@ import { ContactsService } from '../../core/services/contacts.service';
     styleUrl: './contacts.scss',
 })
 export class Contacts implements OnInit {
+    @ViewChild(ContactDetail, { read: ElementRef }) private contactDetail?: ElementRef<HTMLElement>;
+
     private contactsService = inject(ContactsService);
     private renderer = inject(Renderer2);
     private document = inject(DOCUMENT);
@@ -32,11 +34,28 @@ export class Contacts implements OnInit {
     onContactSelected(contact: Contact): void {
         this.selectedContact.set(contact);
         this.contactSelectionVersion.update((version) => version + 1);
+        if (this.contactSelectionVersion() > 1) this.restartDetailAnimation();
         this.document.defaultView?.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+
+// test 
+
+    private restartDetailAnimation(): void {
+        this.document.defaultView?.requestAnimationFrame(() => {
+            const detail = this.contactDetail?.nativeElement.querySelector<HTMLElement>('.contact-detail');
+            if (!detail) return;
+            detail.getAnimations().forEach((animation) => animation.cancel());
+            detail.animate([{ transform: 'translateX(100%)' }, { transform: 'translateX(0)' }], {
+                duration: 300,
+                easing: 'cubic-bezier(0, 0, 0.58, 1)',
+            });
+        });
     }
 
     onBackToList(): void {
         this.selectedContact.set(null);
+        this.contactSelectionVersion.set(0);
     }
 
     openAddForm(): void {
