@@ -1,6 +1,7 @@
 <div class="contacts">
   <div class="contacts__list" [class.contacts__list--hidden-mobile]="selectedContact()">
     <app-contact-list
+      [selectedId]="selectedContact()?.id ?? null"
       (addClicked)="openAddForm()"
       (contactSelected)="onContactSelected($event)"
     ></app-contact-list>
@@ -28,6 +29,7 @@
           [editingContact]="editingContact()"
           (closed)="closeForm()"
           (saved)="onFormSaved($event)"
+          (deleted)="onFormDeleted()"
         ></app-contact-form>
       </div>
     </div>

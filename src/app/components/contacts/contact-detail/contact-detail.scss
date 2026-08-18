@@ -32,12 +32,17 @@
         box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4);
     }
 
+    &__info {
+        min-width: 0;
+    }
+
     &__name {
         font-family: $font-primary;
         font-weight: $font-weight-bold;
         font-size: 24px;
         color: $color-text;
         margin-bottom: $spacing-sm;
+        overflow-wrap: anywhere;
     }
 
     &__actions {
@@ -58,7 +63,7 @@
         color: $color-text-muted;
         cursor: pointer;
         font-family: $font-primary;
-        font-size: 13px;
+        font-size: 16px;
         transition: $transition-fast;
 
         &:hover {
@@ -86,12 +91,13 @@
     }
 
     &__label {
-        font-size: 12px;
+        font-size: 16px;
         color: $color-text-muted;
     }
 
     &__value {
         color: $color-text;
+        overflow-wrap: anywhere;
 
         &--accent {
             color: $color-accent;
