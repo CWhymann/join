@@ -124,8 +124,8 @@
       gap: $spacing-xs;
       padding-left: 0;
       border-radius: 16px;
-      font-size: clamp(14px, 4vw, 16px);
-      line-height: clamp(17px, 4.75vw, 19px);
+      font-size: 16px;
+      line-height: 19px;
     }
 
     &__navigation-link img {

@@ -18,18 +18,31 @@ export class ContactForm implements OnInit {
 
     editingContact = input<Contact | null>(null);
     closed = output<void>();
-    saved = output<boolean>();
+    saved = output<Contact | null>();
     deleted = output<void>();
 
     isSubmitting = false;
     deleteConfirmOpen = signal(false);
     deleteError = signal<string | null>(null);
 
+    readonly maxLengths = { name: 40, email: 80, phone: 20 };
+
     form = this.fb.group({
-        name: ['', [Validators.required, this.nameValidator]],
-        email: ['', [Validators.required, Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)]],
-        phone: ['', [Validators.required, Validators.pattern(/^\+?[0-9]+$/)]],
+        name: ['', [Validators.required, Validators.maxLength(40), this.nameValidator]],
+        email: [
+            '',
+            [
+                Validators.required,
+                Validators.maxLength(80),
+                Validators.pattern(/^[\w+-]+(\.[\w+-]+)*@[\w-]+(\.[\w-]+)*\.[a-z]{2,}$/i),
+            ],
+        ],
+        phone: ['', [Validators.required, Validators.maxLength(20), Validators.pattern(/^\+?[0-9]+$/)]],
     });
+
+    atLimit(field: 'name' | 'email' | 'phone'): boolean {
+        return (this.form.value[field] ?? '').length >= this.maxLengths[field];
+    }
 
     get isEditMode(): boolean {
         return this.editingContact() !== null;
@@ -53,9 +66,9 @@ export class ContactForm implements OnInit {
     private nameValidator(control: any) {
         const value = (control.value || '').trim();
         if (!value) return null;
-        const hasTwoParts = value.split(' ').filter((p: string) => p.length > 0).length >= 2;
-        const hasNoNumbers = !/\d/.test(value);
-        return hasTwoParts && hasNoNumbers ? null : { invalidName: true };
+        const hasValidChars = /^\p{L}+([ '-]\p{L}+)*$/u.test(value);
+        const hasTwoParts = value.split(' ').length >= 2;
+        return hasValidChars && hasTwoParts ? null : { invalidName: true };
     }
 
     async onSubmit(): Promise<void> {
@@ -76,7 +89,7 @@ export class ContactForm implements OnInit {
 
         this.isSubmitting = false;
         this.form.reset();
-        this.saved.emit(result !== null);
+        this.saved.emit(result);
         this.closed.emit();
     }
 

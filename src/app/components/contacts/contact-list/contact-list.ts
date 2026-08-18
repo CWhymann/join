@@ -1,4 +1,4 @@
-import { Component, inject, output } from '@angular/core';
+import { Component, effect, ElementRef, inject, input, output, viewChildren } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Contact } from '../../../core/models/contact.model';
 import { ContactsService } from '../../../core/services/contacts.service';
@@ -18,12 +18,16 @@ export class ContactList {
   addClicked = output<void>();
   contactSelected = output<Contact>();
 
-  selectedId: string | null = null;
+  selectedId = input<string | null>(null);
+  private items = viewChildren<ElementRef<HTMLElement>>('item');
 
   getInitials = getInitials;
 
-  onSelect(contact: Contact): void {
-    this.selectedId = contact.id;
-    this.contactSelected.emit(contact);
+  constructor() {
+    effect(() => {
+      const id = this.selectedId();
+      const item = this.items().find((ref) => ref.nativeElement.dataset['id'] === String(id));
+      item?.nativeElement.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    });
   }
 }

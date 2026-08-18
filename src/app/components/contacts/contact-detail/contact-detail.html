@@ -4,7 +4,7 @@
             <span class="contact-detail__avatar" [style.background-color]="c.color">
                 {{ getInitials(c.name) }}
             </span>
-            <div>
+            <div class="contact-detail__info">
                 <h2 class="contact-detail__name">{{ c.name }}</h2>
                 <div class="contact-detail__actions">
                     <button class="contact-detail__action" (click)="onEdit(c)">
@@ -79,6 +79,6 @@
     </div>
 } @else {
     <div class="contact-detail contact-detail--empty">
-        <p>Wähle einen Kontakt aus der Liste aus.</p>
+        <p>Select a contact from the list.</p>
     </div>
 }
