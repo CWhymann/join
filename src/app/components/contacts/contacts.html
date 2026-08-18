@@ -7,7 +7,7 @@
     ></app-contact-list>
   </div>
 
-  @for (version of [contactSelectionVersion()]; track version) {
+  @for (version of [contactSelectionVersion()]; track $index) {
     <div class="contacts__detail" [class.contacts__detail--visible-mobile]="selectedContact()">
       <div class="contacts__heading">
         <h1 class="contacts__title">Contacts</h1>
