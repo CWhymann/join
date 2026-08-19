@@ -1,0 +1,165 @@
+<form class="add-task-form" [formGroup]="form">
+    <div class="add-task-form__columns">
+        <div class="add-task-form__column add-task-form__column--left">
+            <div class="add-task-form__field">
+                <label class="add-task-form__label" for="task-title">
+                    Title<span aria-hidden="true">*</span>
+                </label>
+                <input
+                    id="task-title"
+                    class="add-task-form__input"
+                    type="text"
+                    formControlName="title"
+                    placeholder="Enter a title"
+                />
+            </div>
+
+            <div class="add-task-form__field">
+                <label class="add-task-form__label" for="task-description">Description</label>
+                <div class="add-task-form__control">
+                    <textarea
+                        id="task-description"
+                        class="add-task-form__input add-task-form__input--textarea"
+                        formControlName="description"
+                        placeholder="Enter a Description"
+                    ></textarea>
+                    <span class="add-task-form__resize" aria-hidden="true"></span>
+                </div>
+            </div>
+
+            <div class="add-task-form__field">
+                <label class="add-task-form__label" for="task-due-date">
+                    Due date<span aria-hidden="true">*</span>
+                </label>
+                <div class="add-task-form__control">
+                    <input
+                        id="task-due-date"
+                        class="add-task-form__input add-task-form__input--with-icon"
+                        type="text"
+                        formControlName="dueDate"
+                        placeholder="dd/mm/yyyy"
+                    />
+                    <span class="add-task-form__control-icon" aria-hidden="true"></span>
+                </div>
+            </div>
+        </div>
+
+        <span class="add-task-form__divider" aria-hidden="true"></span>
+
+        <div class="add-task-form__column add-task-form__column--right">
+            <div class="add-task-form__field">
+                <span class="add-task-form__label add-task-form__label--plain">Priority</span>
+                <div class="add-task-form__priorities">
+                    <button
+                        class="add-task-form__priority add-task-form__priority--urgent"
+                        [class.add-task-form__priority--active]="isPriority('urgent')"
+                        type="button"
+                        (click)="selectPriority('urgent')"
+                    >
+                        Urgent
+                        <span class="add-task-form__priority-icon" aria-hidden="true"></span>
+                    </button>
+
+                    <button
+                        class="add-task-form__priority add-task-form__priority--medium"
+                        [class.add-task-form__priority--active]="isPriority('medium')"
+                        type="button"
+                        (click)="selectPriority('medium')"
+                    >
+                        Medium
+                        <span class="add-task-form__priority-icon" aria-hidden="true"></span>
+                    </button>
+
+                    <button
+                        class="add-task-form__priority add-task-form__priority--low"
+                        [class.add-task-form__priority--active]="isPriority('low')"
+                        type="button"
+                        (click)="selectPriority('low')"
+                    >
+                        Low
+                        <span class="add-task-form__priority-icon" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="add-task-form__field">
+                <label class="add-task-form__label" for="task-assigned">Assigned to</label>
+
+                <div class="add-task-form__dropdown" (click)="$event.stopPropagation()">
+                    <button
+                        id="task-assigned"
+                        class="add-task-form__select"
+                        type="button"
+                        [attr.aria-expanded]="isAssignedOpen"
+                        (click)="toggleAssigned($event)"
+                    >
+                        Select contacts to assign
+                        <span
+                            class="add-task-form__select-icon"
+                            [class.add-task-form__select-icon--open]="isAssignedOpen"
+                            aria-hidden="true"
+                        ></span>
+                    </button>
+
+                    @if (isAssignedOpen) {
+                        <ul class="add-task-form__options">
+                            @for (contact of contacts(); track contact.id) {
+                                <li>
+                                    <button
+                                        class="add-task-form__option"
+                                        [class.add-task-form__option--selected]="isSelected(contact)"
+                                        type="button"
+                                        (click)="toggleContact(contact)"
+                                    >
+                                        <span
+                                            class="add-task-form__avatar"
+                                            [style.background-color]="contact.color"
+                                        >{{ getInitials(contact.name) }}</span>
+                                        <span class="add-task-form__option-name">{{ contact.name }}</span>
+                                        <span class="add-task-form__checkbox" aria-hidden="true"></span>
+                                    </button>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+
+                @if (selectedContacts().length) {
+                    <div class="add-task-form__avatars">
+                        @for (contact of visibleContacts(); track contact.id) {
+                            <span
+                                class="add-task-form__avatar"
+                                [style.background-color]="contact.color"
+                                [title]="contact.name"
+                            >{{ getInitials(contact.name) }}</span>
+                        }
+
+                        @if (hiddenContactsCount()) {
+                            <span class="add-task-form__avatar add-task-form__avatar--more">
+                                +{{ hiddenContactsCount() }}
+                            </span>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="add-task-form__footer">
+        <p class="add-task-form__required">
+            <span aria-hidden="true">*</span>This field is required
+        </p>
+
+        <div class="add-task-form__actions">
+            <button class="add-task-form__button add-task-form__button--secondary" type="button">
+                Clear
+                <span class="add-task-form__icon add-task-form__icon--cancel" aria-hidden="true"></span>
+            </button>
+
+            <button class="add-task-form__button add-task-form__button--primary" type="submit">
+                Create Task
+                <span class="add-task-form__icon add-task-form__icon--check" aria-hidden="true"></span>
+            </button>
+        </div>
+    </div>
+</form>
