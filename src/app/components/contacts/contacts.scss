@@ -5,7 +5,7 @@
     height: 100%;
     width: 100%;
     max-width: 100%;
-    background-color: #ffffff;
+    background-color: $color-bg;
     box-sizing: border-box;
 
     @include mobile {
@@ -67,7 +67,7 @@
         font-family: $font-primary;
         font-weight: $font-weight-extrabold;
         font-size: 48px;
-        color: $color-text;
+        color: #000000;
         margin: 0;
 
         @include tablet {

@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { MainLayout } from './layout/main-layout/main-layout';
+import { AddTask } from './components/add-task/add-task';
 import { Contacts } from './components/contacts/contacts';
 import { Help } from './pages/help/help';
 import { Policy } from './pages/policy/policy';
@@ -12,6 +13,7 @@ export const routes: Routes = [
     component: MainLayout,
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'contacts' },
+      { path: 'add-task', component: AddTask },
       { path: 'contacts', component: Contacts },
       { path: 'board', component: Board },
       { path: 'help', component: Help },

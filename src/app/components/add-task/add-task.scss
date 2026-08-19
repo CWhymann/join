@@ -1,0 +1,33 @@
+@use '../../../styles/abstracts' as *;
+
+.add-task {
+    display: flex;
+    min-height: 849px;
+    max-height: 100%;
+    flex-direction: column;
+    overflow-y: auto;
+    padding: 124px 96px 0;
+
+    @media (max-width: #{$breakpoint-tablet}) {
+        padding: 48px 40px;
+    }
+
+    @include mobile {
+        min-height: auto;
+        max-height: none;
+        padding: 48px 16px;
+    }
+
+    &__headline {
+        margin-bottom: 48px;
+        color: #000000;
+        font-size: 48px;
+        font-weight: $font-weight-bold;
+        line-height: 120%;
+
+        @include mobile {
+            margin-bottom: 40px;
+            font-size: 36px;
+        }
+    }
+}
