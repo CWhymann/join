@@ -38,9 +38,6 @@ export class Contacts implements OnInit {
         this.document.defaultView?.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-
-// test 
-
     private restartDetailAnimation(): void {
         this.document.defaultView?.requestAnimationFrame(() => {
             const detail = this.contactDetail?.nativeElement.querySelector<HTMLElement>('.contact-detail');

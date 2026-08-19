@@ -44,6 +44,13 @@ export class ContactForm implements OnInit {
         return (this.form.value[field] ?? '').length >= this.maxLengths[field];
     }
 
+    get isUnchanged(): boolean {
+        const contact = this.editingContact();
+        if (!contact) return false;
+        const { name, email, phone } = this.form.value;
+        return name === contact.name && email === contact.email && phone === contact.phone;
+    }
+
     get isEditMode(): boolean {
         return this.editingContact() !== null;
     }

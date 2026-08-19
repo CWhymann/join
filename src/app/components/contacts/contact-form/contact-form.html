@@ -130,7 +130,7 @@
                             Delete
                         </button>
                     }
-                    <button type="submit" class="contact-form__submit" [disabled]="isSubmitting">
+                    <button type="submit" class="contact-form__submit" [disabled]="isSubmitting || isUnchanged">
                         {{ isEditMode ? 'Save' : 'Create contact' }} ✓
                     </button>
                 </div>
