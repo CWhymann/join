@@ -1,7 +1,51 @@
-<form class="add-task-form">
+<form class="add-task-form" [formGroup]="form">
     <div class="add-task-form__columns">
-        <div class="add-task-form__column add-task-form__column--left"></div>
+        <div class="add-task-form__column add-task-form__column--left">
+            <div class="add-task-form__field">
+                <label class="add-task-form__label" for="task-title">
+                    Title<span aria-hidden="true">*</span>
+                </label>
+                <input
+                    id="task-title"
+                    class="add-task-form__input"
+                    type="text"
+                    formControlName="title"
+                    placeholder="Enter a title"
+                />
+            </div>
+
+            <div class="add-task-form__field">
+                <label class="add-task-form__label" for="task-description">Description</label>
+                <div class="add-task-form__control">
+                    <textarea
+                        id="task-description"
+                        class="add-task-form__input add-task-form__input--textarea"
+                        formControlName="description"
+                        placeholder="Enter a Description"
+                    ></textarea>
+                    <span class="add-task-form__resize" aria-hidden="true"></span>
+                </div>
+            </div>
+
+            <div class="add-task-form__field">
+                <label class="add-task-form__label" for="task-due-date">
+                    Due date<span aria-hidden="true">*</span>
+                </label>
+                <div class="add-task-form__control">
+                    <input
+                        id="task-due-date"
+                        class="add-task-form__input add-task-form__input--with-icon"
+                        type="text"
+                        formControlName="dueDate"
+                        placeholder="dd/mm/yyyy"
+                    />
+                    <span class="add-task-form__control-icon" aria-hidden="true"></span>
+                </div>
+            </div>
+        </div>
+
         <span class="add-task-form__divider" aria-hidden="true"></span>
+
         <div class="add-task-form__column add-task-form__column--right"></div>
     </div>
 
