@@ -1,4 +1,4 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, input, output, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Contact } from '../../../core/models/contact.model';
 import { getInitials } from '../../../core/utils/avatar.utils';
@@ -19,6 +19,14 @@ export class ContactDetail {
     deleteConfirmOpen = signal(false);
 
     getInitials = getInitials;
+
+    constructor() {
+        effect(() => {
+            this.contact();
+            this.menuOpen.set(false);
+            this.deleteConfirmOpen.set(false);
+        });
+    }
 
     onEdit(contact: Contact): void {
         this.editClicked.emit(contact);
