@@ -185,7 +185,7 @@
   }
 
   &__column-add {
-    display: grid;
+    display: none;
     width: clamp(24px, 2vw, 28px);
     height: clamp(24px, 2vw, 28px);
     flex: 0 0 auto;
