@@ -46,7 +46,42 @@
 
         <span class="add-task-form__divider" aria-hidden="true"></span>
 
-        <div class="add-task-form__column add-task-form__column--right"></div>
+        <div class="add-task-form__column add-task-form__column--right">
+            <div class="add-task-form__field">
+                <span class="add-task-form__label add-task-form__label--plain">Priority</span>
+                <div class="add-task-form__priorities">
+                    <button
+                        class="add-task-form__priority add-task-form__priority--urgent"
+                        [class.add-task-form__priority--active]="isPriority('urgent')"
+                        type="button"
+                        (click)="selectPriority('urgent')"
+                    >
+                        Urgent
+                        <span class="add-task-form__priority-icon" aria-hidden="true"></span>
+                    </button>
+
+                    <button
+                        class="add-task-form__priority add-task-form__priority--medium"
+                        [class.add-task-form__priority--active]="isPriority('medium')"
+                        type="button"
+                        (click)="selectPriority('medium')"
+                    >
+                        Medium
+                        <span class="add-task-form__priority-icon" aria-hidden="true"></span>
+                    </button>
+
+                    <button
+                        class="add-task-form__priority add-task-form__priority--low"
+                        [class.add-task-form__priority--active]="isPriority('low')"
+                        type="button"
+                        (click)="selectPriority('low')"
+                    >
+                        Low
+                        <span class="add-task-form__priority-icon" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="add-task-form__footer">

@@ -4,6 +4,7 @@
 .contact-detail {
     padding: $spacing-lg;
     position: relative;
+    background-color: $color-bg;
 
     &:not(.contact-detail--empty) {
         animation: contact-detail-slide-in 300ms cubic-bezier(0, 0, 0.58, 1);

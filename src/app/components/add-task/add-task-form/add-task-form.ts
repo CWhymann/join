@@ -15,5 +15,14 @@ export class AddTaskForm {
         title: [''],
         description: [''],
         dueDate: [''],
+        priority: ['medium'],
     });
+
+    protected selectPriority(priority: string): void {
+        this.form.patchValue({ priority });
+    }
+
+    protected isPriority(priority: string): boolean {
+        return this.form.value.priority === priority;
+    }
 }
