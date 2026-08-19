@@ -1,5 +1,157 @@
 @use '../../../../styles/abstracts' as *;
 
+$field-border: #686868;
+$color-hover: #124658;
+
 .add-task-form {
-    display: block;
+    display: flex;
+    max-width: 976px;
+    flex-direction: column;
+    gap: 124px;
+
+    @media (max-width: #{$breakpoint-tablet}) {
+        gap: 48px;
+    }
+
+    &__columns {
+        display: flex;
+        max-width: 784px;
+        align-items: stretch;
+        gap: 48px;
+
+        @media (max-width: #{$breakpoint-tablet}) {
+            max-width: 100%;
+            flex-direction: column;
+            gap: 24px;
+        }
+    }
+
+    &__column {
+        display: flex;
+        min-width: 0;
+        flex: 1;
+        flex-direction: column;
+
+        &--left {
+            gap: $spacing-md;
+        }
+
+        &--right {
+            gap: $spacing-lg;
+        }
+    }
+
+    &__divider {
+        width: 1px;
+        flex-shrink: 0;
+        background-color: $field-border;
+
+        @media (max-width: #{$breakpoint-tablet}) {
+            display: none;
+        }
+    }
+
+    &__footer {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: $spacing-lg;
+
+        @include mobile {
+            flex-direction: column;
+            align-items: stretch;
+        }
+    }
+
+    &__required {
+        color: #000000;
+        font-size: 20px;
+        line-height: 120%;
+
+        span {
+            display: inline-block;
+            color: $color-error;
+            transform: translateY(-0.2em);
+        }
+    }
+
+    &__actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: $spacing-md;
+
+        @include mobile {
+            gap: $spacing-xl;
+        }
+    }
+
+    &__button {
+        display: flex;
+        height: 56px;
+        align-items: center;
+        justify-content: center;
+        gap: $spacing-xs;
+        padding: $spacing-md;
+        border: unset;
+        border-radius: 10px;
+        cursor: pointer;
+        line-height: 120%;
+        transition: background-color $transition-fast, border-color $transition-fast,
+            color $transition-fast, filter $transition-fast, box-shadow $transition-fast;
+
+        &--secondary {
+            border: 1px solid $color-text;
+            background-color: transparent;
+            color: $color-text;
+            font-size: 20px;
+
+            &:hover {
+                border: 2px solid $color-hover;
+                color: $color-hover;
+                filter: drop-shadow(0 4px 4px rgb(0 0 0 / 25%));
+            }
+
+            &:active {
+                border: 1px solid $color-sidebar-active;
+                color: $color-sidebar-active;
+                filter: drop-shadow(0 4px 4px rgb(0 0 0 / 25%));
+            }
+        }
+
+        &--primary {
+            background-color: $color-text;
+            color: $color-bg;
+            font-size: 21px;
+            font-weight: $font-weight-bold;
+
+            &:hover {
+                background-color: $color-hover;
+                box-shadow: 0 4px 4px rgb(0 0 0 / 25%);
+            }
+
+            &:active {
+                background-color: $color-sidebar-active;
+                box-shadow: 0 4px 4px rgb(0 0 0 / 25%);
+            }
+        }
+    }
+
+    &__icon {
+        width: 24px;
+        height: 24px;
+        flex-shrink: 0;
+        background-color: currentColor;
+        mask-position: center;
+        mask-repeat: no-repeat;
+        mask-size: contain;
+
+        &--cancel {
+            mask-image: url('/icons/cancel.svg');
+        }
+
+        &--check {
+            mask-image: url('/icons/check.svg');
+        }
+    }
 }

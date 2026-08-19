@@ -1,1 +1,25 @@
-<form class="add-task-form"></form>
+<form class="add-task-form">
+    <div class="add-task-form__columns">
+        <div class="add-task-form__column add-task-form__column--left"></div>
+        <span class="add-task-form__divider" aria-hidden="true"></span>
+        <div class="add-task-form__column add-task-form__column--right"></div>
+    </div>
+
+    <div class="add-task-form__footer">
+        <p class="add-task-form__required">
+            <span aria-hidden="true">*</span>This field is required
+        </p>
+
+        <div class="add-task-form__actions">
+            <button class="add-task-form__button add-task-form__button--secondary" type="button">
+                Cancel
+                <span class="add-task-form__icon add-task-form__icon--cancel" aria-hidden="true"></span>
+            </button>
+
+            <button class="add-task-form__button add-task-form__button--primary" type="submit">
+                Create Task
+                <span class="add-task-form__icon add-task-form__icon--check" aria-hidden="true"></span>
+            </button>
+        </div>
+    </div>
+</form>
