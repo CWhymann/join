@@ -81,6 +81,67 @@
                     </button>
                 </div>
             </div>
+
+            <div class="add-task-form__field">
+                <label class="add-task-form__label" for="task-assigned">Assigned to</label>
+
+                <div class="add-task-form__dropdown" (click)="$event.stopPropagation()">
+                    <button
+                        id="task-assigned"
+                        class="add-task-form__select"
+                        type="button"
+                        [attr.aria-expanded]="isAssignedOpen"
+                        (click)="toggleAssigned($event)"
+                    >
+                        Select contacts to assign
+                        <span
+                            class="add-task-form__select-icon"
+                            [class.add-task-form__select-icon--open]="isAssignedOpen"
+                            aria-hidden="true"
+                        ></span>
+                    </button>
+
+                    @if (isAssignedOpen) {
+                        <ul class="add-task-form__options">
+                            @for (contact of contacts(); track contact.id) {
+                                <li>
+                                    <button
+                                        class="add-task-form__option"
+                                        [class.add-task-form__option--selected]="isSelected(contact)"
+                                        type="button"
+                                        (click)="toggleContact(contact)"
+                                    >
+                                        <span
+                                            class="add-task-form__avatar"
+                                            [style.background-color]="contact.color"
+                                        >{{ getInitials(contact.name) }}</span>
+                                        <span class="add-task-form__option-name">{{ contact.name }}</span>
+                                        <span class="add-task-form__checkbox" aria-hidden="true"></span>
+                                    </button>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+
+                @if (selectedContacts().length) {
+                    <div class="add-task-form__avatars">
+                        @for (contact of visibleContacts(); track contact.id) {
+                            <span
+                                class="add-task-form__avatar"
+                                [style.background-color]="contact.color"
+                                [title]="contact.name"
+                            >{{ getInitials(contact.name) }}</span>
+                        }
+
+                        @if (hiddenContactsCount()) {
+                            <span class="add-task-form__avatar add-task-form__avatar--more">
+                                +{{ hiddenContactsCount() }}
+                            </span>
+                        }
+                    </div>
+                }
+            </div>
         </div>
     </div>
 
@@ -91,7 +152,7 @@
 
         <div class="add-task-form__actions">
             <button class="add-task-form__button add-task-form__button--secondary" type="button">
-                Cancel
+                Clear
                 <span class="add-task-form__icon add-task-form__icon--cancel" aria-hidden="true"></span>
             </button>
 
