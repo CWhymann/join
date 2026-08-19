@@ -1,10 +1,29 @@
 <section class="board" aria-labelledby="board-title">
-  <h1 id="board-title" class="board__title">Board</h1>
+  <div class="board__header">
+    <h1 id="board-title" class="board__title">Board</h1>
+
+    <div class="board__actions">
+      <label class="board__search">
+        <span class="board__search-label">Find Task</span>
+        <input class="board__search-input" type="search" placeholder="Find Task" />
+        <span class="board__search-icon" aria-hidden="true"></span>
+      </label>
+      <button class="board__add-task" type="button" aria-label="Add task">
+        <span class="board__add-task-label">Add task</span>
+        <span aria-hidden="true">+</span>
+      </button>
+    </div>
+  </div>
 
   <div class="board__columns">
     @for (column of columns; track column.status) {
       <section class="board__column" [attr.data-status]="column.status">
-        <h2 class="board__column-title">{{ column.title }}</h2>
+        <div class="board__column-header">
+          <h2 class="board__column-title">{{ column.title }}</h2>
+          @if (column.status !== 'done') {
+            <button class="board__column-add" type="button" [attr.aria-label]="'Add task to ' + column.title">+</button>
+          }
+        </div>
         <div class="board__column-content">
           <p class="board__empty-state">{{ column.emptyMessage }}</p>
         </div>

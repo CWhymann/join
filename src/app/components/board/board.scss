@@ -1,16 +1,152 @@
 @use '../../../styles/abstracts' as *;
+@use '../../../styles/abstracts/buttons' as *;
 
 .board {
   min-height: 100%;
   padding: clamp(32px, 5vw, 80px) clamp(16px, 4vw, 64px);
   background-color: #f6f7f8;
 
-  &__title {
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: clamp(16px, 3vw, 32px);
     margin-bottom: clamp(32px, 4vw, 56px);
+
+    @media (max-width: 850px) {
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 768px) {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+    }
+
+  }
+
+  &__title {
     color: $color-text;
     font-size: clamp(47px, 4.25vw, 61px);
     font-weight: $font-weight-bold;
     line-height: 1.2;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: clamp(12px, 1.5vw, 16px);
+
+    @media (max-width: 850px) {
+      width: 100%;
+    }
+
+    @media (max-width: 768px) {
+      display: contents;
+    }
+
+  }
+
+  &__search {
+    position: relative;
+    display: flex;
+    width: clamp(180px, 22vw, 312px);
+    height: clamp(40px, 3.5vw, 48px);
+    align-items: center;
+    border: 1px solid $color-border;
+    border-radius: 10px;
+    background-color: $color-bg;
+
+    @include mobile {
+      width: 100%;
+    }
+
+    @media (min-width: 769px) and (max-width: 850px) {
+      flex: 1;
+    }
+
+    @media (max-width: 768px) {
+      grid-row: 2;
+      grid-column: 1 / -1;
+      width: 100%;
+    }
+
+    &::after {
+      position: absolute;
+      right: clamp(40px, 4vw, 48px);
+      width: 1px;
+      height: 24px;
+      background-color: $color-border;
+      content: '';
+    }
+  }
+
+  &__search-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  &__search-input {
+    width: 100%;
+    min-width: 0;
+    padding: 0 clamp(48px, 4vw, 56px) 0 clamp(12px, 1.4vw, 16px);
+    border: unset;
+    outline: unset;
+    background: transparent;
+    color: $color-text;
+    font: inherit;
+    font-size: 16px;
+
+    &::placeholder {
+      color: $color-text-muted;
+    }
+  }
+
+  &__search-icon {
+    position: absolute;
+    right: clamp(12px, 1.2vw, 16px);
+    width: 18px;
+    height: 18px;
+    border: 2px solid $color-text;
+    border-radius: 50%;
+    pointer-events: none;
+
+    &::after {
+      position: absolute;
+      right: -5px;
+      bottom: -3px;
+      width: 7px;
+      height: 2px;
+      background-color: $color-text;
+      content: '';
+      transform: rotate(45deg);
+      transform-origin: left center;
+    }
+  }
+
+  &__add-task {
+    @include action-button($color-text, $color-bg, $color-accent);
+    height: clamp(40px, 3.5vw, 48px);
+    border-radius: 10px;
+    font-size: clamp(16px, 1.4vw, 21px);
+
+    @media (max-width: 768px) {
+      grid-row: 1;
+      grid-column: 2;
+      width: clamp(40px, 12vw, 48px);
+      padding: 0;
+      justify-content: center;
+    }
+  }
+
+  &__add-task-label {
+    @media (max-width: 768px) {
+      display: none;
+    }
   }
 
   &__columns {
@@ -18,25 +154,56 @@
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: clamp(16px, 2vw, 26px);
 
-    @include tablet {
+    @media (max-width: 1279px) {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    @include mobile {
+    @media (max-width: 768px) {
       grid-template-columns: minmax(0, 1fr);
     }
+
   }
 
   &__column {
     min-width: 0;
   }
 
-  &__column-title {
+  &__column-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $spacing-sm;
+    min-height: clamp(24px, 2vw, 28px);
     margin-bottom: clamp(12px, 1.1vw, 16px);
+  }
+
+  &__column-title {
     color: $color-text;
     font-size: clamp(18px, 1.4vw, 20px);
     font-weight: $font-weight-bold;
     line-height: 1.2;
+  }
+
+  &__column-add {
+    display: grid;
+    width: clamp(24px, 2vw, 28px);
+    height: clamp(24px, 2vw, 28px);
+    flex: 0 0 auto;
+    place-items: center;
+    padding: 0;
+    border: 2px solid $color-text;
+    border-radius: 8px;
+    background-color: transparent;
+    color: $color-text;
+    font-size: clamp(18px, 1.5vw, 22px);
+    line-height: 1;
+    cursor: pointer;
+    transition: $transition-fast;
+
+    &:hover {
+      border-color: $color-accent;
+      color: $color-accent;
+    }
   }
 
   &__column-content {
@@ -44,7 +211,10 @@
   }
 
   &__empty-state {
+    display: grid;
     width: 100%;
+    min-height: clamp(40px, 4vw, 48px);
+    place-items: center;
     padding: clamp(8px, 0.8vw, 10px);
     border: 1px dashed $color-text-muted;
     border-radius: clamp(8px, 0.8vw, 10px);

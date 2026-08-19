@@ -27,4 +27,11 @@ describe('Board', () => {
 
     expect(emptyStates).toHaveLength(4);
   });
+
+  it('should render add buttons for every open column', () => {
+    const element = fixture.nativeElement as HTMLElement;
+    const addButtons = element.querySelectorAll('.board__column-add');
+
+    expect(addButtons).toHaveLength(3);
+  });
 });
