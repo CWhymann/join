@@ -1,0 +1,14 @@
+<section class="board" aria-labelledby="board-title">
+  <h1 id="board-title" class="board__title">Board</h1>
+
+  <div class="board__columns">
+    @for (column of columns; track column.status) {
+      <section class="board__column" [attr.data-status]="column.status">
+        <h2 class="board__column-title">{{ column.title }}</h2>
+        <div class="board__column-content">
+          <p class="board__empty-state">{{ column.emptyMessage }}</p>
+        </div>
+      </section>
+    }
+  </div>
+</section>

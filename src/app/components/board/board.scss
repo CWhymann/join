@@ -1,0 +1,57 @@
+@use '../../../styles/abstracts' as *;
+
+.board {
+  min-height: 100%;
+  padding: clamp(32px, 5vw, 80px) clamp(16px, 4vw, 64px);
+  background-color: #f6f7f8;
+
+  &__title {
+    margin-bottom: clamp(32px, 4vw, 56px);
+    color: $color-text;
+    font-size: clamp(47px, 4.25vw, 61px);
+    font-weight: $font-weight-bold;
+    line-height: 1.2;
+  }
+
+  &__columns {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(16px, 2vw, 26px);
+
+    @include tablet {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @include mobile {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  &__column {
+    min-width: 0;
+  }
+
+  &__column-title {
+    margin-bottom: clamp(12px, 1.1vw, 16px);
+    color: $color-text;
+    font-size: clamp(18px, 1.4vw, 20px);
+    font-weight: $font-weight-bold;
+    line-height: 1.2;
+  }
+
+  &__column-content {
+    min-height: clamp(48px, 6vw, 72px);
+  }
+
+  &__empty-state {
+    width: 100%;
+    padding: clamp(8px, 0.8vw, 10px);
+    border: 1px dashed $color-text-muted;
+    border-radius: clamp(8px, 0.8vw, 10px);
+    background-color: #e7e7e7;
+    color: $color-text-muted;
+    font-size: clamp(16px, 1vw, 17px);
+    line-height: 1.2;
+    text-align: center;
+  }
+}
