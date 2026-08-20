@@ -8,7 +8,7 @@
                 <input
                     class="board__search-input"
                     type="search"
-                    placeholder="Find Task"
+                    placeholder="Find Task (min. 3 letters)"
                     [value]="searchTerm"
                     (input)="onSearchInput($event)"
                 />
@@ -75,7 +75,7 @@
                         </div>
                     } @empty {
                         @if (hasNoResults(column.status)) {
-                            <p class="board__empty-state">Keine Ergebnisse gefunden</p>
+                            <p class="board__empty-state">No results found</p>
                         } @else {
                             <p class="board__empty-state">{{ column.emptyMessage }}</p>
                         }
@@ -84,4 +84,7 @@
             </section>
         }
     </div>
+    @if (selectedTask) {
+        <app-task-detail [task]="toDetailData(selectedTask)" (closeClicked)="closeTaskDetail()" />
+    }
 </section>

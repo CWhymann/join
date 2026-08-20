@@ -1,4 +1,14 @@
 .task-detail-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+.task-detail-card {
     position: relative;
     width: clamp(280px, 90vw, 525px);
     max-width: 90vw;
@@ -7,6 +17,18 @@
     padding: clamp(20px, 4vw, 48px);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     font-family: 'Inter', sans-serif;
+    animation: slideInFromRight 0.3s ease-out;
+}
+
+@keyframes slideInFromRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }
 
 .task-detail-header {
@@ -69,12 +91,25 @@
     align-items: center;
     gap: 4px;
 }
-
+.priority-icon {
+    width: 17px;
+    height: 12px;
+}
 .assigned-section,
 .subtasks-section {
     margin-top: clamp(16px, 3vw, 24px);
 }
+.assigned-list {
+    max-height: calc(3 * (clamp(32px, 3vw, 42px) + 12px));
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
 
+.subtask-list {
+    max-height: calc(2 * (24px + 12px));
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
 .contact-row,
 .subtask-row {
     display: flex;
@@ -131,7 +166,6 @@
     color: #d1d1d1;
 }
 
-// Delete-Bestätigungsdialog (analog zu Contacts)
 .task-detail__overlay {
     position: absolute;
     inset: 0;

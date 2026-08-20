@@ -1,84 +1,95 @@
 @if (task(); as t) {
     <div class="task-detail-overlay">
-        <div class="task-detail-header">
-            <span
-                class="category-badge"
-                [class.category-technical]="t.category === 'Technical Task'"
-            >
-                {{ t.category }}
-            </span>
-            <button class="close-btn" type="button" (click)="closeDetail()">✕</button>
-        </div>
+        <div class="task-detail-card">
+            <div class="task-detail-header">
+                <span
+                    class="category-badge"
+                    [class.category-technical]="t.category === 'Technical Task'"
+                >
+                    {{ t.category }}
+                </span>
+                <button class="close-btn" type="button" (click)="closeDetail()">✕</button>
+            </div>
 
-        <h2 class="task-title">{{ t.title }}</h2>
+            <h2 class="task-title">{{ t.title }}</h2>
 
-        <p class="task-description">{{ t.description }}</p>
+            <p class="task-description">{{ t.description }}</p>
 
-        <div class="task-meta">
-            <span class="meta-label">Due date:</span>
-            <span class="meta-value">{{ t.dueDate }}</span>
-        </div>
+            <div class="task-meta">
+                <span class="meta-label">Due date:</span>
+                <span class="meta-value">{{ t.dueDate }}</span>
+            </div>
 
-        <div class="task-meta">
-            <span class="meta-label">Priority:</span>
-            <span class="meta-value priority" [class]="t.priority.toLowerCase()">
-                {{ t.priority }}
-            </span>
-        </div>
-
-        <div class="assigned-section">
-            <span class="meta-label">Assigned To:</span>
-            @for (contact of t.assignedTo; track contact.name) {
-                <div class="contact-row">
-                    <span class="avatar">{{ contact.initials }}</span>
-                    <span class="contact-name">{{ contact.name }}</span>
-                </div>
-            }
-        </div>
-
-        <div class="subtasks-section">
-            <span class="meta-label">Subtasks</span>
-            @for (subtask of t.subtasks; track subtask.title) {
-                <div class="subtask-row">
-                    <input
-                        type="checkbox"
-                        [checked]="subtask.done"
-                        (change)="toggleSubtask(subtask)"
+            <div class="task-meta">
+                <span class="meta-label">Priority:</span>
+                <span class="meta-value priority" [class]="t.priority.toLowerCase()">
+                    {{ t.priority }}
+                    <img
+                        [src]="'icons/prio-' + t.priority.toLowerCase() + '.svg'"
+                        alt=""
+                        class="priority-icon"
                     />
-                    <span [class.done]="subtask.done">{{ subtask.title }}</span>
-                </div>
-            }
-        </div>
+                </span>
+            </div>
 
-        <div class="actions">
-            <button type="button" class="action-btn" (click)="onDelete()">🗑 Delete</button>
-            <span class="divider">|</span>
-            <button type="button" class="action-btn" (click)="onEdit(t)">✎ Edit</button>
-        </div>
-
-        @if (deleteConfirmOpen()) {
-            <div class="task-detail__overlay">
-                <div class="task-detail__confirm">
-                    <p class="task-detail__confirm-text">
-                        Delete task <strong>{{ t.title }}</strong
-                        >?
-                    </p>
-                    <div class="task-detail__confirm-actions">
-                        <button
-                            class="task-detail__confirm-btn task-detail__confirm-btn--cancel"
-                            (click)="cancelDelete()"
-                        >
-                            No
-                        </button>
-                        <button
-                            class="task-detail__confirm-btn task-detail__confirm-btn--confirm"
-                            (click)="confirmDelete(t)"
-                        >
-                            Yes
-                        </button>
-                    </div>
+            <div class="assigned-section">
+                <span class="meta-label">Assigned To:</span>
+                <div class="assigned-list">
+                    @for (contact of t.assignedTo; track contact.name) {
+                        <div class="contact-row">
+                            <span class="avatar">{{ contact.initials }}</span>
+                            <span class="contact-name">{{ contact.name }}</span>
+                        </div>
+                    }
                 </div>
             </div>
-        }
+
+            <div class="subtasks-section">
+                <span class="meta-label">Subtasks</span>
+                <div class="subtask-list">
+                    @for (subtask of t.subtasks; track subtask.title) {
+                        <div class="subtask-row">
+                            <input
+                                type="checkbox"
+                                [checked]="subtask.done"
+                                (change)="toggleSubtask(subtask)"
+                            />
+                            <span [class.done]="subtask.done">{{ subtask.title }}</span>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="actions">
+                <button type="button" class="action-btn" (click)="onDelete()">🗑 Delete</button>
+                <span class="divider">|</span>
+                <button type="button" class="action-btn" (click)="onEdit(t)">✎ Edit</button>
+            </div>
+
+            @if (deleteConfirmOpen()) {
+                <div class="task-detail__overlay">
+                    <div class="task-detail__confirm">
+                        <p class="task-detail__confirm-text">
+                            Delete task <strong>{{ t.title }}</strong
+                            >?
+                        </p>
+                        <div class="task-detail__confirm-actions">
+                            <button
+                                class="task-detail__confirm-btn task-detail__confirm-btn--cancel"
+                                (click)="cancelDelete()"
+                            >
+                                No
+                            </button>
+                            <button
+                                class="task-detail__confirm-btn task-detail__confirm-btn--confirm"
+                                (click)="confirmDelete(t)"
+                            >
+                                Yes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
 }

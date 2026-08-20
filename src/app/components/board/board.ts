@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { BoardTask, TaskMoveDirection, TaskMoveRequest, TaskStatus } from './board-task.model';
 import { BOARD_TASKS } from './board-tasks.data';
 import { TaskCard } from './task-card/task-card';
+import { TaskDetail } from './task-detail/task-detail';
 
 interface BoardColumn {
     title: string;
@@ -12,7 +13,7 @@ interface BoardColumn {
 @Component({
     selector: 'app-board',
     standalone: true,
-    imports: [TaskCard],
+    imports: [TaskCard, TaskDetail],
     templateUrl: './board.html',
     styleUrl: './board.scss',
 })
@@ -37,7 +38,7 @@ export class Board {
     protected tasksFor(status: TaskStatus): BoardTask[] {
         return this.tasks.filter((task) => task.status === status);
     }
-    
+
     protected filteredTasksFor(status: TaskStatus): BoardTask[] {
         const term = this.searchTerm.toLowerCase().trim();
         const columnTasks = this.tasksFor(status);
@@ -124,5 +125,27 @@ export class Board {
         const updatedTask = { ...sourceTask, status };
         tasks.splice(targetIndex < 0 ? tasks.length : targetIndex, 0, updatedTask);
         this.tasks = tasks;
+    }
+    protected toDetailData(task: BoardTask) {
+        return {
+            category: task.category,
+            title: task.title,
+            description: task.description,
+            dueDate: '',
+            priority: (task.priority.charAt(0).toUpperCase() + task.priority.slice(1)) as
+                'Urgent' | 'Medium' | 'Low',
+            assignedTo: task.assignees.map((a) => ({
+                initials: a.name
+                    .split(' ')
+                    .map((n) => n[0])
+                    .join(''),
+                name: a.name,
+            })),
+            subtasks: task.subtasks.map((s) => ({ title: s.title, done: s.completed })),
+        };
+    }
+
+    protected closeTaskDetail(): void {
+        this.selectedTask = null;
     }
 }
