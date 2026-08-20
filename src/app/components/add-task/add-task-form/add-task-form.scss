@@ -1,6 +1,8 @@
 @use '../../../../styles/abstracts' as *;
 
 $field-border: #686868;
+$subtask-border: #686868;
+$subtask-separator: #a8a8a8;
 $color-hover: #124658;
 $breakpoint-columns: 1255px;
 
@@ -305,6 +307,153 @@ $breakpoint-columns: 1255px;
         }
     }
 
+    &__subtask-control {
+        display: flex;
+        height: 48px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 12px $spacing-md;
+        border: 1px solid $subtask-border;
+        border-radius: 10px;
+        background-color: #ffffff;
+        transition: border-color $transition-fast;
+
+        &:focus-within {
+            border-color: $color-hover;
+        }
+
+        .add-task-form__subtask-input {
+            cursor: pointer;
+        }
+
+        .add-task-form__subtask-tools {
+            visibility: hidden;
+        }
+
+        &:focus-within .add-task-form__subtask-tools {
+            visibility: visible;
+        }
+
+        @include mobile {
+            height: 40px;
+            padding: 10px $spacing-md;
+        }
+    }
+
+    &__subtask-input {
+        width: 100%;
+        border: unset;
+        background-color: transparent;
+        color: #000000;
+        font-size: 20px;
+        line-height: 120%;
+
+        &::placeholder {
+            color: $subtask-border;
+        }
+
+        &:focus {
+            outline: none;
+        }
+
+        @include mobile {
+            font-size: 16px;
+        }
+    }
+
+    &__subtask-tools {
+        display: flex;
+        align-items: center;
+        gap: $spacing-xs;
+    }
+
+    &__subtask-action {
+        width: 24px;
+        height: 24px;
+        flex-shrink: 0;
+        padding: 0;
+        border: unset;
+        background-color: $color-text;
+        cursor: pointer;
+        mask-position: center;
+        mask-repeat: no-repeat;
+        mask-size: contain;
+
+        &--cancel {
+            mask-image: url('/icons/cancel_subtask.svg');
+            mask-size: 30px;
+        }
+
+        &--check {
+            mask-image: url('/icons/check_subtask.svg');
+            mask-size: 18px 13.5px;
+        }
+
+        &--edit {
+            mask-image: url('/icons/edit_subtask.svg');
+        }
+
+        &--delete {
+            mask-image: url('/icons/delete_subtask.svg');
+        }
+    }
+
+    &__subtask-separator {
+        width: 1px;
+        height: 24px;
+        flex-shrink: 0;
+        background-color: $subtask-border;
+    }
+
+    &__subtasks {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-sm;
+        list-style: none;
+    }
+
+    &__subtask {
+        display: flex;
+        height: 32px;
+        align-items: center;
+        justify-content: space-between;
+        gap: $spacing-sm;
+        padding: 6px $spacing-md;
+
+        .add-task-form__subtask-tools {
+            opacity: 0;
+            transition: opacity $transition-fast;
+        }
+
+        &:hover .add-task-form__subtask-tools,
+        &--editing .add-task-form__subtask-tools {
+            opacity: 1;
+        }
+
+        .add-task-form__subtask-separator {
+            background-color: $subtask-separator;
+        }
+
+        .add-task-form__subtask-input {
+            font-size: 16px;
+        }
+
+        &--editing {
+            padding: 4px $spacing-md;
+            border-bottom: 1px solid $color-hover;
+            background-color: #ffffff;
+        }
+    }
+
+    &__subtask-text {
+        overflow: hidden;
+        font-size: 16px;
+        line-height: 120%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
     &__control {
         position: relative;
     }
@@ -485,6 +634,7 @@ $breakpoint-columns: 1255px;
 
         &--cancel {
             mask-image: url('/icons/cancel.svg');
+            mask-size: 18px;
         }
 
         &--check {

@@ -27,6 +27,10 @@ export class AddTaskForm implements OnInit {
     protected isAssignedOpen = false;
     protected isCategoryOpen = false;
     protected readonly categories = ['Technical Task', 'User Story'];
+    protected readonly subtasks = signal<string[]>([]);
+    protected readonly subtaskDraft = signal('');
+    protected readonly editingDraft = signal('');
+    protected editingIndex = -1;
 
     protected readonly form = this.formBuilder.group({
         title: [''],
@@ -74,6 +78,53 @@ export class AddTaskForm implements OnInit {
     protected closeDropdowns(): void {
         this.isAssignedOpen = false;
         this.isCategoryOpen = false;
+    }
+
+    protected onSubtaskInput(event: Event): void {
+        this.subtaskDraft.set((event.target as HTMLInputElement).value);
+    }
+
+    protected addSubtask(event?: Event): void {
+        event?.preventDefault();
+        const value = this.subtaskDraft().trim();
+
+        if (!value) {
+            return;
+        }
+
+        this.subtasks.update((items) => [...items, value]);
+        this.subtaskDraft.set('');
+    }
+
+    protected clearSubtask(): void {
+        this.subtaskDraft.set('');
+    }
+
+    protected removeSubtask(index: number): void {
+        this.subtasks.update((items) => items.filter((_, position) => position !== index));
+        this.editingIndex = -1;
+    }
+
+    protected startEditing(index: number): void {
+        this.editingIndex = index;
+        this.editingDraft.set(this.subtasks()[index]);
+    }
+
+    protected onEditingInput(event: Event): void {
+        this.editingDraft.set((event.target as HTMLInputElement).value);
+    }
+
+    protected saveSubtask(event?: Event): void {
+        event?.preventDefault();
+        const value = this.editingDraft().trim();
+
+        if (!value) {
+            return;
+        }
+
+        const index = this.editingIndex;
+        this.subtasks.update((items) => items.map((item, position) => (position === index ? value : item)));
+        this.editingIndex = -1;
     }
 
     protected selectPriority(priority: string): void {
