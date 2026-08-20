@@ -57,7 +57,26 @@
     display: none;
 
     @media (max-width: 768px) {
-      display: block;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+  }
+
+  &__position-button {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: unset;
+    background: transparent url('/icons/arrow-drop-down.svg') center / 24px no-repeat;
+    cursor: pointer;
+
+    &--left {
+      transform: rotate(90deg);
+    }
+
+    &--right {
+      transform: rotate(-90deg);
     }
   }
 

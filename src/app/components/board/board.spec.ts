@@ -94,6 +94,16 @@ describe('Board', () => {
     expect(column?.querySelector('.task-card__title')?.textContent).toContain('HTML Base');
   });
 
+  it('should reorder cards with the mobile direction buttons', () => {
+    const element = fixture.nativeElement as HTMLElement;
+    const column = element.querySelector('.board__column[data-status="in-progress"]');
+
+    column?.querySelector<HTMLElement>('[aria-label="Move task right"]')?.click();
+    fixture.detectChanges();
+
+    expect(column?.querySelector('.task-card__title')?.textContent).toContain('HTML Base');
+  });
+
   it('should summarize additional assignees', () => {
     const element = fixture.nativeElement as HTMLElement;
     const additionalAssignees = element.querySelector('.task-card__avatar--more');

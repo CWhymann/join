@@ -14,6 +14,22 @@
     <span class="task-card__category">{{ task.category }}</span>
 
     <div class="task-card__move" (click)="$event.stopPropagation()">
+      @if (canMoveUp) {
+        <button
+          class="task-card__position-button task-card__position-button--left"
+          type="button"
+          aria-label="Move task left"
+          (click)="requestPositionMove($event, 'up')"
+        ></button>
+      }
+      @if (canMoveDown) {
+        <button
+          class="task-card__position-button task-card__position-button--right"
+          type="button"
+          aria-label="Move task right"
+          (click)="requestPositionMove($event, 'down')"
+        ></button>
+      }
       <button
         class="task-card__move-toggle"
         type="button"
@@ -24,12 +40,6 @@
 
       @if (isMoveMenuOpen) {
         <div class="task-card__move-menu">
-          @if (canMoveUp) {
-            <button type="button" (click)="requestPositionMove($event, 'up')">Move up</button>
-          }
-          @if (canMoveDown) {
-            <button type="button" (click)="requestPositionMove($event, 'down')">Move down</button>
-          }
           @for (option of availableMoveOptions(); track option.status) {
             <button type="button" (click)="requestStatusMove($event, option.status)">
               Move to {{ option.title }}

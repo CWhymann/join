@@ -230,6 +230,9 @@
 
     @media (max-width: 768px) {
       max-height: clamp(263px, 65dvh, 556px);
+      flex-direction: row;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
     }
 
     &::-webkit-scrollbar {
@@ -254,6 +257,11 @@
 
   &__task-slot {
     width: min(100%, 252px);
+
+    @media (max-width: 768px) {
+      flex: 0 0 252px;
+      scroll-snap-align: start;
+    }
   }
 
   &__empty-state {
