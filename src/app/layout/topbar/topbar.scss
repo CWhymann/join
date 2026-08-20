@@ -15,7 +15,7 @@
   &__inner {
     display: flex;
     height: 100%;
-    max-width: calc($max-width - $sidebar-width);
+    width: 100%;
     align-items: center;
     justify-content: space-between;
     padding: 0 40px 0 105px;
