@@ -142,6 +142,45 @@
                     </div>
                 }
             </div>
+
+            <div class="add-task-form__field">
+                <label class="add-task-form__label" for="task-category">
+                    Category<span aria-hidden="true">*</span>
+                </label>
+
+                <div class="add-task-form__dropdown" (click)="$event.stopPropagation()">
+                    <button
+                        id="task-category"
+                        class="add-task-form__select"
+                        type="button"
+                        [attr.aria-expanded]="isCategoryOpen"
+                        (click)="toggleCategory($event)"
+                    >
+                        {{ form.value.category || 'Select task category' }}
+                        <span
+                            class="add-task-form__select-icon"
+                            [class.add-task-form__select-icon--open]="isCategoryOpen"
+                            aria-hidden="true"
+                        ></span>
+                    </button>
+
+                    @if (isCategoryOpen) {
+                        <ul class="add-task-form__options">
+                            @for (category of categories; track category) {
+                                <li>
+                                    <button
+                                        class="add-task-form__option"
+                                        type="button"
+                                        (click)="selectCategory(category)"
+                                    >
+                                        <span class="add-task-form__option-name">{{ category }}</span>
+                                    </button>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
         </div>
     </div>
 

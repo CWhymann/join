@@ -41,7 +41,7 @@ $breakpoint-columns: 1255px;
         flex-direction: column;
 
         &--left {
-            gap: $spacing-md;
+            gap: $spacing-xl;
         }
 
         &--right {
@@ -379,6 +379,7 @@ $breakpoint-columns: 1255px;
 
     &__divider {
         width: 1px;
+        height: 424px;
         flex-shrink: 0;
         background-color: $field-border;
 

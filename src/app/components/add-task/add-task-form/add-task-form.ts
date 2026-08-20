@@ -25,12 +25,15 @@ export class AddTaskForm implements OnInit {
     );
     protected readonly getInitials = getInitials;
     protected isAssignedOpen = false;
+    protected isCategoryOpen = false;
+    protected readonly categories = ['Technical Task', 'User Story'];
 
     protected readonly form = this.formBuilder.group({
         title: [''],
         description: [''],
         dueDate: [''],
         priority: ['medium'],
+        category: [''],
     });
 
     ngOnInit(): void {
@@ -39,7 +42,19 @@ export class AddTaskForm implements OnInit {
 
     protected toggleAssigned(event: MouseEvent): void {
         event.stopPropagation();
+        this.isCategoryOpen = false;
         this.isAssignedOpen = !this.isAssignedOpen;
+    }
+
+    protected toggleCategory(event: MouseEvent): void {
+        event.stopPropagation();
+        this.isAssignedOpen = false;
+        this.isCategoryOpen = !this.isCategoryOpen;
+    }
+
+    protected selectCategory(category: string): void {
+        this.form.patchValue({ category });
+        this.isCategoryOpen = false;
     }
 
     protected toggleContact(contact: Contact): void {
@@ -56,8 +71,9 @@ export class AddTaskForm implements OnInit {
 
     @HostListener('document:click')
     @HostListener('document:keydown.escape')
-    protected closeAssigned(): void {
+    protected closeDropdowns(): void {
         this.isAssignedOpen = false;
+        this.isCategoryOpen = false;
     }
 
     protected selectPriority(priority: string): void {
