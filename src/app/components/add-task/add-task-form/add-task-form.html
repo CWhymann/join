@@ -293,7 +293,11 @@
         </p>
 
         <div class="add-task-form__actions">
-            <button class="add-task-form__button add-task-form__button--secondary" type="button">
+            <button
+                class="add-task-form__button add-task-form__button--secondary"
+                type="button"
+                (click)="clearForm()"
+            >
                 Clear
                 <span class="add-task-form__icon add-task-form__icon--cancel" aria-hidden="true"></span>
             </button>

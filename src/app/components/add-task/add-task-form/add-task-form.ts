@@ -66,6 +66,16 @@ export class AddTaskForm implements OnInit {
         this.isCategoryOpen = false;
     }
 
+    protected clearForm(): void {
+        this.isAssignedOpen = false;
+        this.isCategoryOpen = false;
+        this.form.reset({ title: '', description: '', dueDate: '', priority: 'medium', category: '' });
+        this.selectedContacts.set([]);
+        this.subtasks.set([]);
+        this.subtaskDraft.set('');
+        this.editingIndex = -1;
+    }
+
     protected isInvalid(name: string): boolean {
         const control = this.form.get(name);
 
