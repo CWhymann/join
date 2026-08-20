@@ -1,5 +1,5 @@
 import { Component, computed, HostListener, inject, OnInit, signal } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Contact } from '../../../core/models/contact.model';
 import { ContactsService } from '../../../core/services/contacts.service';
 import { getInitials } from '../../../core/utils/avatar.utils';
@@ -33,11 +33,11 @@ export class AddTaskForm implements OnInit {
     protected editingIndex = -1;
 
     protected readonly form = this.formBuilder.group({
-        title: [''],
+        title: ['', Validators.required],
         description: [''],
         dueDate: [''],
         priority: ['medium'],
-        category: [''],
+        category: ['', Validators.required],
     });
 
     ngOnInit(): void {
@@ -54,11 +54,22 @@ export class AddTaskForm implements OnInit {
         event.stopPropagation();
         this.isAssignedOpen = false;
         this.isCategoryOpen = !this.isCategoryOpen;
+
+        if (!this.isCategoryOpen) {
+            this.form.get('category')?.markAsTouched();
+        }
     }
 
     protected selectCategory(category: string): void {
         this.form.patchValue({ category });
+        this.form.get('category')?.markAsTouched();
         this.isCategoryOpen = false;
+    }
+
+    protected isInvalid(name: string): boolean {
+        const control = this.form.get(name);
+
+        return !!control && control.invalid && control.touched;
     }
 
     protected toggleContact(contact: Contact): void {
@@ -76,6 +87,10 @@ export class AddTaskForm implements OnInit {
     @HostListener('document:click')
     @HostListener('document:keydown.escape')
     protected closeDropdowns(): void {
+        if (this.isCategoryOpen) {
+            this.form.get('category')?.markAsTouched();
+        }
+
         this.isAssignedOpen = false;
         this.isCategoryOpen = false;
     }
