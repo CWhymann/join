@@ -40,12 +40,20 @@
                     <input
                         id="task-due-date"
                         class="add-task-form__input add-task-form__input--with-icon"
+                        [class.add-task-form__input--invalid]="isInvalid('dueDate')"
                         type="text"
+                        inputmode="numeric"
+                        maxlength="10"
                         formControlName="dueDate"
                         placeholder="dd/mm/yyyy"
+                        (input)="onDueDateInput($event)"
                     />
                     <span class="add-task-form__control-icon" aria-hidden="true"></span>
                 </div>
+
+                @if (dueDateError()) {
+                    <span class="add-task-form__error">{{ dueDateError() }}</span>
+                }
             </div>
         </div>
 

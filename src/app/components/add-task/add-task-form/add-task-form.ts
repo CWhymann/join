@@ -3,6 +3,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Contact } from '../../../core/models/contact.model';
 import { ContactsService } from '../../../core/services/contacts.service';
 import { getInitials } from '../../../core/utils/avatar.utils';
+import { dueDateValidator, formatDateInput, YEAR_RANGE } from '../../../core/utils/date.utils';
 
 const MAX_VISIBLE_AVATARS = 3;
 
@@ -31,11 +32,13 @@ export class AddTaskForm implements OnInit {
     protected readonly subtaskDraft = signal('');
     protected readonly editingDraft = signal('');
     protected editingIndex = -1;
+    protected readonly minYear = new Date().getFullYear();
+    protected readonly maxYear = this.minYear + YEAR_RANGE;
 
     protected readonly form = this.formBuilder.group({
         title: ['', Validators.required],
         description: [''],
-        dueDate: [''],
+        dueDate: ['', [Validators.required, dueDateValidator]],
         priority: ['medium'],
         category: ['', Validators.required],
     });
@@ -74,6 +77,37 @@ export class AddTaskForm implements OnInit {
         this.subtasks.set([]);
         this.subtaskDraft.set('');
         this.editingIndex = -1;
+    }
+
+    protected onDueDateInput(event: Event): void {
+        const input = event.target as HTMLInputElement;
+        const isDeleting = (event as InputEvent).inputType?.startsWith('delete') ?? false;
+        let value = input.value;
+
+        if (isDeleting && formatDateInput(value).length > value.length) {
+            value = value.slice(0, -1);
+        }
+
+        input.value = formatDateInput(value);
+        this.form.patchValue({ dueDate: input.value });
+    }
+
+    protected dueDateError(): string {
+        const control = this.form.get('dueDate');
+
+        if (!control || !control.touched || control.valid) {
+            return '';
+        }
+
+        if (control.hasError('invalidDate')) {
+            return 'Please enter a valid date';
+        }
+
+        if (control.hasError('yearRange')) {
+            return `Please choose a year between ${this.minYear} and ${this.maxYear}`;
+        }
+
+        return control.hasError('pastDate') ? 'The date must not be in the past' : 'This field is required';
     }
 
     protected isInvalid(name: string): boolean {
