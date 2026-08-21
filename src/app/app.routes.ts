@@ -8,18 +8,18 @@ import { Notice } from './pages/notice/notice';
 import { Board } from './components/board/board';
 
 export const routes: Routes = [
-  {
-    path: '',
-    component: MainLayout,
-    children: [
-      { path: '', pathMatch: 'full', redirectTo: 'contacts' },
-      { path: 'add-task', component: AddTask },
-      { path: 'contacts', component: Contacts },
-      { path: 'board', component: Board },
-      { path: 'help', component: Help },
-      { path: 'privacy-policy', component: Policy },
-      { path: 'legal-notice', component: Notice },
-    ],
-  },
-  { path: '**', redirectTo: 'contacts' },
+    {
+        path: '',
+        component: MainLayout,
+        children: [
+            { path: '', pathMatch: 'full', redirectTo: 'contacts' },
+            { path: 'add-task', component: AddTask },
+            { path: 'contacts', component: Contacts },
+            { path: 'board', component: Board },
+            { path: 'help', component: Help },
+            { path: 'privacy-policy', component: Policy },
+            { path: 'legal-notice', component: Notice },
+        ],
+    },
+    { path: '**', redirectTo: 'contacts' },
 ];
