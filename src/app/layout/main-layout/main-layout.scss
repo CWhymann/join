@@ -5,12 +5,11 @@
     height: 100dvh;
     margin-left: $sidebar-width;
     padding-top: $topbar-height;
-    overflow: hidden;
     
     @include mobile {
         height: auto;
         margin-left: 0;
-        padding-top: 80px;
-        padding-bottom: 80px;
+        padding-top: $mobile-bar-height;
+        padding-bottom: $mobile-bar-height;
     }
 }

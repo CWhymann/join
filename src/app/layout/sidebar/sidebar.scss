@@ -97,7 +97,7 @@
   @include mobile {
     inset: auto 0 0 0;
     width: 100%;
-    height: 80px;
+    height: $mobile-bar-height;
     flex-direction: row;
     box-shadow: 0 -4px 4px rgb(0 0 0 / 10%);
 
