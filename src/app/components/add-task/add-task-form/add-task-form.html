@@ -233,64 +233,62 @@
                     </div>
                 </div>
 
-                @if (subtasks().length) {
-                    <ul class="add-task-form__subtasks">
-                        @for (subtask of subtasks(); track $index) {
-                            <li
-                                class="add-task-form__subtask"
-                                [class.add-task-form__subtask--editing]="editingIndex === $index"
-                            >
-                                @if (editingIndex === $index) {
-                                    <input
-                                        class="add-task-form__subtask-input"
-                                        type="text"
-                                        [value]="editingDraft()"
-                                        (input)="onEditingInput($event)"
-                                        (keydown.enter)="saveSubtask($event)"
-                                    />
+                <ul class="add-task-form__subtasks">
+                    @for (subtask of subtasks(); track $index) {
+                        <li
+                            class="add-task-form__subtask"
+                            [class.add-task-form__subtask--editing]="editingIndex === $index"
+                        >
+                            @if (editingIndex === $index) {
+                                <input
+                                    class="add-task-form__subtask-input"
+                                    type="text"
+                                    [value]="editingDraft()"
+                                    (input)="onEditingInput($event)"
+                                    (keydown.enter)="saveSubtask($event)"
+                                />
 
-                                    <div class="add-task-form__subtask-tools">
-                                        <button
-                                            class="add-task-form__subtask-action add-task-form__subtask-action--delete"
-                                            type="button"
-                                            aria-label="Delete subtask"
-                                            (click)="removeSubtask($index)"
-                                        ></button>
+                                <div class="add-task-form__subtask-tools">
+                                    <button
+                                        class="add-task-form__subtask-action add-task-form__subtask-action--delete"
+                                        type="button"
+                                        aria-label="Delete subtask"
+                                        (click)="removeSubtask($index)"
+                                    ></button>
 
-                                        <span class="add-task-form__subtask-separator" aria-hidden="true"></span>
+                                    <span class="add-task-form__subtask-separator" aria-hidden="true"></span>
 
-                                        <button
-                                            class="add-task-form__subtask-action add-task-form__subtask-action--check"
-                                            type="button"
-                                            aria-label="Save subtask"
-                                            (click)="saveSubtask()"
-                                        ></button>
-                                    </div>
-                                } @else {
-                                    <span class="add-task-form__subtask-text">{{ subtask }}</span>
+                                    <button
+                                        class="add-task-form__subtask-action add-task-form__subtask-action--check"
+                                        type="button"
+                                        aria-label="Save subtask"
+                                        (click)="saveSubtask()"
+                                    ></button>
+                                </div>
+                            } @else {
+                                <span class="add-task-form__subtask-text">{{ subtask }}</span>
 
-                                    <div class="add-task-form__subtask-tools">
-                                        <button
-                                            class="add-task-form__subtask-action add-task-form__subtask-action--edit"
-                                            type="button"
-                                            aria-label="Edit subtask"
-                                            (click)="startEditing($index)"
-                                        ></button>
+                                <div class="add-task-form__subtask-tools">
+                                    <button
+                                        class="add-task-form__subtask-action add-task-form__subtask-action--edit"
+                                        type="button"
+                                        aria-label="Edit subtask"
+                                        (click)="startEditing($index)"
+                                    ></button>
 
-                                        <span class="add-task-form__subtask-separator" aria-hidden="true"></span>
+                                    <span class="add-task-form__subtask-separator" aria-hidden="true"></span>
 
-                                        <button
-                                            class="add-task-form__subtask-action add-task-form__subtask-action--delete"
-                                            type="button"
-                                            aria-label="Delete subtask"
-                                            (click)="removeSubtask($index)"
-                                        ></button>
-                                    </div>
-                                }
-                            </li>
-                        }
-                    </ul>
-                }
+                                    <button
+                                        class="add-task-form__subtask-action add-task-form__subtask-action--delete"
+                                        type="button"
+                                        aria-label="Delete subtask"
+                                        (click)="removeSubtask($index)"
+                                    ></button>
+                                </div>
+                            }
+                        </li>
+                    }
+                </ul>
             </div>
         </div>
     </div>

@@ -4,6 +4,7 @@ $field-border: #686868;
 $subtask-border: #686868;
 $subtask-separator: #a8a8a8;
 $button-disabled: #a8a8a8;
+$subtasks-height: 112px;
 $color-hover: #124658;
 $breakpoint-columns: 1255px;
 
@@ -19,7 +20,7 @@ $breakpoint-columns: 1255px;
     flex: 1;
     flex-direction: column;
     justify-content: space-between;
-    gap: 124px;
+    // gap: 124px;
 
     @media (max-width: #{$breakpoint-columns}) {
         gap: 48px;
@@ -411,10 +412,12 @@ $breakpoint-columns: 1255px;
 
         &--edit {
             mask-image: url('/icons/edit_subtask.svg');
+            mask-size: 18px;
         }
 
         &--delete {
             mask-image: url('/icons/delete_subtask.svg');
+            mask-size: 16px 18px;
         }
     }
 
@@ -427,14 +430,31 @@ $breakpoint-columns: 1255px;
 
     &__subtasks {
         display: flex;
+        height: $subtasks-height;
         flex-direction: column;
         gap: $spacing-sm;
         list-style: none;
+        overflow-y: auto;
+
+        &::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        &::-webkit-scrollbar-track {
+            border-radius: 3px;
+            background-color: #e4e5e6;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            border-radius: 3px;
+            background-color: $subtask-separator;
+        }
     }
 
     &__subtask {
         display: flex;
         height: 32px;
+        flex-shrink: 0;
         align-items: center;
         justify-content: space-between;
         gap: $spacing-sm;
@@ -459,7 +479,8 @@ $breakpoint-columns: 1255px;
         }
 
         &--editing {
-            padding: 4px $spacing-md;
+            height: 44px;
+            padding: 4px $spacing-md 12px;
             border-bottom: 1px solid $color-hover;
             background-color: #ffffff;
         }
