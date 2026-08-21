@@ -19,7 +19,7 @@
         padding: $spacing-md;
         font-family: $font-primary;
         font-weight: $font-weight-bold;
-        font-size: 21px;
+        font-size: clamp(17px, 1.5vw, 21px);
         cursor: pointer;
         margin-bottom: $spacing-md;
         transition: $transition-fast;
@@ -47,7 +47,7 @@
     &__letter {
         font-family: $font-primary;
         font-weight: $font-weight-regular;
-        font-size: 20px;
+        font-size: clamp(17px, 1.5vw, 20px);
         color: $color-text;
         padding: $spacing-sm $spacing-md;
         border-bottom: 1px solid $color-border;
@@ -107,7 +107,7 @@
 
     &__name {
         font-family: $font-primary;
-        font-size: 20px;
+        font-size: clamp(17px, 1.5vw, 20px);
         color: $color-text;
     }
 
