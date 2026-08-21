@@ -1,0 +1,35 @@
+<div class="task-search-test">
+    <div class="task-search-test__input-wrapper">
+        <input
+            type="text"
+            placeholder="Find Task"
+            [value]="searchTerm()"
+            (input)="onSearchInput($event)"
+            class="task-search-test__input"
+        />
+        @if (searchTerm().length > 0) {
+            <button
+                type="button"
+                class="task-search-test__clear-btn"
+                (click)="clearSearch()"
+                aria-label="Clear search"
+            >
+                ✕
+            </button>
+        }
+        <span class="task-search-test__search-icon" aria-hidden="true">🔍</span>
+    </div>
+
+    @if (showNoResults()) {
+        <p class="task-search-test__empty">Keine Ergebnisse gefunden</p>
+    } @else {
+        <ul class="task-search-test__list">
+            @for (task of filteredTasks(); track task.title) {
+                <li class="task-search-test__item">
+                    <strong>{{ task.title }}</strong>
+                    <p>{{ task.description }}</p>
+                </li>
+            }
+        </ul>
+    }
+</div>
