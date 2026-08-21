@@ -8,10 +8,15 @@
                 <input
                     id="task-title"
                     class="add-task-form__input"
+                    [class.add-task-form__input--invalid]="isInvalid('title')"
                     type="text"
                     formControlName="title"
                     placeholder="Enter a title"
                 />
+
+                @if (isInvalid('title')) {
+                    <span class="add-task-form__error">This field is required</span>
+                }
             </div>
 
             <div class="add-task-form__field">
@@ -35,12 +40,20 @@
                     <input
                         id="task-due-date"
                         class="add-task-form__input add-task-form__input--with-icon"
+                        [class.add-task-form__input--invalid]="isInvalid('dueDate')"
                         type="text"
+                        inputmode="numeric"
+                        maxlength="10"
                         formControlName="dueDate"
                         placeholder="dd/mm/yyyy"
+                        (input)="onDueDateInput($event)"
                     />
                     <span class="add-task-form__control-icon" aria-hidden="true"></span>
                 </div>
+
+                @if (dueDateError()) {
+                    <span class="add-task-form__error">{{ dueDateError() }}</span>
+                }
             </div>
         </div>
 
@@ -142,6 +155,143 @@
                     </div>
                 }
             </div>
+
+            <div class="add-task-form__field">
+                <label class="add-task-form__label" for="task-category">
+                    Category<span aria-hidden="true">*</span>
+                </label>
+
+                <div class="add-task-form__dropdown" (click)="$event.stopPropagation()">
+                    <button
+                        id="task-category"
+                        class="add-task-form__select"
+                        [class.add-task-form__select--invalid]="isInvalid('category')"
+                        type="button"
+                        [attr.aria-expanded]="isCategoryOpen"
+                        (click)="toggleCategory($event)"
+                    >
+                        {{ form.value.category || 'Select task category' }}
+                        <span
+                            class="add-task-form__select-icon"
+                            [class.add-task-form__select-icon--open]="isCategoryOpen"
+                            aria-hidden="true"
+                        ></span>
+                    </button>
+
+                    @if (isCategoryOpen) {
+                        <ul class="add-task-form__options">
+                            @for (category of categories; track category) {
+                                <li>
+                                    <button
+                                        class="add-task-form__option"
+                                        type="button"
+                                        (click)="selectCategory(category)"
+                                    >
+                                        <span class="add-task-form__option-name">{{ category }}</span>
+                                    </button>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+
+                @if (isInvalid('category')) {
+                    <span class="add-task-form__error">This field is required</span>
+                }
+            </div>
+
+            <div class="add-task-form__field">
+                <label class="add-task-form__label" for="task-subtask">Subtasks</label>
+
+                <div class="add-task-form__subtask-control">
+                    <input
+                        id="task-subtask"
+                        class="add-task-form__subtask-input"
+                        type="text"
+                        placeholder="Add new subtask"
+                        [value]="subtaskDraft()"
+                        (input)="onSubtaskInput($event)"
+                        (keydown.enter)="addSubtask($event)"
+                    />
+
+                    <div class="add-task-form__subtask-tools">
+                        <button
+                            class="add-task-form__subtask-action add-task-form__subtask-action--cancel"
+                            type="button"
+                            aria-label="Clear subtask"
+                            (click)="clearSubtask()"
+                        ></button>
+
+                        <span class="add-task-form__subtask-separator" aria-hidden="true"></span>
+
+                        <button
+                            class="add-task-form__subtask-action add-task-form__subtask-action--check"
+                            type="button"
+                            aria-label="Add subtask"
+                            (click)="addSubtask()"
+                        ></button>
+                    </div>
+                </div>
+
+                @if (subtasks().length) {
+                    <ul class="add-task-form__subtasks">
+                        @for (subtask of subtasks(); track $index) {
+                            <li
+                                class="add-task-form__subtask"
+                                [class.add-task-form__subtask--editing]="editingIndex === $index"
+                            >
+                                @if (editingIndex === $index) {
+                                    <input
+                                        class="add-task-form__subtask-input"
+                                        type="text"
+                                        [value]="editingDraft()"
+                                        (input)="onEditingInput($event)"
+                                        (keydown.enter)="saveSubtask($event)"
+                                    />
+
+                                    <div class="add-task-form__subtask-tools">
+                                        <button
+                                            class="add-task-form__subtask-action add-task-form__subtask-action--delete"
+                                            type="button"
+                                            aria-label="Delete subtask"
+                                            (click)="removeSubtask($index)"
+                                        ></button>
+
+                                        <span class="add-task-form__subtask-separator" aria-hidden="true"></span>
+
+                                        <button
+                                            class="add-task-form__subtask-action add-task-form__subtask-action--check"
+                                            type="button"
+                                            aria-label="Save subtask"
+                                            (click)="saveSubtask()"
+                                        ></button>
+                                    </div>
+                                } @else {
+                                    <span class="add-task-form__subtask-text">{{ subtask }}</span>
+
+                                    <div class="add-task-form__subtask-tools">
+                                        <button
+                                            class="add-task-form__subtask-action add-task-form__subtask-action--edit"
+                                            type="button"
+                                            aria-label="Edit subtask"
+                                            (click)="startEditing($index)"
+                                        ></button>
+
+                                        <span class="add-task-form__subtask-separator" aria-hidden="true"></span>
+
+                                        <button
+                                            class="add-task-form__subtask-action add-task-form__subtask-action--delete"
+                                            type="button"
+                                            aria-label="Delete subtask"
+                                            (click)="removeSubtask($index)"
+                                        ></button>
+                                    </div>
+                                }
+                            </li>
+                        }
+                    </ul>
+                }
+            </div>
         </div>
     </div>
 
@@ -151,12 +301,20 @@
         </p>
 
         <div class="add-task-form__actions">
-            <button class="add-task-form__button add-task-form__button--secondary" type="button">
+            <button
+                class="add-task-form__button add-task-form__button--secondary"
+                type="button"
+                (click)="clearForm()"
+            >
                 Clear
                 <span class="add-task-form__icon add-task-form__icon--cancel" aria-hidden="true"></span>
             </button>
 
-            <button class="add-task-form__button add-task-form__button--primary" type="submit">
+            <button
+                class="add-task-form__button add-task-form__button--primary"
+                type="submit"
+                [disabled]="form.invalid"
+            >
                 Create Task
                 <span class="add-task-form__icon add-task-form__icon--check" aria-hidden="true"></span>
             </button>
