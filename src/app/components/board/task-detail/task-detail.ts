@@ -1,4 +1,4 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, HostListener, input, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 interface Subtask {
@@ -39,6 +39,19 @@ export class TaskDetail {
 
     closeDetail(): void {
         this.closeClicked.emit();
+    }
+
+    onOverlayClick(event: MouseEvent): void {
+        if (event.target === event.currentTarget) this.closeDetail();
+    }
+
+    @HostListener('document:keydown.escape')
+    onEscape(): void {
+        if (this.deleteConfirmOpen()) {
+            this.cancelDelete();
+            return;
+        }
+        this.closeDetail();
     }
 
     toggleSubtask(subtask: Subtask): void {

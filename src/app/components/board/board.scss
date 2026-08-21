@@ -229,6 +229,7 @@
     }
 
     &__column-content {
+        position: relative;
         display: flex;
         width: 100%;
         min-height: clamp(48px, 6vw, 72px);
@@ -244,13 +245,18 @@
         scrollbar-width: thin;
         transition:
             border-color $transition-fast,
-            background-color $transition-fast;
+            background-color $transition-fast,
+            padding-top 100ms ease-out;
 
         @media (max-width: 768px) {
             max-height: clamp(263px, 65dvh, 556px);
             flex-direction: row;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
+            transition:
+                border-color $transition-fast,
+                background-color $transition-fast,
+                padding-left 100ms ease-out;
         }
 
         &::-webkit-scrollbar {
@@ -263,13 +269,39 @@
         }
 
         &--empty {
-            border-radius: 0;
+            border-radius: 10px;
         }
 
         &--drag-over {
             border-color: $color-text-muted;
             border-radius: 24px;
             background-color: rgb(42 54 71 / 4%);
+        }
+
+        &--preview {
+            padding-top: calc(263px + 10px);
+
+            &::before {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: min(100%, 252px);
+                height: 263px;
+                box-sizing: border-box;
+                border: 1px dashed $color-text-muted;
+                border-radius: 24px;
+                content: '';
+                pointer-events: none;
+            }
+
+            @media (max-width: 768px) {
+                padding-top: 0;
+                padding-left: calc(252px + 10px);
+
+                &::before {
+                    width: 252px;
+                }
+            }
         }
     }
 
@@ -289,7 +321,7 @@
         place-items: center;
         padding: clamp(8px, 0.8vw, 10px);
         border: 1px dashed $color-text-muted;
-        border-radius: 0;
+        border-radius: 10px;
         background-color: #e7e7e7;
         color: $color-text-muted;
         font-size: clamp(16px, 1vw, 17px);
