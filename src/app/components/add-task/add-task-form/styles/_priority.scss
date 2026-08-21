@@ -1,0 +1,92 @@
+@use '../../../../../styles/abstracts' as *;
+
+.add-task-form {
+    &__priorities {
+        display: flex;
+        flex-wrap: wrap;
+        gap: $spacing-md;
+    }
+
+    &__priority {
+        --priority-color: #{$color-text};
+
+        display: flex;
+        height: 56px;
+        flex: 1 1 110px;
+        align-items: center;
+        justify-content: center;
+        gap: $spacing-sm;
+        padding: $spacing-md 10px;
+        border: unset;
+        border-radius: 10px;
+        background-color: #ffffff;
+        box-shadow: 0 0 4px rgb(0 0 0 / 40%);
+        color: #000000;
+        cursor: pointer;
+        font-size: 20px;
+        line-height: 120%;
+        transition: background-color $transition-fast, color $transition-fast,
+            box-shadow $transition-fast;
+
+        &:hover {
+            box-shadow: 0 4px 4px rgb(0 0 0 / 25%);
+        }
+
+        &--urgent {
+            --priority-color: #ff3d00;
+        }
+
+        &--medium {
+            --priority-color: #ffa800;
+        }
+
+        &--low {
+            --priority-color: #7ae229;
+        }
+
+        &--active {
+            background-color: var(--priority-color);
+            box-shadow: none;
+            color: $color-bg;
+            font-size: 21px;
+            font-weight: $font-weight-bold;
+        }
+
+        @include mobile {
+            height: 41px;
+            padding: 18px 10px;
+            font-size: 16px;
+
+            &--active {
+                font-size: 16px;
+            }
+        }
+    }
+
+    &__priority-icon {
+        width: 20px;
+        height: 15px;
+        flex-shrink: 0;
+        background-color: var(--priority-color);
+        mask-position: center;
+        mask-repeat: no-repeat;
+        mask-size: contain;
+
+        .add-task-form__priority--urgent & {
+            mask-image: url('/icons/prio-urgent.svg');
+        }
+
+        .add-task-form__priority--medium & {
+            height: 8px;
+            mask-image: url('/icons/prio-medium.svg');
+        }
+
+        .add-task-form__priority--low & {
+            mask-image: url('/icons/prio-low.svg');
+        }
+
+        .add-task-form__priority--active & {
+            background-color: $color-bg;
+        }
+    }
+}

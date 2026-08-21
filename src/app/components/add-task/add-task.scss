@@ -1,6 +1,5 @@
 @use '../../../styles/abstracts' as *;
 
-$mobile-bar-height: 80px;
 
 .add-task {
     display: flex;
@@ -35,7 +34,7 @@ $mobile-bar-height: 80px;
             margin-bottom: 0;
             padding-bottom: 40px;
             background-color: $color-bg;
-            font-size: 36px;
+            font-size: 47px;
         }
     }
 }

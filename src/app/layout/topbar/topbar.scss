@@ -115,7 +115,7 @@
 
   @include mobile {
     inset: 0 0 auto 0;
-    height: 80px;
+    height: $mobile-bar-height;
 
     &__inner {
       padding: 0 $spacing-md;
