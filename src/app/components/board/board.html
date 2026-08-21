@@ -1,33 +1,90 @@
 <section class="board" aria-labelledby="board-title">
-  <div class="board__header">
-    <h1 id="board-title" class="board__title">Board</h1>
+    <div class="board__header">
+        <h1 id="board-title" class="board__title">Board</h1>
 
-    <div class="board__actions">
-      <label class="board__search">
-        <span class="board__search-label">Find Task</span>
-        <input class="board__search-input" type="search" placeholder="Find Task" />
-        <span class="board__search-icon" aria-hidden="true"></span>
-      </label>
-      <button class="board__add-task" type="button" aria-label="Add task">
-        <span class="board__add-task-label">Add task</span>
-        <span aria-hidden="true">+</span>
-      </button>
+        <div class="board__actions">
+            <label class="board__search">
+                <span class="board__search-label">Find Task</span>
+                <input
+                    class="board__search-input"
+                    type="search"
+                    placeholder="Find Task (min. 3 letters)"
+                    [value]="searchTerm"
+                    (input)="onSearchInput($event)"
+                />
+                @if (searchTerm.length > 0) {
+                    <button
+                        type="button"
+                        class="board__search-clear"
+                        (click)="clearSearch()"
+                        aria-label="Clear search"
+                    >
+                        ✕
+                    </button>
+                }
+                <span class="board__search-icon" aria-hidden="true"></span>
+            </label>
+            <button class="board__add-task" type="button" aria-label="Add task">
+                <span class="board__add-task-label">Add task</span>
+                <span aria-hidden="true">+</span>
+            </button>
+        </div>
     </div>
-  </div>
 
-  <div class="board__columns">
-    @for (column of columns; track column.status) {
-      <section class="board__column" [attr.data-status]="column.status">
-        <div class="board__column-header">
-          <h2 class="board__column-title">{{ column.title }}</h2>
-          @if (column.status !== 'done') {
-            <button class="board__column-add" type="button" [attr.aria-label]="'Add task to ' + column.title">+</button>
-          }
-        </div>
-        <div class="board__column-content">
-          <p class="board__empty-state">{{ column.emptyMessage }}</p>
-        </div>
-      </section>
+    <div class="board__columns">
+        @for (column of columns; track column.status) {
+            <section
+                class="board__column"
+                [attr.data-status]="column.status"
+                (dragover)="allowDrop($event, column.status)"
+                (drop)="dropTask($event, column.status)"
+            >
+                <div class="board__column-header">
+                    <h2 class="board__column-title">{{ column.title }}</h2>
+                    @if (column.status !== 'done') {
+                        <button
+                            class="board__column-add"
+                            type="button"
+                            [attr.aria-label]="'Add task to ' + column.title"
+                        >
+                            +
+                        </button>
+                    }
+                </div>
+                <div
+                    class="board__column-content"
+                    [class.board__column-content--empty]="!filteredTasksFor(column.status).length"
+                    [class.board__column-content--drag-over]="dragOverStatus === column.status"
+                >
+                    @for (task of filteredTasksFor(column.status); track task.id) {
+                        <div
+                            class="board__task-slot"
+                            (dragover)="allowDrop($event, column.status)"
+                            (drop)="dropTask($event, column.status, task.id)"
+                        >
+                            <app-task-card
+                                [task]="task"
+                                [moveOptions]="columns"
+                                [canMoveUp]="canMoveUp(task)"
+                                [canMoveDown]="canMoveDown(task)"
+                                (taskSelected)="selectTask($event)"
+                                (taskDragStart)="startDrag($event)"
+                                (taskDragEnd)="clearDragState()"
+                                (taskMoveRequested)="moveFromMenu($event)"
+                            />
+                        </div>
+                    } @empty {
+                        @if (hasNoResults(column.status)) {
+                            <p class="board__empty-state">No results found</p>
+                        } @else {
+                            <p class="board__empty-state">{{ column.emptyMessage }}</p>
+                        }
+                    }
+                </div>
+            </section>
+        }
+    </div>
+    @if (selectedTask) {
+        <app-task-detail [task]="toDetailData(selectedTask)" (closeClicked)="closeTaskDetail()" />
     }
-  </div>
 </section>
