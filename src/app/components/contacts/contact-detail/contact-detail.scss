@@ -55,17 +55,12 @@
     &__name {
         font-family: $font-primary;
         font-weight: $font-weight-semibold;
-        font-size: 47px;
+        font-size: clamp(36px, 3.27vw, 47px);
         color: $color-text;
         margin-bottom: $spacing-sm;
         overflow-wrap: anywhere;
 
-        @include tablet {
-            font-size: 36px;
-        }
-
         @include mobile {
-            font-size: 36px;
             font-weight: $font-weight-bold;
         }
     }

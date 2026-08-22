@@ -1,5 +1,7 @@
 @use '../../../../styles/abstracts' as *;
 
+$breakpoint-columns: 1255.98px;
+
 .task-card {
   position: relative;
   display: flex;
@@ -56,7 +58,7 @@
     position: relative;
     display: none;
 
-    @media (max-width: 768px) {
+    @media (max-width: #{$breakpoint-columns}) {
       display: flex;
       align-items: center;
       gap: 4px;

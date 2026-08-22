@@ -1,10 +1,17 @@
 @use '../../../styles/abstracts' as *;
 @use '../../../styles/abstracts/buttons' as *;
 
+$breakpoint-columns: 1255.98px;
+
 .board {
     min-height: 100%;
-    padding: clamp(32px, 5vw, 80px) clamp(16px, 4vw, 64px);
+    padding: clamp(48px, calc(12.7px + 4.67vw), 80px)
+        clamp(32px, calc(-4.6px + 4.76vw), 64px);
     background-color: #f6f7f8;
+
+    @include mobile {
+        padding: clamp(32px, 11.2vw, 48px) 16px;
+    }
 
     &__header {
         display: flex;
@@ -169,13 +176,13 @@
     &__columns {
         display: grid;
         grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: clamp(16px, 2vw, 26px);
+        gap: clamp(16px, 1.67vw, 24px);
 
         @media (max-width: 1439px) {
             grid-template-columns: repeat(2, minmax(0, 1fr));
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: #{$breakpoint-columns}) {
             grid-template-columns: minmax(0, 1fr);
         }
     }
@@ -186,7 +193,11 @@
         flex-direction: column;
 
         @media (min-width: 769px) {
-            height: clamp(320px, calc(100dvh - 360px), 620px);
+            height: clamp(364px, calc(100dvh - 316px), 664px);
+        }
+
+        @media (max-width: #{$breakpoint-columns}) {
+            height: auto;
         }
     }
 
@@ -238,23 +249,25 @@
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
-        border: 1px dashed transparent;
         border-radius: 24px;
+        outline: 1px dashed transparent;
+        outline-offset: -1px;
         overflow-y: auto;
         scrollbar-color: $color-text-muted transparent;
         scrollbar-width: thin;
         transition:
-            border-color $transition-fast,
+            outline-color $transition-fast,
             background-color $transition-fast,
             padding-top 100ms ease-out;
 
-        @media (max-width: 768px) {
-            max-height: clamp(263px, 65dvh, 556px);
+        @media (max-width: #{$breakpoint-columns}) {
+            max-height: none;
+            flex: none;
             flex-direction: row;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
             transition:
-                border-color $transition-fast,
+                outline-color $transition-fast,
                 background-color $transition-fast,
                 padding-left 100ms ease-out;
         }
@@ -273,9 +286,9 @@
         }
 
         &--drag-over {
-            border-color: $color-text-muted;
             border-radius: 24px;
             background-color: rgb(42 54 71 / 4%);
+            outline-color: $color-text-muted;
         }
 
         &--preview {
@@ -294,7 +307,7 @@
                 pointer-events: none;
             }
 
-            @media (max-width: 768px) {
+            @media (max-width: #{$breakpoint-columns}) {
                 padding-top: 0;
                 padding-left: calc(252px + 10px);
 
@@ -308,7 +321,7 @@
     &__task-slot {
         width: min(100%, 252px);
 
-        @media (max-width: 768px) {
+        @media (max-width: #{$breakpoint-columns}) {
             flex: 0 0 252px;
             scroll-snap-align: start;
         }
