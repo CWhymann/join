@@ -56,7 +56,7 @@
                                 @if (form.get('name')?.errors?.['required']) {
                                     Name is required.
                                 } @else if (form.get('name')?.errors?.['invalidName']) {
-                                    Please enter first and last name using letters only.
+                                    Letters only, first and last name.
                                 }
                             } @else if (atLimit('name')) {
                                 <span class="contact-form__hint">
@@ -108,7 +108,7 @@
                                 @if (form.get('phone')?.errors?.['required']) {
                                     Phone number is required.
                                 } @else if (form.get('phone')?.errors?.['pattern']) {
-                                    Only digits and an optional leading "+" are allowed.
+                                    Only digits and optional leading +.
                                 }
                             } @else if (atLimit('phone')) {
                                 <span class="contact-form__hint">
