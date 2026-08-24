@@ -94,7 +94,7 @@ describe('Board', () => {
     expect(column?.querySelector('.task-card__title')?.textContent).toContain('HTML Base');
   });
 
-  it('should preview the drop position before a task is released', () => {
+  it('should preview the exact drop position before a task is released', () => {
     const element = fixture.nativeElement as HTMLElement;
     const column = element.querySelector('.board__column[data-status="in-progress"]');
     const cards = column?.querySelectorAll('.task-card');
@@ -105,7 +105,8 @@ describe('Board', () => {
     firstSlot?.dispatchEvent(new Event('dragover', { bubbles: true, cancelable: true }));
     fixture.detectChanges();
 
-    expect(columnContent?.classList.contains('board__column-content--preview')).toBe(true);
+    expect(firstSlot?.classList.contains('board__task-slot--drop-before')).toBe(true);
+    expect(columnContent?.classList.contains('board__column-content--preview')).toBe(false);
   });
 
   it('should reorder cards with the mobile direction buttons', () => {

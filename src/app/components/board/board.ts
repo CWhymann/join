@@ -21,7 +21,9 @@ export class Board {
     protected tasks = [...BOARD_TASKS];
     protected selectedTask: BoardTask | null = null;
     protected dragOverStatus: TaskStatus | null = null;
+    protected dragOverTaskId: string | null = null;
     private draggedTaskId: string | null = null;
+    protected draggedTaskStatus: TaskStatus | null = null;
     protected searchTerm = '';
 
     protected readonly columns: BoardColumn[] = [
@@ -71,6 +73,7 @@ export class Board {
 
     protected startDrag(event: { event: DragEvent; task: BoardTask }): void {
         this.draggedTaskId = event.task.id;
+        this.draggedTaskStatus = event.task.status;
         event.event.dataTransfer?.setData('text/plain', event.task.id);
         if (event.event.dataTransfer) event.event.dataTransfer.effectAllowed = 'move';
     }
@@ -79,19 +82,24 @@ export class Board {
         event.preventDefault();
         if (beforeId) event.stopPropagation();
         this.dragOverStatus = status;
+        this.dragOverTaskId = beforeId && beforeId !== this.draggedTaskId ? beforeId : null;
         if (event.dataTransfer) event.dataTransfer.dropEffect = 'move';
     }
 
     protected dropTask(event: DragEvent, status: TaskStatus, beforeId?: string): void {
         event.preventDefault();
         event.stopPropagation();
-        if (this.draggedTaskId) this.moveTask(this.draggedTaskId, status, beforeId);
+        if (this.draggedTaskId && beforeId !== this.draggedTaskId) {
+            this.moveTask(this.draggedTaskId, status, beforeId);
+        }
         this.clearDragState();
     }
 
     protected clearDragState(): void {
         this.draggedTaskId = null;
+        this.draggedTaskStatus = null;
         this.dragOverStatus = null;
+        this.dragOverTaskId = null;
     }
 
     protected canMoveUp(task: BoardTask): boolean {

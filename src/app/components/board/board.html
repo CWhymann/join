@@ -56,12 +56,18 @@
                     [class.board__column-content--empty]="!filteredTasksFor(column.status).length"
                     [class.board__column-content--drag-over]="dragOverStatus === column.status"
                     [class.board__column-content--preview]="
-                        dragOverStatus === column.status && filteredTasksFor(column.status).length
+                        dragOverStatus === column.status &&
+                        draggedTaskStatus !== column.status &&
+                        !dragOverTaskId &&
+                        filteredTasksFor(column.status).length
                     "
                 >
                     @for (task of filteredTasksFor(column.status); track task.id) {
                         <div
                             class="board__task-slot"
+                            [class.board__task-slot--drop-before]="
+                                dragOverStatus === column.status && dragOverTaskId === task.id
+                            "
                             (dragover)="allowDrop($event, column.status, task.id)"
                             (drop)="dropTask($event, column.status, task.id)"
                         >
