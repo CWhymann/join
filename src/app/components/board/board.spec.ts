@@ -1,6 +1,10 @@
+import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { ContactsService } from '../../core/services/contacts.service';
+import { TasksService } from '../../core/services/tasks.service';
 import { Board } from './board';
+import { BOARD_TASKS } from './board-tasks.data';
 
 describe('Board', () => {
   let fixture: ComponentFixture<Board>;
@@ -8,9 +12,24 @@ describe('Board', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [Board],
+      providers: [
+        { provide: ContactsService, useValue: { loadContacts: async () => undefined } },
+        {
+          provide: TasksService,
+          useValue: {
+            tasks: signal(BOARD_TASKS),
+            loadTasks: async () => undefined,
+            updateTaskPosition: async () => true,
+          },
+        },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Board);
+    fixture.detectChanges();
+    await new Promise((resolve) => setTimeout(resolve));
+    const component = fixture.componentInstance as unknown as { tasks: { set(value: typeof BOARD_TASKS): void } };
+    component.tasks.set([...BOARD_TASKS]);
     fixture.detectChanges();
   });
 
@@ -44,12 +63,12 @@ describe('Board', () => {
 
   it('should select a task when its card is clicked', () => {
     const element = fixture.nativeElement as HTMLElement;
-    const component = fixture.componentInstance as unknown as { selectedTask: { id: string } | null };
+    const component = fixture.componentInstance as unknown as { selectedTask: { id: number } | null };
 
     element.querySelector<HTMLElement>('.task-card')?.click();
     fixture.detectChanges();
 
-    expect(component.selectedTask?.id).toBe('task-1');
+    expect(component.selectedTask?.id).toBe(1);
   });
 
   it('should move a task to another column', () => {
@@ -67,7 +86,7 @@ describe('Board', () => {
   it('should move a task through the mobile menu', () => {
     const element = fixture.nativeElement as HTMLElement;
     const firstCard = element.querySelector('.task-card');
-    const component = fixture.componentInstance as unknown as { selectedTask: { id: string } | null };
+    const component = fixture.componentInstance as unknown as { selectedTask: { id: number } | null };
 
     firstCard?.querySelector<HTMLElement>('.task-card__move-toggle')?.click();
     fixture.detectChanges();

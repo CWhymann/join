@@ -18,7 +18,7 @@ export class ContactList {
   addClicked = output<void>();
   contactSelected = output<Contact>();
 
-  selectedId = input<string | null>(null);
+  selectedId = input<number | null>(null);
   private items = viewChildren<ElementRef<HTMLElement>>('item');
 
   getInitials = getInitials;

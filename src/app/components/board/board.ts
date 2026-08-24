@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { BoardTask, TaskMoveDirection, TaskMoveRequest, TaskStatus } from './board-task.model';
-import { BOARD_TASKS } from './board-tasks.data';
+import { ContactsService } from '../../core/services/contacts.service';
+import { TasksService } from '../../core/services/tasks.service';
 import { TaskCard } from './task-card/task-card';
 import { TaskDetail } from './task-detail/task-detail';
 
@@ -17,11 +18,14 @@ interface BoardColumn {
     templateUrl: './board.html',
     styleUrl: './board.scss',
 })
-export class Board {
-    protected tasks = [...BOARD_TASKS];
+export class Board implements OnInit {
+    private readonly contactsService = inject(ContactsService);
+    private readonly tasksService = inject(TasksService);
+
+    protected readonly tasks = signal<BoardTask[]>([]);
     protected selectedTask: BoardTask | null = null;
     protected dragOverStatus: TaskStatus | null = null;
-    private draggedTaskId: string | null = null;
+    private draggedTaskId: number | null = null;
     protected searchTerm = '';
 
     protected readonly columns: BoardColumn[] = [
@@ -35,8 +39,13 @@ export class Board {
         { title: 'Done', status: 'done', emptyMessage: 'No tasks Done' },
     ];
 
+    async ngOnInit(): Promise<void> {
+        await Promise.all([this.contactsService.loadContacts(), this.tasksService.loadTasks()]);
+        this.tasks.set(this.tasksService.tasks());
+    }
+
     protected tasksFor(status: TaskStatus): BoardTask[] {
-        return this.tasks.filter((task) => task.status === status);
+        return this.tasks().filter((task) => task.status === status);
     }
 
     protected filteredTasksFor(status: TaskStatus): BoardTask[] {
@@ -71,18 +80,18 @@ export class Board {
 
     protected startDrag(event: { event: DragEvent; task: BoardTask }): void {
         this.draggedTaskId = event.task.id;
-        event.event.dataTransfer?.setData('text/plain', event.task.id);
+        event.event.dataTransfer?.setData('text/plain', String(event.task.id));
         if (event.event.dataTransfer) event.event.dataTransfer.effectAllowed = 'move';
     }
 
-    protected allowDrop(event: DragEvent, status: TaskStatus, beforeId?: string): void {
+    protected allowDrop(event: DragEvent, status: TaskStatus, beforeId?: number): void {
         event.preventDefault();
         if (beforeId) event.stopPropagation();
         this.dragOverStatus = status;
         if (event.dataTransfer) event.dataTransfer.dropEffect = 'move';
     }
 
-    protected dropTask(event: DragEvent, status: TaskStatus, beforeId?: string): void {
+    protected dropTask(event: DragEvent, status: TaskStatus, beforeId?: number): void {
         event.preventDefault();
         event.stopPropagation();
         if (this.draggedTaskId) this.moveTask(this.draggedTaskId, status, beforeId);
@@ -117,22 +126,36 @@ export class Board {
         this.moveTask(task.id, task.status, columnTasks[targetIndex]?.id);
     }
 
-    private moveTask(taskId: string, status: TaskStatus, beforeId?: string): void {
-        const tasks = [...this.tasks];
+    private moveTask(taskId: number, status: TaskStatus, beforeId?: number): void {
+        const tasks = [...this.tasks()];
         const sourceIndex = tasks.findIndex((task) => task.id === taskId);
         if (sourceIndex < 0) return;
         const [sourceTask] = tasks.splice(sourceIndex, 1);
         const targetIndex = beforeId ? tasks.findIndex((task) => task.id === beforeId) : -1;
         const updatedTask = { ...sourceTask, status };
         tasks.splice(targetIndex < 0 ? tasks.length : targetIndex, 0, updatedTask);
-        this.tasks = tasks;
+        this.tasks.set(this.updatePositions(tasks));
+        void this.savePositions();
+    }
+
+    private updatePositions(tasks: BoardTask[]): BoardTask[] {
+        return tasks.map((task) => ({
+            ...task,
+            position: tasks.filter((item) => item.status === task.status).indexOf(task),
+        }));
+    }
+
+    private async savePositions(): Promise<void> {
+        await Promise.all(
+            this.tasks().map((task) => this.tasksService.updateTaskPosition(task.id, task.status, task.position)),
+        );
     }
     protected toDetailData(task: BoardTask) {
         return {
             category: task.category,
             title: task.title,
             description: task.description,
-            dueDate: '',
+            dueDate: task.dueDate,
             priority: (task.priority.charAt(0).toUpperCase() + task.priority.slice(1)) as
                 'Urgent' | 'Medium' | 'Low',
             assignedTo: task.assignees.map((a) => ({
