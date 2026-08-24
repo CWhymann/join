@@ -208,6 +208,24 @@ $breakpoint-columns: 1255.98px;
         }
     }
 
+    @keyframes slideUp {
+        from {
+            transform: translateY(100%);
+        }
+        to {
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideDown {
+        from {
+            transform: translateY(0);
+        }
+        to {
+            transform: translateY(100%);
+        }
+    }
+
     &__toast {
         position: fixed;
         bottom: 100px;
