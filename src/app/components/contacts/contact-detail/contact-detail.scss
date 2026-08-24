@@ -2,7 +2,7 @@
 @use '../../../../styles/abstracts/confirm-dialog' as *;
 
 .contact-detail {
-    padding: $spacing-lg;
+    padding: clamp(16px, 2.5vw, 24px);
     position: relative;
     background-color: $color-bg;
 
@@ -22,28 +22,25 @@
     &__header {
         display: flex;
         align-items: center;
-        gap: $spacing-lg;
-        margin-bottom: $spacing-xl;
+        gap: clamp(16px, 2.5vw, 24px);
+        margin-bottom: clamp(24px, 3.5vw, 32px);
     }
 
     &__avatar {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 120px;
-        height: 120px;
+        width: clamp(80px, 8vw, 120px);
+        height: clamp(80px, 8vw, 120px);
         border-radius: 50%;
         color: #ffffff;
         font-weight: $font-weight-semibold;
-        font-size: 47px;
+        font-size: clamp(27px, 3vw, 47px);
         flex-shrink: 0;
         border: 3px solid #ffffff;
         box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4);
 
         @include mobile {
-            width: 80px;
-            height: 80px;
-            font-size: 27px;
             font-weight: $font-weight-regular;
         }
     }
@@ -55,7 +52,7 @@
     &__name {
         font-family: $font-primary;
         font-weight: $font-weight-semibold;
-        font-size: clamp(36px, 3.27vw, 47px);
+        font-size: clamp(36px, 4vw, 47px);
         color: $color-text;
         margin-bottom: $spacing-sm;
         overflow-wrap: anywhere;
@@ -92,14 +89,14 @@
     }
 
     &__action-icon {
-        width: 16px;
-        height: 16px;
+        width: clamp(14px, 1.2vw, 16px);
+        height: clamp(14px, 1.2vw, 16px);
     }
 
     &__section-title {
         font-family: $font-primary;
         font-weight: $font-weight-regular;
-        font-size: 20px;
+        font-size: clamp(17px, 1.5vw, 20px);
         color: $color-text;
         margin-bottom: $spacing-md;
     }
