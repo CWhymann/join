@@ -1,5 +1,6 @@
 @use '../../../styles/abstracts' as *;
 
+
 .add-task {
     display: flex;
     min-height: 849px;
@@ -16,6 +17,7 @@
         min-height: auto;
         max-height: none;
         padding: 48px 16px;
+        overflow-y: visible;
     }
 
     &__headline {
@@ -26,8 +28,13 @@
         line-height: 120%;
 
         @include mobile {
-            margin-bottom: 40px;
-            font-size: 36px;
+            position: sticky;
+            z-index: 2;
+            top: $mobile-bar-height;
+            margin-bottom: 0;
+            padding-bottom: 40px;
+            background-color: $color-bg;
+            font-size: 47px;
         }
     }
 }

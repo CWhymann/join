@@ -9,6 +9,8 @@ $color-text: #2a3647;
 $color-text-muted: #a8a8a8;
 $color-error: #ff8190;
 $color-border: #d1d1d1;
+$color-field-border: #686868;
+$color-hover: #124658;
 
 // ==========================================================================
 // Typography
@@ -34,6 +36,8 @@ $spacing-xl: 32px;
 $max-width: 1440px;
 $sidebar-width: 232px;
 $topbar-height: 96px;
+$mobile-bar-height: 80px;
+$subtasks-height: 112px;
 
 // ==========================================================================
 // Transitions
@@ -46,3 +50,4 @@ $transition-fast: 100ms ease-in-out;
 $breakpoint-mobile: 767px;
 $breakpoint-tablet: 1023px;
 $breakpoint-desktop: 1439px;
+$breakpoint-columns: 1255px;
