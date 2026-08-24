@@ -16,8 +16,7 @@
     max-width: 976px;
     flex: 1;
     flex-direction: column;
-    justify-content: space-between;
-    // gap: 124px;
+    // justify-content: space-between;
 
     @media (max-width: #{$breakpoint-columns}) {
         gap: 48px;
