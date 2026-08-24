@@ -80,6 +80,17 @@ export class TaskCard {
   }
 
   protected startDrag(event: DragEvent): void {
+    const card = event.currentTarget as HTMLElement;
+    const dragImage = card.cloneNode(true) as HTMLElement;
+    dragImage.style.position = 'fixed';
+    dragImage.style.top = '-1000px';
+    dragImage.style.left = '-1000px';
+    dragImage.style.opacity = '1';
+    dragImage.style.transform = 'rotate(5deg)';
+    dragImage.style.pointerEvents = 'none';
+    document.body.appendChild(dragImage);
+    event.dataTransfer?.setDragImage(dragImage, card.offsetWidth / 2, 24);
+    setTimeout(() => dragImage.remove());
     this.isDragging = true;
     this.taskDragStart.emit({ event, task: this.task });
   }

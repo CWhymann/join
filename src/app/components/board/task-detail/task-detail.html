@@ -1,5 +1,5 @@
 @if (task(); as t) {
-    <div class="task-detail-overlay">
+    <div class="task-detail-overlay" (click)="onOverlayClick($event)">
         <div class="task-detail-card">
             <div class="task-detail-header">
                 <span

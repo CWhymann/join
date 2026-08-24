@@ -75,8 +75,9 @@ export class Board {
         if (event.event.dataTransfer) event.event.dataTransfer.effectAllowed = 'move';
     }
 
-    protected allowDrop(event: DragEvent, status: TaskStatus): void {
+    protected allowDrop(event: DragEvent, status: TaskStatus, beforeId?: string): void {
         event.preventDefault();
+        if (beforeId) event.stopPropagation();
         this.dragOverStatus = status;
         if (event.dataTransfer) event.dataTransfer.dropEffect = 'move';
     }

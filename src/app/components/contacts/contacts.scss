@@ -1,5 +1,7 @@
 @use '../../../styles/abstracts' as *;
 
+$breakpoint-columns: 1255.98px;
+
 .contacts {
     display: flex;
     height: 100%;
@@ -12,18 +14,28 @@
         flex-direction: column;
     }
 
+    @media (min-width: 768px) and (max-width: #{$breakpoint-columns}) {
+        flex-direction: column;
+    }
+
     &__list {
         width: 424px;
         flex-shrink: 0;
         border-right: 1px solid $color-border;
         overflow-y: auto;
 
-        @include tablet {
-            width: min(320px, 40%);
-        }
-
         @include mobile {
             width: 100%;
+            border-right: none;
+
+            &.contacts__list--hidden-mobile {
+                display: none;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: #{$breakpoint-columns}) {
+            width: 100%;
+            height: 100%;
             border-right: none;
 
             &.contacts__list--hidden-mobile {
@@ -34,12 +46,20 @@
 
     &__detail {
         flex: 1;
-        padding: $spacing-xl;
-        padding-top: $spacing-xl * 3;
+        padding: clamp($spacing-md, 2.22vw, $spacing-xl);
+        padding-top: clamp(48px, 6.67vw, $spacing-xl * 3);
 
         @include mobile {
             display: none;
             padding: $spacing-md;
+
+            &.contacts__detail--visible-mobile {
+                display: block;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: #{$breakpoint-columns}) {
+            display: none;
 
             &.contacts__detail--visible-mobile {
                 display: block;
@@ -51,9 +71,9 @@
     &__heading {
         display: flex;
         align-items: center;
-        gap: $spacing-md;
-        margin-bottom: $spacing-xl;
-        margin-left: $spacing-xl;
+        gap: clamp($spacing-sm, 1.11vw, $spacing-md);
+        margin-bottom: clamp($spacing-lg, 2.22vw, $spacing-xl);
+        margin-left: clamp($spacing-md, 2.22vw, $spacing-xl);
         position: relative;
 
         @include mobile {
@@ -66,39 +86,32 @@
     &__title {
         font-family: $font-primary;
         font-weight: $font-weight-extrabold;
-        font-size: 61px;
+        font-size: clamp(47px, 4.24vw, 61px);
         color: #000000;
         margin: 0;
 
-        @include tablet {
-            font-size: 36px;
-        }
-
-        @include mobile {
-            font-size: 36px;
-        }
     }
 
     &__divider {
         width: 3px;
-        height: 40px;
+        height: clamp(40px, 4.1vw, 59px);
         background-color: $color-accent;
         border-radius: 2px;
 
         @include mobile {
-            width: 40px;
+            width: clamp(40px, 21vw, 90px);
             height: 3px;
         }
     }
 
     &__subtitle {
         font-family: $font-primary;
-        font-size: 20px;
+        font-size: clamp(20px, 1.88vw, 27px);
         color: $color-text-muted;
         margin: 0;
 
         @include mobile {
-            font-size: 16px;
+            font-size: 20px;
         }
     }
 
@@ -111,6 +124,13 @@
         cursor: pointer;
 
         @include mobile {
+            display: block;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        @media (min-width: 768px) and (max-width: #{$breakpoint-columns}) {
             display: block;
             position: absolute;
             top: 0;

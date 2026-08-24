@@ -18,7 +18,7 @@
   &__logo {
     width: 100px;
     height: 122px;
-    margin-top: 64px;
+    margin-top: clamp(32px, 6.25dvh, 64px);
   }
 
   &__logo img {
@@ -29,7 +29,7 @@
   &__navigation {
     display: flex;
     width: 100%;
-    margin-top: 114px;
+    margin-top: clamp(48px, 11.13dvh, 114px);
     flex-direction: column;
     gap: 15px;
   }
@@ -68,7 +68,7 @@
     display: flex;
     width: 100%;
     margin-top: auto;
-    margin-bottom: 60px;
+    margin-bottom: clamp(24px, 5.86dvh, 60px);
     padding-left: 56px;
     flex-direction: column;
     align-items: flex-start;
