@@ -47,17 +47,16 @@
     &__letter {
         font-family: $font-primary;
         font-weight: $font-weight-regular;
-        font-size: clamp(17px, 1.5vw, 20px);
+        font-size: clamp(20px, 1.5vw, 20px);
         color: $color-text;
-        padding: $spacing-sm $spacing-md;
+        padding: $spacing-ml $spacing-xxxl;
         border-bottom: 1px solid $color-border;
     }
-
     &__item {
         display: flex;
         align-items: center;
-        gap: $spacing-md;
-        padding: $spacing-sm $spacing-md;
+        gap: $spacing-xxl;
+        padding: $spacing-sl $spacing-lg;
         cursor: pointer;
         transition: $transition-fast;
         border-radius: 8px;
