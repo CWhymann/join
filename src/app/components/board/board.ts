@@ -207,7 +207,11 @@ export class Board implements OnInit, OnDestroy {
 
     protected async deleteTask(): Promise<void> {
         const task = this.selectedTask;
-        if (!task || task.isProtected) return;
+        if (!task) return;
+        if (task.isProtected) {
+            this.taskToastService.taskLocked();
+            return;
+        }
         const deleted = await this.tasksService.deleteTask(task.id);
         if (!deleted) return;
         this.tasks.update((tasks) => tasks.filter((item) => item.id !== task.id));
@@ -221,6 +225,10 @@ export class Board implements OnInit, OnDestroy {
     }
 
     protected openEditTask(): void {
+        if (this.selectedTask?.isProtected) {
+            this.taskToastService.taskLocked();
+            return;
+        }
         this.editingTask = this.selectedTask;
         this.selectedTask = null;
         this.isAddTaskOpen = true;

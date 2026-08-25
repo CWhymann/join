@@ -15,6 +15,10 @@ export class TaskToastService {
         this.showToast('Task edit to Board');
     }
 
+    taskSaved(): void {
+        this.showToast('Task saved');
+    }
+
     taskDeleted(): void {
         this.showToast('Task deleted');
     }

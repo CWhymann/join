@@ -243,7 +243,11 @@ export class AddTaskForm implements OnInit {
 
         if (!task) return;
         this.clearForm();
-        this.taskToastService.taskCreated();
+        if (currentTask) {
+            this.taskToastService.taskSaved();
+        } else {
+            this.taskToastService.taskCreated();
+        }
         this.taskCreated.emit();
     }
 
