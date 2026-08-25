@@ -54,6 +54,13 @@ export function parseDate(value: string): Date | null {
     return isReal ? date : null;
 }
 
+export function formatDate(date: Date): string {
+    const day = `${date.getDate()}`.padStart(2, '0');
+    const month = `${date.getMonth() + 1}`.padStart(2, '0');
+
+    return `${day}${DATE_SEPARATOR}${month}${DATE_SEPARATOR}${date.getFullYear()}`;
+}
+
 export function dueDateValidator(control: AbstractControl): ValidationErrors | null {
     const value = (control.value as string) ?? '';
     if (!value) {
@@ -76,4 +83,8 @@ function checkDateRange(date: Date): ValidationErrors | null {
     }
     today.setHours(0, 0, 0, 0);
     return date < today ? { pastDate: true } : null;
+}
+
+export function isDateAllowed(date: Date): boolean {
+    return checkDateRange(date) === null;
 }
