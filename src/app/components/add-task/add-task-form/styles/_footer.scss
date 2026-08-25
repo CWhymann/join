@@ -10,10 +10,10 @@
         justify-content: space-between;
         gap: $spacing-lg;
         padding-block: $spacing-md $spacing-xl;
-        background-color: $color-bg;
+        background-color: var(--add-task-surface, #{$color-bg});
 
         @include mobile {
-            bottom: $mobile-bar-height;
+            bottom: var(--add-task-footer-bottom, #{$mobile-bar-height});
             flex-direction: column;
             align-items: stretch;
         }

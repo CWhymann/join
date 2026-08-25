@@ -4,13 +4,14 @@ import { Contact } from '../../../core/models/contact.model';
 import { ContactsService } from '../../../core/services/contacts.service';
 import { getInitials } from '../../../core/utils/avatar.utils';
 import { dueDateValidator, formatDateInput, YEAR_RANGE } from '../../../core/utils/date.utils';
+import { DatePicker } from './date-picker/date-picker';
 
 const MAX_VISIBLE_AVATARS = 3;
 
 @Component({
     selector: 'app-add-task-form',
     standalone: true,
-    imports: [ReactiveFormsModule],
+    imports: [DatePicker, ReactiveFormsModule],
     templateUrl: './add-task-form.html',
     styleUrl: './add-task-form.scss',
 })
@@ -21,12 +22,11 @@ export class AddTaskForm implements OnInit {
     protected readonly contacts = this.contactsService.contacts;
     protected readonly selectedContacts = signal<Contact[]>([]);
     protected readonly visibleContacts = computed(() => this.selectedContacts().slice(0, MAX_VISIBLE_AVATARS));
-    protected readonly hiddenContactsCount = computed(() =>
-        Math.max(0, this.selectedContacts().length - MAX_VISIBLE_AVATARS),
-    );
+    protected readonly hiddenContactsCount = computed(() => Math.max(0, this.selectedContacts().length - MAX_VISIBLE_AVATARS));
     protected readonly getInitials = getInitials;
     protected isAssignedOpen = false;
     protected isCategoryOpen = false;
+    protected isDatePickerOpen = false;
     protected readonly categories = ['Technical Task', 'User Story'];
     protected readonly subtasks = signal<string[]>([]);
     protected readonly subtaskDraft = signal('');
@@ -63,6 +63,19 @@ export class AddTaskForm implements OnInit {
         }
     }
 
+    protected toggleDatePicker(event: MouseEvent): void {
+        event.stopPropagation();
+        this.isAssignedOpen = false;
+        this.isCategoryOpen = false;
+        this.isDatePickerOpen = !this.isDatePickerOpen;
+    }
+
+    protected applyDate(value: string): void {
+        this.form.patchValue({ dueDate: value });
+        this.form.get('dueDate')?.markAsTouched();
+        this.isDatePickerOpen = false;
+    }
+
     protected selectCategory(category: string): void {
         this.form.patchValue({ category });
         this.form.get('category')?.markAsTouched();
@@ -72,6 +85,7 @@ export class AddTaskForm implements OnInit {
     protected clearForm(): void {
         this.isAssignedOpen = false;
         this.isCategoryOpen = false;
+        this.isDatePickerOpen = false;
         this.form.reset({ title: '', description: '', dueDate: '', priority: 'medium', category: '' });
         this.selectedContacts.set([]);
         this.subtasks.set([]);
@@ -137,6 +151,7 @@ export class AddTaskForm implements OnInit {
 
         this.isAssignedOpen = false;
         this.isCategoryOpen = false;
+        this.isDatePickerOpen = false;
     }
 
     protected onSubtaskInput(event: Event): void {
