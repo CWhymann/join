@@ -1,7 +1,9 @@
-import { Component, computed, HostListener, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, HostListener, inject, OnInit, output, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NewTask, TaskCategory, TaskPriority } from '../../board/board-task.model';
 import { Contact } from '../../../core/models/contact.model';
 import { ContactsService } from '../../../core/services/contacts.service';
+import { TasksService } from '../../../core/services/tasks.service';
 import { getInitials } from '../../../core/utils/avatar.utils';
 import { dueDateValidator, formatDateInput, YEAR_RANGE } from '../../../core/utils/date.utils';
 
@@ -17,6 +19,9 @@ const MAX_VISIBLE_AVATARS = 3;
 export class AddTaskForm implements OnInit {
     private formBuilder = inject(FormBuilder);
     private contactsService = inject(ContactsService);
+    private tasksService = inject(TasksService);
+
+    readonly taskCreated = output<void>();
 
     protected readonly contacts = this.contactsService.contacts;
     protected readonly selectedContacts = signal<Contact[]>([]);
@@ -34,6 +39,7 @@ export class AddTaskForm implements OnInit {
     protected editingIndex = -1;
     protected readonly minYear = new Date().getFullYear();
     protected readonly maxYear = this.minYear + YEAR_RANGE;
+    protected readonly isSubmitting = signal(false);
 
     protected readonly form = this.formBuilder.group({
         title: ['', Validators.required],
@@ -43,8 +49,8 @@ export class AddTaskForm implements OnInit {
         category: ['', Validators.required],
     });
 
-    ngOnInit(): void {
-        this.contactsService.loadContacts();
+    async ngOnInit(): Promise<void> {
+        await Promise.all([this.contactsService.loadContacts(), this.tasksService.loadTasks()]);
     }
 
     protected toggleAssigned(event: MouseEvent): void {
@@ -192,5 +198,45 @@ export class AddTaskForm implements OnInit {
 
     protected isPriority(priority: string): boolean {
         return this.form.value.priority === priority;
+    }
+
+    protected async createTask(): Promise<void> {
+        if (this.form.invalid || this.isSubmitting()) {
+            this.form.markAllAsTouched();
+            return;
+        }
+
+        this.isSubmitting.set(true);
+        const task = await this.tasksService.addTask(this.buildTask());
+        this.isSubmitting.set(false);
+
+        if (!task) return;
+        this.clearForm();
+        this.taskCreated.emit();
+    }
+
+    private buildTask(): NewTask {
+        const value = this.form.getRawValue();
+
+        return {
+            title: value.title ?? '',
+            description: value.description ?? '',
+            due_date: this.toDatabaseDate(value.dueDate ?? ''),
+            priority: (value.priority ?? 'medium') as TaskPriority,
+            category: value.category as TaskCategory,
+            status: 'todo',
+            position: this.tasksService.tasks().filter((task) => task.status === 'todo').length,
+            assigned_to: this.selectedContacts().map((contact) => contact.id),
+            subtasks: this.subtasks().map((title, index) => ({
+                id: `subtask-${Date.now()}-${index}`,
+                title,
+                completed: false,
+            })),
+        };
+    }
+
+    private toDatabaseDate(value: string): string {
+        const [day, month, year] = value.split('/');
+        return `${year}-${month}-${day}`;
     }
 }

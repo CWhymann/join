@@ -97,6 +97,9 @@
     }
 
     @if (isAddTaskOpen) {
-        <app-add-task-overlay (closeClicked)="closeAddTask()" />
+        <app-add-task-overlay
+            (closeClicked)="closeAddTask()"
+            (taskCreated)="onTaskCreated()"
+        />
     }
 </section>

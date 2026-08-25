@@ -113,6 +113,20 @@ describe('Board', () => {
     expect(column?.querySelector('.task-card__title')?.textContent).toContain('HTML Base');
   });
 
+  it('should keep the upper drop position when the preview moves the target card', () => {
+    const element = fixture.nativeElement as HTMLElement;
+    const column = element.querySelector('.board__column[data-status="in-progress"]');
+    const cards = column?.querySelectorAll('.task-card');
+    const firstSlot = column?.querySelector('.board__task-slot');
+
+    cards?.item(1).dispatchEvent(new Event('dragstart', { bubbles: true }));
+    firstSlot?.dispatchEvent(new Event('dragover', { bubbles: true, cancelable: true }));
+    column?.dispatchEvent(new Event('drop', { bubbles: true, cancelable: true }));
+    fixture.detectChanges();
+
+    expect(column?.querySelector('.task-card__title')?.textContent).toContain('HTML Base');
+  });
+
   it('should preview the drop position before a task is released', () => {
     const element = fixture.nativeElement as HTMLElement;
     const column = element.querySelector('.board__column[data-status="in-progress"]');

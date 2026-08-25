@@ -27,6 +27,7 @@ export class Board implements OnInit {
     protected selectedTask: BoardTask | null = null;
     protected dragOverStatus: TaskStatus | null = null;
     private draggedTaskId: number | null = null;
+    private dragBeforeId?: number;
     protected searchTerm = '';
     protected isAddTaskOpen = false;
 
@@ -89,6 +90,9 @@ export class Board implements OnInit {
     protected allowDrop(event: DragEvent, status: TaskStatus, beforeId?: number): void {
         event.preventDefault();
         if (beforeId) event.stopPropagation();
+        if (this.dragOverStatus !== status || beforeId !== undefined) {
+            this.dragBeforeId = beforeId;
+        }
         this.dragOverStatus = status;
         if (event.dataTransfer) event.dataTransfer.dropEffect = 'move';
     }
@@ -96,13 +100,15 @@ export class Board implements OnInit {
     protected dropTask(event: DragEvent, status: TaskStatus, beforeId?: number): void {
         event.preventDefault();
         event.stopPropagation();
-        if (this.draggedTaskId) this.moveTask(this.draggedTaskId, status, beforeId);
+        const targetBeforeId = beforeId ?? this.dragBeforeId;
+        if (this.draggedTaskId) this.moveTask(this.draggedTaskId, status, targetBeforeId);
         this.clearDragState();
     }
 
     protected clearDragState(): void {
         this.draggedTaskId = null;
         this.dragOverStatus = null;
+        this.dragBeforeId = undefined;
     }
 
     protected canMoveUp(task: BoardTask): boolean {
@@ -181,5 +187,9 @@ export class Board implements OnInit {
 
     protected closeAddTask(): void {
         this.isAddTaskOpen = false;
+    }
+
+    protected onTaskCreated(): void {
+        this.tasks.set(this.tasksService.tasks());
     }
 }
