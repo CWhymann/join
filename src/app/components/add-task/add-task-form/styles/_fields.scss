@@ -11,13 +11,20 @@
         right: $spacing-md;
         width: 24px;
         height: 24px;
+        padding: 0;
+        border: unset;
         background-color: $color-text;
+        cursor: pointer;
         mask-image: url('/icons/event.svg');
         mask-position: center;
         mask-repeat: no-repeat;
         mask-size: contain;
-        pointer-events: none;
         transform: translateY(-50%);
+        transition: background-color $transition-fast;
+
+        &:hover {
+            background-color: $color-hover;
+        }
     }
 
     &__resize {

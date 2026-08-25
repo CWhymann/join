@@ -22,7 +22,7 @@ const MAX_VISIBLE_AVATARS = 3;
 @Component({
     selector: 'app-add-task-form',
     standalone: true,
-    imports: [ReactiveFormsModule],
+    imports: [DatePicker, ReactiveFormsModule],
     templateUrl: './add-task-form.html',
     styleUrl: './add-task-form.scss',
 })
@@ -45,6 +45,7 @@ export class AddTaskForm implements OnInit {
     protected readonly getInitials = getInitials;
     protected isAssignedOpen = false;
     protected isCategoryOpen = false;
+    protected isDatePickerOpen = false;
     protected readonly categories = ['Technical Task', 'User Story'];
     protected readonly subtasks = signal<string[]>([]);
     protected readonly subtaskDraft = signal('');
@@ -81,6 +82,19 @@ export class AddTaskForm implements OnInit {
         if (!this.isCategoryOpen) {
             this.form.get('category')?.markAsTouched();
         }
+    }
+
+    protected toggleDatePicker(event: MouseEvent): void {
+        event.stopPropagation();
+        this.isAssignedOpen = false;
+        this.isCategoryOpen = false;
+        this.isDatePickerOpen = !this.isDatePickerOpen;
+    }
+
+    protected applyDate(value: string): void {
+        this.form.patchValue({ dueDate: value });
+        this.form.get('dueDate')?.markAsTouched();
+        this.isDatePickerOpen = false;
     }
 
     protected selectCategory(category: string): void {
@@ -165,6 +179,7 @@ export class AddTaskForm implements OnInit {
 
         this.isAssignedOpen = false;
         this.isCategoryOpen = false;
+        this.isDatePickerOpen = false;
     }
 
     protected onSubtaskInput(event: Event): void {

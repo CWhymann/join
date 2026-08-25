@@ -48,7 +48,20 @@
                         placeholder="dd/mm/yyyy"
                         (input)="onDueDateInput($event)"
                     />
-                    <span class="add-task-form__control-icon" aria-hidden="true"></span>
+                    <button
+                        class="add-task-form__control-icon"
+                        type="button"
+                        aria-label="Open calendar"
+                        (click)="toggleDatePicker($event)"
+                    ></button>
+
+                    @if (isDatePickerOpen) {
+                        <app-date-picker
+                            [value]="form.value.dueDate ?? ''"
+                            (dateSelected)="applyDate($event)"
+                            (click)="$event.stopPropagation()"
+                        />
+                    }
                 </div>
 
                 @if (dueDateError()) {
