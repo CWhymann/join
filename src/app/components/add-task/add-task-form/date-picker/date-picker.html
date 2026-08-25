@@ -1,0 +1,35 @@
+<div class="date-picker">
+    <header class="date-picker__header">
+        <button
+            class="date-picker__nav"
+            type="button"
+            aria-label="Previous month"
+            (click)="shiftMonth(-1)"
+        ></button>
+        <span class="date-picker__month">{{ monthLabel() }}</span>
+        <button
+            class="date-picker__nav date-picker__nav--next"
+            type="button"
+            aria-label="Next month"
+            (click)="shiftMonth(1)"
+        ></button>
+    </header>
+
+    <div class="date-picker__grid">
+        @for (weekday of weekdays; track weekday) {
+            <span class="date-picker__weekday">{{ weekday }}</span>
+        }
+        @for (cell of days(); track cell.date.getTime()) {
+            <button
+                class="date-picker__day"
+                [class.date-picker__day--outside]="!cell.inMonth"
+                [class.date-picker__day--selected]="cell.selected"
+                type="button"
+                [disabled]="cell.disabled"
+                (click)="selectDay(cell)"
+            >
+                {{ cell.day }}
+            </button>
+        }
+    </div>
+</div>

@@ -1,0 +1,93 @@
+@use '../../../../../styles/abstracts' as *;
+
+.date-picker {
+    position: absolute;
+    z-index: 10;
+    top: calc(100% + #{$spacing-xs});
+    right: 0;
+    left: 0;
+    padding: $spacing-sm;
+    border-radius: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 0 4px rgb(0 0 0 / 16%);
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: $spacing-xs $spacing-sm;
+    }
+
+    &__month {
+        color: $color-text;
+        font-size: 16px;
+        font-weight: $font-weight-semibold;
+    }
+
+    &__nav {
+        width: 24px;
+        height: 24px;
+        flex-shrink: 0;
+        padding: 0;
+        border: unset;
+        background-color: $color-text;
+        cursor: pointer;
+        mask-image: url('/icons/arrow-left.svg');
+        mask-position: center;
+        mask-repeat: no-repeat;
+        mask-size: contain;
+        transition: background-color $transition-fast;
+
+        &:hover {
+            background-color: $color-hover;
+        }
+
+        &--next {
+            transform: rotate(180deg);
+        }
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+    }
+
+    &__weekday {
+        padding: $spacing-xs 0;
+        color: $color-text-muted;
+        font-size: 12px;
+        text-align: center;
+    }
+
+    &__day {
+        height: 36px;
+        border: unset;
+        border-radius: 10px;
+        background-color: transparent;
+        color: $color-text;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color $transition-fast;
+
+        &:hover:not(:disabled) {
+            background-color: $color-bg;
+        }
+
+        &--outside {
+            color: $color-text-muted;
+        }
+
+        &:disabled {
+            color: $color-border;
+            cursor: default;
+        }
+
+        &--selected {
+            &,
+            &:hover:not(:disabled) {
+                background-color: $color-hover;
+                color: #ffffff;
+            }
+        }
+    }
+}
