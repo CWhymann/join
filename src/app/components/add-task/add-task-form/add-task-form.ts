@@ -1,6 +1,6 @@
-import { Component, computed, HostListener, inject, OnInit, output, signal } from '@angular/core';
+import { Component, computed, HostListener, inject, input, OnInit, output, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NewTask, TaskCategory, TaskPriority } from '../../board/board-task.model';
+import { BoardTask, NewTask, TaskCategory, TaskPriority } from '../../board/board-task.model';
 import { Contact } from '../../../core/models/contact.model';
 import { ContactsService } from '../../../core/services/contacts.service';
 import { TasksService } from '../../../core/services/tasks.service';
@@ -22,6 +22,7 @@ export class AddTaskForm implements OnInit {
     private tasksService = inject(TasksService);
 
     readonly taskCreated = output<void>();
+    readonly task = input<BoardTask | null>(null);
 
     protected readonly contacts = this.contactsService.contacts;
     protected readonly selectedContacts = signal<Contact[]>([]);
@@ -51,6 +52,7 @@ export class AddTaskForm implements OnInit {
 
     async ngOnInit(): Promise<void> {
         await Promise.all([this.contactsService.loadContacts(), this.tasksService.loadTasks()]);
+        this.setTaskValues();
     }
 
     protected toggleAssigned(event: MouseEvent): void {
@@ -211,7 +213,10 @@ export class AddTaskForm implements OnInit {
         }
 
         this.isSubmitting.set(true);
-        const task = await this.tasksService.addTask(this.buildTask());
+        const currentTask = this.task();
+        const task = currentTask
+            ? await this.tasksService.updateTask(currentTask.id, this.buildTask())
+            : await this.tasksService.addTask(this.buildTask());
         this.isSubmitting.set(false);
 
         if (!task) return;
@@ -221,6 +226,7 @@ export class AddTaskForm implements OnInit {
 
     private buildTask(): NewTask {
         const value = this.form.getRawValue();
+        const currentTask = this.task();
 
         return {
             title: value.title ?? '',
@@ -228,19 +234,40 @@ export class AddTaskForm implements OnInit {
             due_date: this.toDatabaseDate(value.dueDate ?? ''),
             priority: (value.priority ?? 'medium') as TaskPriority,
             category: value.category as TaskCategory,
-            status: 'todo',
-            position: this.tasksService.tasks().filter((task) => task.status === 'todo').length,
+            status: currentTask?.status ?? 'todo',
+            position: currentTask?.position ?? this.tasksService.tasks().filter((task) => task.status === 'todo').length,
             assigned_to: this.selectedContacts().map((contact) => contact.id),
             subtasks: this.subtasks().map((title, index) => ({
-                id: `subtask-${Date.now()}-${index}`,
+                id: currentTask?.subtasks[index]?.id ?? `subtask-${Date.now()}-${index}`,
                 title,
-                completed: false,
+                completed: currentTask?.subtasks[index]?.completed ?? false,
             })),
         };
+    }
+
+    private setTaskValues(): void {
+        const task = this.task();
+        if (!task) return;
+        this.form.patchValue({
+            title: task.title,
+            description: task.description,
+            dueDate: this.toFormDate(task.dueDate),
+            priority: task.priority,
+            category: task.category,
+        });
+        this.selectedContacts.set(
+            this.contacts().filter((contact) => task.assignees.some((assignee) => assignee.id === contact.id)),
+        );
+        this.subtasks.set(task.subtasks.map((subtask) => subtask.title));
     }
 
     private toDatabaseDate(value: string): string {
         const [day, month, year] = value.split('/');
         return `${year}-${month}-${day}`;
+    }
+
+    private toFormDate(value: string): string {
+        const [year, month, day] = value.split('-');
+        return `${day}/${month}/${year}`;
     }
 }

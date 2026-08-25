@@ -12,6 +12,7 @@ interface AssignedContact {
 }
 
 interface TaskDetailData {
+    isProtected: boolean;
     category: 'User Story' | 'Technical Task';
     title: string;
     description: string;

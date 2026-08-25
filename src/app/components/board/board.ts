@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { AddTaskOverlay } from '../add-task/add-task-overlay/add-task-overlay';
 import { BoardTask, TaskMoveDirection, TaskMoveRequest, TaskStatus } from './board-task.model';
 import { ContactsService } from '../../core/services/contacts.service';
@@ -19,7 +19,7 @@ interface BoardColumn {
     templateUrl: './board.html',
     styleUrl: './board.scss',
 })
-export class Board implements OnInit {
+export class Board implements OnInit, OnDestroy {
     private readonly contactsService = inject(ContactsService);
     private readonly tasksService = inject(TasksService);
 
@@ -30,6 +30,7 @@ export class Board implements OnInit {
     private dragBeforeId?: number;
     protected searchTerm = '';
     protected isAddTaskOpen = false;
+    protected editingTask: BoardTask | null = null;
 
     protected readonly columns: BoardColumn[] = [
         { title: 'To do', status: 'todo', emptyMessage: 'No tasks To do' },
@@ -45,6 +46,11 @@ export class Board implements OnInit {
     async ngOnInit(): Promise<void> {
         await Promise.all([this.contactsService.loadContacts(), this.tasksService.loadTasks()]);
         this.tasks.set(this.tasksService.tasks());
+        this.tasksService.subscribeToChanges(() => this.tasks.set(this.tasksService.tasks()));
+    }
+
+    ngOnDestroy(): void {
+        void this.tasksService.unsubscribeFromChanges();
     }
 
     protected tasksFor(status: TaskStatus): BoardTask[] {
@@ -160,6 +166,7 @@ export class Board implements OnInit {
     }
     protected toDetailData(task: BoardTask) {
         return {
+            isProtected: task.isProtected,
             category: task.category,
             title: task.title,
             description: task.description,
@@ -194,12 +201,29 @@ export class Board implements OnInit {
         void this.tasksService.updateTask(updatedTask.id, { subtasks });
     }
 
+    protected async deleteTask(): Promise<void> {
+        const task = this.selectedTask;
+        if (!task || task.isProtected) return;
+        const deleted = await this.tasksService.deleteTask(task.id);
+        if (!deleted) return;
+        this.tasks.update((tasks) => tasks.filter((item) => item.id !== task.id));
+        this.selectedTask = null;
+    }
+
     protected openAddTask(): void {
+        this.editingTask = null;
+        this.isAddTaskOpen = true;
+    }
+
+    protected openEditTask(): void {
+        this.editingTask = this.selectedTask;
+        this.selectedTask = null;
         this.isAddTaskOpen = true;
     }
 
     protected closeAddTask(): void {
         this.isAddTaskOpen = false;
+        this.editingTask = null;
     }
 
     protected onTaskCreated(): void {

@@ -1,4 +1,5 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
+import { RealtimeChannel } from '@supabase/supabase-js';
 import { BoardTask, NewTask, TaskRow } from '../../components/board/board-task.model';
 import { ContactsService } from './contacts.service';
 import { SupabaseService } from './supabase.service';
@@ -12,6 +13,7 @@ export class TasksService {
   private readonly rowsSignal = signal<TaskRow[]>([]);
   private readonly loadingSignal = signal(false);
   private readonly errorSignal = signal<string | null>(null);
+  private realtimeChannel?: RealtimeChannel;
 
   readonly tasks = computed(() => this.rowsSignal().map((row) => this.toBoardTask(row)));
   readonly loading = this.loadingSignal.asReadonly();
@@ -53,6 +55,23 @@ export class TasksService {
     if (error || !data?.length) return this.failRequest(error?.message ?? 'Task could not be deleted', false);
     await this.loadTasks();
     return true;
+  }
+
+  subscribeToChanges(onTasksChanged: () => void): void {
+    if (this.realtimeChannel) return;
+    this.realtimeChannel = this.supabase
+      .channel('tasks-changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: TABLE }, async () => {
+        await this.loadTasks();
+        onTasksChanged();
+      })
+      .subscribe();
+  }
+
+  async unsubscribeFromChanges(): Promise<void> {
+    if (!this.realtimeChannel) return;
+    await this.supabase.removeChannel(this.realtimeChannel);
+    this.realtimeChannel = undefined;
   }
 
   private toBoardTask(row: TaskRow): BoardTask {

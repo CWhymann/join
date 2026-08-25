@@ -18,7 +18,10 @@ describe('Board', () => {
           provide: TasksService,
           useValue: {
             tasks: signal(BOARD_TASKS),
+            deleteTask: async () => true,
             loadTasks: async () => undefined,
+            subscribeToChanges: () => undefined,
+            unsubscribeFromChanges: async () => undefined,
             updateTask: async () => true,
             updateTaskPosition: async () => true,
           },
@@ -70,6 +73,20 @@ describe('Board', () => {
     fixture.detectChanges();
 
     expect(component.selectedTask?.id).toBe(1);
+  });
+
+  it('should delete a confirmed task from the board', async () => {
+    const component = fixture.componentInstance as unknown as {
+      selectedTask: typeof BOARD_TASKS[number] | null;
+      deleteTask(): Promise<void>;
+      tasks(): typeof BOARD_TASKS;
+    };
+    component.selectedTask = BOARD_TASKS[0];
+
+    await component.deleteTask();
+
+    expect(component.tasks().some((task) => task.id === BOARD_TASKS[0].id)).toBe(false);
+    expect(component.selectedTask).toBeNull();
   });
 
   it('should move a task to another column', () => {
