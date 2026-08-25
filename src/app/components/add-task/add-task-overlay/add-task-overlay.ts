@@ -1,0 +1,29 @@
+import { Component, input, output } from '@angular/core';
+import { AddTaskForm } from '../add-task-form/add-task-form';
+import { BoardTask } from '../../board/board-task.model';
+
+@Component({
+    selector: 'app-add-task-overlay',
+    standalone: true,
+    imports: [AddTaskForm],
+    templateUrl: './add-task-overlay.html',
+    styleUrl: './add-task-overlay.scss',
+})
+export class AddTaskOverlay {
+    readonly task = input<BoardTask | null>(null);
+    readonly closeClicked = output<void>();
+    readonly taskCreated = output<void>();
+
+    protected close(): void {
+        this.closeClicked.emit();
+    }
+
+    protected onBackdropClick(event: MouseEvent): void {
+        if (event.target === event.currentTarget) this.close();
+    }
+
+    protected created(): void {
+        this.taskCreated.emit();
+        this.close();
+    }
+}

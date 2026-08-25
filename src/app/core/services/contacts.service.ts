@@ -41,7 +41,7 @@ export class ContactsService {
     return data as Contact;
   }
 
-  async updateContact(id: string, changes: ContactUpdate): Promise<Contact | null> {
+  async updateContact(id: number, changes: ContactUpdate): Promise<Contact | null> {
     this.startRequest();
     const { data, error } = await this.supabase
       .from(TABLE)
@@ -57,7 +57,7 @@ export class ContactsService {
     return data as Contact;
   }
 
-  async deleteContact(id: string): Promise<boolean> {
+  async deleteContact(id: number): Promise<boolean> {
     this.startRequest();
     const { data, error } = await this.supabase.from(TABLE).delete().eq('id', id).select();
     if (error) {
@@ -72,7 +72,7 @@ export class ContactsService {
     return true;
   }
 
-  findById(id: string): Contact | undefined {
+  findById(id: number): Contact | undefined {
     return this.contactsSignal().find((contact) => contact.id === id);
   }
 
