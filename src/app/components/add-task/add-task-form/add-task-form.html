@@ -238,6 +238,7 @@
                         <li
                             class="add-task-form__subtask"
                             [class.add-task-form__subtask--editing]="editingIndex === $index"
+                            (click)="startEditing($index)"
                         >
                             @if (editingIndex === $index) {
                                 <input
@@ -248,27 +249,33 @@
                                     (keydown.enter)="saveSubtask($event)"
                                 />
 
-                                <div class="add-task-form__subtask-tools">
-                                    <button
-                                        class="add-task-form__subtask-action add-task-form__subtask-action--delete"
-                                        type="button"
-                                        aria-label="Delete subtask"
-                                        (click)="removeSubtask($index)"
-                                    ></button>
-
-                                    <span class="add-task-form__subtask-separator" aria-hidden="true"></span>
-
+                                <div
+                                    class="add-task-form__subtask-tools"
+                                    (click)="$event.stopPropagation()"
+                                >
                                     <button
                                         class="add-task-form__subtask-action add-task-form__subtask-action--check"
                                         type="button"
                                         aria-label="Save subtask"
                                         (click)="saveSubtask()"
                                     ></button>
+
+                                    <span class="add-task-form__subtask-separator" aria-hidden="true"></span>
+
+                                    <button
+                                        class="add-task-form__subtask-action add-task-form__subtask-action--delete"
+                                        type="button"
+                                        aria-label="Delete subtask"
+                                        (click)="removeSubtask($index)"
+                                    ></button>
                                 </div>
                             } @else {
                                 <span class="add-task-form__subtask-text">{{ subtask }}</span>
 
-                                <div class="add-task-form__subtask-tools">
+                                <div
+                                    class="add-task-form__subtask-tools"
+                                    (click)="$event.stopPropagation()"
+                                >
                                     <button
                                         class="add-task-form__subtask-action add-task-form__subtask-action--edit"
                                         type="button"
