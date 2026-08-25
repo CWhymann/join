@@ -40,7 +40,8 @@ export class Contacts implements OnInit {
 
     private restartDetailAnimation(): void {
         this.document.defaultView?.requestAnimationFrame(() => {
-            const detail = this.contactDetail?.nativeElement.querySelector<HTMLElement>('.contact-detail');
+            const detail =
+                this.contactDetail?.nativeElement.querySelector<HTMLElement>('.contact-detail');
             if (!detail) return;
             detail.getAnimations().forEach((animation) => animation.cancel());
             detail.animate([{ transform: 'translateX(100%)' }, { transform: 'translateX(0)' }], {
@@ -91,9 +92,19 @@ export class Contacts implements OnInit {
     }
 
     closeForm(): void {
-        this.showForm.set(false);
-        this.editingContact.set(null);
-        this.renderer.removeClass(this.document.body, 'modal-open');
+        const modal = this.document.querySelector('.contacts__modal');
+        if (modal) {
+            this.renderer.addClass(modal, 'contacts__modal--closing');
+            setTimeout(() => {
+                this.showForm.set(false);
+                this.editingContact.set(null);
+                this.renderer.removeClass(this.document.body, 'modal-open');
+            }, 300);
+        } else {
+            this.showForm.set(false);
+            this.editingContact.set(null);
+            this.renderer.removeClass(this.document.body, 'modal-open');
+        }
     }
 
     onFormSaved(contact: Contact | null): void {
