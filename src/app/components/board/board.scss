@@ -5,8 +5,7 @@ $breakpoint-columns: 1255.98px;
 
 .board {
     min-height: 100%;
-    padding: clamp(48px, calc(12.7px + 4.67vw), 80px)
-        clamp(32px, calc(-4.6px + 4.76vw), 64px);
+    padding: clamp(48px, calc(12.7px + 4.67vw), 80px) clamp(32px, calc(-4.6px + 4.76vw), 64px);
     background-color: #f6f7f8;
 
     @include mobile {
@@ -44,12 +43,12 @@ $breakpoint-columns: 1255.98px;
         align-items: center;
         gap: clamp(12px, 1.5vw, 16px);
 
-    &__title {
-        color: #000000;
-        font-size: clamp(47px, 4.25vw, 61px);
-        font-weight: $font-weight-bold;
-        line-height: 1.2;
-    }
+        &__title {
+            color: #000000;
+            font-size: clamp(47px, 4.25vw, 61px);
+            font-weight: $font-weight-bold;
+            line-height: 1.2;
+        }
         @media (max-width: 850px) {
             width: 100%;
         }
@@ -346,5 +345,39 @@ $breakpoint-columns: 1255.98px;
         font-size: clamp(16px, 1vw, 17px);
         line-height: 1.2;
         text-align: center;
+    }
+    .task-toast {
+        position: fixed;
+        bottom: 100px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: $color-sidebar-bg;
+        color: #ffffff;
+        padding: $spacing-md $spacing-xl;
+        border-radius: 12px;
+        font-family: $font-primary;
+        font-weight: $font-weight-semibold;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        z-index: 200;
+        animation: fadeInOut 2.5s ease-in-out;
+    }
+
+    @keyframes fadeInOut {
+        0% {
+            opacity: 0;
+            transform: translateX(-50%) translateY(20px);
+        }
+        15% {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        85% {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        100% {
+            opacity: 0;
+            transform: translateX(-50%) translateY(20px);
+        }
     }
 }

@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { AddTaskOverlay } from '../add-task/add-task-overlay/add-task-overlay';
 import { BoardTask, TaskMoveDirection, TaskMoveRequest, TaskStatus } from './board-task.model';
-import { BOARD_TASKS } from './board-tasks.data';
+import { ContactsService } from '../../core/services/contacts.service';
+import { TasksService } from '../../core/services/tasks.service';
 import { TaskCard } from './task-card/task-card';
 import { TaskDetail } from './task-detail/task-detail';
+import { TaskToastService } from '../../core/services/task-toast.service';
 
 interface BoardColumn {
     title: string;
@@ -18,13 +20,19 @@ interface BoardColumn {
     templateUrl: './board.html',
     styleUrl: './board.scss',
 })
-export class Board {
-    protected tasks = [...BOARD_TASKS];
+export class Board implements OnInit, OnDestroy {
+    private readonly contactsService = inject(ContactsService);
+    private readonly tasksService = inject(TasksService);
+    protected readonly taskToastService = inject(TaskToastService);
+
+    protected readonly tasks = signal<BoardTask[]>([]);
     protected selectedTask: BoardTask | null = null;
     protected dragOverStatus: TaskStatus | null = null;
-    private draggedTaskId: string | null = null;
+    private draggedTaskId: number | null = null;
+    private dragBeforeId?: number;
     protected searchTerm = '';
     protected isAddTaskOpen = false;
+    protected editingTask: BoardTask | null = null;
 
     protected readonly columns: BoardColumn[] = [
         { title: 'To do', status: 'todo', emptyMessage: 'No tasks To do' },
@@ -37,8 +45,18 @@ export class Board {
         { title: 'Done', status: 'done', emptyMessage: 'No tasks Done' },
     ];
 
+    async ngOnInit(): Promise<void> {
+        await Promise.all([this.contactsService.loadContacts(), this.tasksService.loadTasks()]);
+        this.tasks.set(this.tasksService.tasks());
+        this.tasksService.subscribeToChanges(() => this.tasks.set(this.tasksService.tasks()));
+    }
+
+    ngOnDestroy(): void {
+        void this.tasksService.unsubscribeFromChanges();
+    }
+
     protected tasksFor(status: TaskStatus): BoardTask[] {
-        return this.tasks.filter((task) => task.status === status);
+        return this.tasks().filter((task) => task.status === status);
     }
 
     protected filteredTasksFor(status: TaskStatus): BoardTask[] {
@@ -73,27 +91,32 @@ export class Board {
 
     protected startDrag(event: { event: DragEvent; task: BoardTask }): void {
         this.draggedTaskId = event.task.id;
-        event.event.dataTransfer?.setData('text/plain', event.task.id);
+        event.event.dataTransfer?.setData('text/plain', String(event.task.id));
         if (event.event.dataTransfer) event.event.dataTransfer.effectAllowed = 'move';
     }
 
-    protected allowDrop(event: DragEvent, status: TaskStatus, beforeId?: string): void {
+    protected allowDrop(event: DragEvent, status: TaskStatus, beforeId?: number): void {
         event.preventDefault();
         if (beforeId) event.stopPropagation();
+        if (this.dragOverStatus !== status || beforeId !== undefined) {
+            this.dragBeforeId = beforeId;
+        }
         this.dragOverStatus = status;
         if (event.dataTransfer) event.dataTransfer.dropEffect = 'move';
     }
 
-    protected dropTask(event: DragEvent, status: TaskStatus, beforeId?: string): void {
+    protected dropTask(event: DragEvent, status: TaskStatus, beforeId?: number): void {
         event.preventDefault();
         event.stopPropagation();
-        if (this.draggedTaskId) this.moveTask(this.draggedTaskId, status, beforeId);
+        const targetBeforeId = beforeId ?? this.dragBeforeId;
+        if (this.draggedTaskId) this.moveTask(this.draggedTaskId, status, targetBeforeId);
         this.clearDragState();
     }
 
     protected clearDragState(): void {
         this.draggedTaskId = null;
         this.dragOverStatus = null;
+        this.dragBeforeId = undefined;
     }
 
     protected canMoveUp(task: BoardTask): boolean {
@@ -119,22 +142,39 @@ export class Board {
         this.moveTask(task.id, task.status, columnTasks[targetIndex]?.id);
     }
 
-    private moveTask(taskId: string, status: TaskStatus, beforeId?: string): void {
-        const tasks = [...this.tasks];
+    private moveTask(taskId: number, status: TaskStatus, beforeId?: number): void {
+        const tasks = [...this.tasks()];
         const sourceIndex = tasks.findIndex((task) => task.id === taskId);
         if (sourceIndex < 0) return;
         const [sourceTask] = tasks.splice(sourceIndex, 1);
         const targetIndex = beforeId ? tasks.findIndex((task) => task.id === beforeId) : -1;
         const updatedTask = { ...sourceTask, status };
         tasks.splice(targetIndex < 0 ? tasks.length : targetIndex, 0, updatedTask);
-        this.tasks = tasks;
+        this.tasks.set(this.updatePositions(tasks));
+        void this.savePositions();
+    }
+
+    private updatePositions(tasks: BoardTask[]): BoardTask[] {
+        return tasks.map((task) => ({
+            ...task,
+            position: tasks.filter((item) => item.status === task.status).indexOf(task),
+        }));
+    }
+
+    private async savePositions(): Promise<void> {
+        await Promise.all(
+            this.tasks().map((task) =>
+                this.tasksService.updateTaskPosition(task.id, task.status, task.position),
+            ),
+        );
     }
     protected toDetailData(task: BoardTask) {
         return {
+            isProtected: task.isProtected,
             category: task.category,
             title: task.title,
             description: task.description,
-            dueDate: '',
+            dueDate: task.dueDate,
             priority: (task.priority.charAt(0).toUpperCase() + task.priority.slice(1)) as
                 'Urgent' | 'Medium' | 'Low',
             assignedTo: task.assignees.map((a) => ({
@@ -152,11 +192,54 @@ export class Board {
         this.selectedTask = null;
     }
 
+    protected updateSubtask(change: { index: number; done: boolean }): void {
+        if (!this.selectedTask) return;
+        const subtasks = this.selectedTask.subtasks.map((subtask, index) =>
+            index === change.index ? { ...subtask, completed: change.done } : subtask,
+        );
+        const updatedTask = { ...this.selectedTask, subtasks };
+        this.selectedTask = updatedTask;
+        this.tasks.update((tasks) =>
+            tasks.map((task) => (task.id === updatedTask.id ? updatedTask : task)),
+        );
+        void this.tasksService.updateTask(updatedTask.id, { subtasks });
+    }
+
+    protected async deleteTask(): Promise<void> {
+        const task = this.selectedTask;
+        if (!task) return;
+        if (task.isProtected) {
+            this.taskToastService.taskLocked();
+            return;
+        }
+        const deleted = await this.tasksService.deleteTask(task.id);
+        if (!deleted) return;
+        this.tasks.update((tasks) => tasks.filter((item) => item.id !== task.id));
+        this.selectedTask = null;
+        this.taskToastService.taskDeleted();
+    }
+
     protected openAddTask(): void {
+        this.editingTask = null;
+        this.isAddTaskOpen = true;
+    }
+
+    protected openEditTask(): void {
+        if (this.selectedTask?.isProtected) {
+            this.taskToastService.taskLocked();
+            return;
+        }
+        this.editingTask = this.selectedTask;
+        this.selectedTask = null;
         this.isAddTaskOpen = true;
     }
 
     protected closeAddTask(): void {
         this.isAddTaskOpen = false;
+        this.editingTask = null;
+    }
+
+    protected onTaskCreated(): void {
+        this.tasks.set(this.tasksService.tasks());
     }
 }

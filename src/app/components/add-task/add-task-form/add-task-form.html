@@ -1,4 +1,4 @@
-<form class="add-task-form" [formGroup]="form">
+<form class="add-task-form" [formGroup]="form" (ngSubmit)="createTask()">
     <div class="add-task-form__columns">
         <div class="add-task-form__column add-task-form__column--left">
             <div class="add-task-form__field">
@@ -150,8 +150,8 @@
                     }
                 </div>
 
-                @if (selectedContacts().length) {
-                    <div class="add-task-form__avatars">
+                <div class="add-task-form__avatars">
+                    @if (selectedContacts().length) {
                         @for (contact of visibleContacts(); track contact.id) {
                             <span
                                 class="add-task-form__avatar"
@@ -165,8 +165,8 @@
                                 +{{ hiddenContactsCount() }}
                             </span>
                         }
-                    </div>
-                }
+                    }
+                </div>
             </div>
 
             <div class="add-task-form__field">
@@ -251,6 +251,7 @@
                         <li
                             class="add-task-form__subtask"
                             [class.add-task-form__subtask--editing]="editingIndex === $index"
+                            (click)="startEditing($index)"
                         >
                             @if (editingIndex === $index) {
                                 <input
@@ -261,27 +262,33 @@
                                     (keydown.enter)="saveSubtask($event)"
                                 />
 
-                                <div class="add-task-form__subtask-tools">
-                                    <button
-                                        class="add-task-form__subtask-action add-task-form__subtask-action--delete"
-                                        type="button"
-                                        aria-label="Delete subtask"
-                                        (click)="removeSubtask($index)"
-                                    ></button>
-
-                                    <span class="add-task-form__subtask-separator" aria-hidden="true"></span>
-
+                                <div
+                                    class="add-task-form__subtask-tools"
+                                    (click)="$event.stopPropagation()"
+                                >
                                     <button
                                         class="add-task-form__subtask-action add-task-form__subtask-action--check"
                                         type="button"
                                         aria-label="Save subtask"
                                         (click)="saveSubtask()"
                                     ></button>
+
+                                    <span class="add-task-form__subtask-separator" aria-hidden="true"></span>
+
+                                    <button
+                                        class="add-task-form__subtask-action add-task-form__subtask-action--delete"
+                                        type="button"
+                                        aria-label="Delete subtask"
+                                        (click)="removeSubtask($index)"
+                                    ></button>
                                 </div>
                             } @else {
                                 <span class="add-task-form__subtask-text">{{ subtask }}</span>
 
-                                <div class="add-task-form__subtask-tools">
+                                <div
+                                    class="add-task-form__subtask-tools"
+                                    (click)="$event.stopPropagation()"
+                                >
                                     <button
                                         class="add-task-form__subtask-action add-task-form__subtask-action--edit"
                                         type="button"
@@ -324,9 +331,9 @@
             <button
                 class="add-task-form__button add-task-form__button--primary"
                 type="submit"
-                [disabled]="form.invalid"
+                [disabled]="form.invalid || isSubmitting()"
             >
-                Create Task
+                {{ task() ? 'Ok' : 'Create Task' }}
                 <span class="add-task-form__icon add-task-form__icon--check" aria-hidden="true"></span>
             </button>
         </div>

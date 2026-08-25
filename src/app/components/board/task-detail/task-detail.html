@@ -47,12 +47,12 @@
             <div class="subtasks-section">
                 <span class="meta-label">Subtasks</span>
                 <div class="subtask-list">
-                    @for (subtask of t.subtasks; track subtask.title) {
+                    @for (subtask of t.subtasks; track subtask.title; let index = $index) {
                         <div class="subtask-row">
                             <input
                                 type="checkbox"
                                 [checked]="subtask.done"
-                                (change)="toggleSubtask(subtask)"
+                                (change)="toggleSubtask(subtask, index)"
                             />
                             <span [class.done]="subtask.done">{{ subtask.title }}</span>
                         </div>
@@ -61,7 +61,7 @@
             </div>
 
             <div class="actions">
-                <button type="button" class="action-btn" (click)="onDelete()">🗑 Delete</button>
+                <button type="button" class="action-btn" [disabled]="t.isProtected" [attr.title]="t.isProtected ? 'Protected tasks cannot be deleted' : null" (click)="onDelete()">🗑 Delete</button>
                 <span class="divider">|</span>
                 <button type="button" class="action-btn" (click)="onEdit(t)">✎ Edit</button>
             </div>
