@@ -109,4 +109,8 @@
             (taskCreated)="onTaskCreated()"
         />
     }
+
+    @if (taskToastService.show()) {
+        <div class="task-toast">{{ taskToastService.message() }}</div>
+    }
 </section>
