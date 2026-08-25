@@ -1,4 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { AddTaskOverlay } from '../add-task/add-task-overlay/add-task-overlay';
 import { BoardTask, TaskMoveDirection, TaskMoveRequest, TaskStatus } from './board-task.model';
 import { ContactsService } from '../../core/services/contacts.service';
 import { TasksService } from '../../core/services/tasks.service';
@@ -14,7 +15,7 @@ interface BoardColumn {
 @Component({
     selector: 'app-board',
     standalone: true,
-    imports: [TaskCard, TaskDetail],
+    imports: [AddTaskOverlay, TaskCard, TaskDetail],
     templateUrl: './board.html',
     styleUrl: './board.scss',
 })
@@ -27,6 +28,7 @@ export class Board implements OnInit {
     protected dragOverStatus: TaskStatus | null = null;
     private draggedTaskId: number | null = null;
     protected searchTerm = '';
+    protected isAddTaskOpen = false;
 
     protected readonly columns: BoardColumn[] = [
         { title: 'To do', status: 'todo', emptyMessage: 'No tasks To do' },
@@ -171,5 +173,13 @@ export class Board implements OnInit {
 
     protected closeTaskDetail(): void {
         this.selectedTask = null;
+    }
+
+    protected openAddTask(): void {
+        this.isAddTaskOpen = true;
+    }
+
+    protected closeAddTask(): void {
+        this.isAddTaskOpen = false;
     }
 }
