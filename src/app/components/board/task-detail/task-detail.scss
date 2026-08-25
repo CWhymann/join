@@ -72,8 +72,9 @@
     line-height: 1.2;
     color: #000;
     margin-bottom: clamp(16px, 3vw, 24px);
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
-
 .task-meta {
     display: flex;
     gap: 8px;
