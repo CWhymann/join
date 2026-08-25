@@ -5,6 +5,7 @@ import { ContactsService } from '../../core/services/contacts.service';
 import { TasksService } from '../../core/services/tasks.service';
 import { TaskCard } from './task-card/task-card';
 import { TaskDetail } from './task-detail/task-detail';
+import { TaskToastService } from '../../core/services/task-toast.service';
 
 interface BoardColumn {
     title: string;
@@ -22,6 +23,7 @@ interface BoardColumn {
 export class Board implements OnInit, OnDestroy {
     private readonly contactsService = inject(ContactsService);
     private readonly tasksService = inject(TasksService);
+    protected readonly taskToastService = inject(TaskToastService);
 
     protected readonly tasks = signal<BoardTask[]>([]);
     protected selectedTask: BoardTask | null = null;
@@ -161,7 +163,9 @@ export class Board implements OnInit, OnDestroy {
 
     private async savePositions(): Promise<void> {
         await Promise.all(
-            this.tasks().map((task) => this.tasksService.updateTaskPosition(task.id, task.status, task.position)),
+            this.tasks().map((task) =>
+                this.tasksService.updateTaskPosition(task.id, task.status, task.position),
+            ),
         );
     }
     protected toDetailData(task: BoardTask) {
@@ -203,11 +207,16 @@ export class Board implements OnInit, OnDestroy {
 
     protected async deleteTask(): Promise<void> {
         const task = this.selectedTask;
-        if (!task || task.isProtected) return;
+        if (!task) return;
+        if (task.isProtected) {
+            this.taskToastService.taskLocked();
+            return;
+        }
         const deleted = await this.tasksService.deleteTask(task.id);
         if (!deleted) return;
         this.tasks.update((tasks) => tasks.filter((item) => item.id !== task.id));
         this.selectedTask = null;
+        this.taskToastService.taskDeleted();
     }
 
     protected openAddTask(): void {
@@ -216,6 +225,10 @@ export class Board implements OnInit, OnDestroy {
     }
 
     protected openEditTask(): void {
+        if (this.selectedTask?.isProtected) {
+            this.taskToastService.taskLocked();
+            return;
+        }
         this.editingTask = this.selectedTask;
         this.selectedTask = null;
         this.isAddTaskOpen = true;

@@ -1,4 +1,13 @@
-import { Component, computed, HostListener, inject, input, OnInit, output, signal } from '@angular/core';
+import {
+    Component,
+    computed,
+    HostListener,
+    inject,
+    input,
+    OnInit,
+    output,
+    signal,
+} from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BoardTask, NewTask, TaskCategory, TaskPriority } from '../../board/board-task.model';
 import { Contact } from '../../../core/models/contact.model';
@@ -6,6 +15,7 @@ import { ContactsService } from '../../../core/services/contacts.service';
 import { TasksService } from '../../../core/services/tasks.service';
 import { getInitials } from '../../../core/utils/avatar.utils';
 import { dueDateValidator, formatDateInput, YEAR_RANGE } from '../../../core/utils/date.utils';
+import { TaskToastService } from '../../../core/services/task-toast.service';
 
 const MAX_VISIBLE_AVATARS = 3;
 
@@ -20,13 +30,15 @@ export class AddTaskForm implements OnInit {
     private formBuilder = inject(FormBuilder);
     private contactsService = inject(ContactsService);
     private tasksService = inject(TasksService);
-
+    private taskToastService = inject(TaskToastService);
     readonly taskCreated = output<void>();
     readonly task = input<BoardTask | null>(null);
 
     protected readonly contacts = this.contactsService.contacts;
     protected readonly selectedContacts = signal<Contact[]>([]);
-    protected readonly visibleContacts = computed(() => this.selectedContacts().slice(0, MAX_VISIBLE_AVATARS));
+    protected readonly visibleContacts = computed(() =>
+        this.selectedContacts().slice(0, MAX_VISIBLE_AVATARS),
+    );
     protected readonly hiddenContactsCount = computed(() =>
         Math.max(0, this.selectedContacts().length - MAX_VISIBLE_AVATARS),
     );
@@ -80,7 +92,13 @@ export class AddTaskForm implements OnInit {
     protected clearForm(): void {
         this.isAssignedOpen = false;
         this.isCategoryOpen = false;
-        this.form.reset({ title: '', description: '', dueDate: '', priority: 'medium', category: '' });
+        this.form.reset({
+            title: '',
+            description: '',
+            dueDate: '',
+            priority: 'medium',
+            category: '',
+        });
         this.selectedContacts.set([]);
         this.subtasks.set([]);
         this.subtaskDraft.set('');
@@ -115,7 +133,9 @@ export class AddTaskForm implements OnInit {
             return `Please choose a year between ${this.minYear} and ${this.maxYear}`;
         }
 
-        return control.hasError('pastDate') ? 'The date must not be in the past' : 'This field is required';
+        return control.hasError('pastDate')
+            ? 'The date must not be in the past'
+            : 'This field is required';
     }
 
     protected isInvalid(name: string): boolean {
@@ -194,7 +214,9 @@ export class AddTaskForm implements OnInit {
         }
 
         const index = this.editingIndex;
-        this.subtasks.update((items) => items.map((item, position) => (position === index ? value : item)));
+        this.subtasks.update((items) =>
+            items.map((item, position) => (position === index ? value : item)),
+        );
         this.editingIndex = -1;
     }
 
@@ -221,6 +243,11 @@ export class AddTaskForm implements OnInit {
 
         if (!task) return;
         this.clearForm();
+        if (currentTask) {
+            this.taskToastService.taskSaved();
+        } else {
+            this.taskToastService.taskCreated();
+        }
         this.taskCreated.emit();
     }
 
@@ -235,7 +262,9 @@ export class AddTaskForm implements OnInit {
             priority: (value.priority ?? 'medium') as TaskPriority,
             category: value.category as TaskCategory,
             status: currentTask?.status ?? 'todo',
-            position: currentTask?.position ?? this.tasksService.tasks().filter((task) => task.status === 'todo').length,
+            position:
+                currentTask?.position ??
+                this.tasksService.tasks().filter((task) => task.status === 'todo').length,
             assigned_to: this.selectedContacts().map((contact) => contact.id),
             subtasks: this.subtasks().map((title, index) => ({
                 id: currentTask?.subtasks[index]?.id ?? `subtask-${Date.now()}-${index}`,
@@ -256,7 +285,9 @@ export class AddTaskForm implements OnInit {
             category: task.category,
         });
         this.selectedContacts.set(
-            this.contacts().filter((contact) => task.assignees.some((assignee) => assignee.id === contact.id)),
+            this.contacts().filter((contact) =>
+                task.assignees.some((assignee) => assignee.id === contact.id),
+            ),
         );
         this.subtasks.set(task.subtasks.map((subtask) => subtask.title));
     }
