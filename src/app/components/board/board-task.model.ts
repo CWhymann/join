@@ -24,12 +24,32 @@ export interface BoardSubtask {
 }
 
 export interface BoardTask {
-  id: string;
+  id: number;
   category: TaskCategory;
   title: string;
   description: string;
+  dueDate: string;
   status: TaskStatus;
   priority: TaskPriority;
+  position: number;
+  isProtected: boolean;
   assignees: TaskAssignee[];
   subtasks: BoardSubtask[];
 }
+
+export interface TaskRow {
+  id: number;
+  created_at: string;
+  title: string;
+  description: string | null;
+  due_date: string;
+  priority: TaskPriority;
+  category: TaskCategory;
+  status: TaskStatus;
+  position: number;
+  assigned_to: number[] | null;
+  subtasks: BoardSubtask[] | null;
+  is_protected: boolean;
+}
+
+export type NewTask = Omit<TaskRow, 'id' | 'created_at' | 'is_protected'>;

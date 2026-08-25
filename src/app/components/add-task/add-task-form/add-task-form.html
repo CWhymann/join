@@ -1,4 +1,4 @@
-<form class="add-task-form" [formGroup]="form">
+<form class="add-task-form" [formGroup]="form" (ngSubmit)="createTask()">
     <div class="add-task-form__columns">
         <div class="add-task-form__column add-task-form__column--left">
             <div class="add-task-form__field">
@@ -137,8 +137,8 @@
                     }
                 </div>
 
-                @if (selectedContacts().length) {
-                    <div class="add-task-form__avatars">
+                <div class="add-task-form__avatars">
+                    @if (selectedContacts().length) {
                         @for (contact of visibleContacts(); track contact.id) {
                             <span
                                 class="add-task-form__avatar"
@@ -152,8 +152,8 @@
                                 +{{ hiddenContactsCount() }}
                             </span>
                         }
-                    </div>
-                }
+                    }
+                </div>
             </div>
 
             <div class="add-task-form__field">
@@ -318,9 +318,9 @@
             <button
                 class="add-task-form__button add-task-form__button--primary"
                 type="submit"
-                [disabled]="form.invalid"
+                [disabled]="form.invalid || isSubmitting()"
             >
-                Create Task
+                {{ task() ? 'Ok' : 'Create Task' }}
                 <span class="add-task-form__icon add-task-form__icon--check" aria-hidden="true"></span>
             </button>
         </div>

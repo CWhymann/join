@@ -1,6 +1,10 @@
+import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { ContactsService } from '../../core/services/contacts.service';
+import { TasksService } from '../../core/services/tasks.service';
 import { Board } from './board';
+import { BOARD_TASKS } from './board-tasks.data';
 
 describe('Board', () => {
   let fixture: ComponentFixture<Board>;
@@ -8,9 +12,28 @@ describe('Board', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [Board],
+      providers: [
+        { provide: ContactsService, useValue: { loadContacts: async () => undefined } },
+        {
+          provide: TasksService,
+          useValue: {
+            tasks: signal(BOARD_TASKS),
+            deleteTask: async () => true,
+            loadTasks: async () => undefined,
+            subscribeToChanges: () => undefined,
+            unsubscribeFromChanges: async () => undefined,
+            updateTask: async () => true,
+            updateTaskPosition: async () => true,
+          },
+        },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Board);
+    fixture.detectChanges();
+    await new Promise((resolve) => setTimeout(resolve));
+    const component = fixture.componentInstance as unknown as { tasks: { set(value: typeof BOARD_TASKS): void } };
+    component.tasks.set([...BOARD_TASKS]);
     fixture.detectChanges();
   });
 
@@ -44,12 +67,26 @@ describe('Board', () => {
 
   it('should select a task when its card is clicked', () => {
     const element = fixture.nativeElement as HTMLElement;
-    const component = fixture.componentInstance as unknown as { selectedTask: { id: string } | null };
+    const component = fixture.componentInstance as unknown as { selectedTask: { id: number } | null };
 
     element.querySelector<HTMLElement>('.task-card')?.click();
     fixture.detectChanges();
 
-    expect(component.selectedTask?.id).toBe('task-1');
+    expect(component.selectedTask?.id).toBe(1);
+  });
+
+  it('should delete a confirmed task from the board', async () => {
+    const component = fixture.componentInstance as unknown as {
+      selectedTask: typeof BOARD_TASKS[number] | null;
+      deleteTask(): Promise<void>;
+      tasks(): typeof BOARD_TASKS;
+    };
+    component.selectedTask = BOARD_TASKS[0];
+
+    await component.deleteTask();
+
+    expect(component.tasks().some((task) => task.id === BOARD_TASKS[0].id)).toBe(false);
+    expect(component.selectedTask).toBeNull();
   });
 
   it('should move a task to another column', () => {
@@ -67,7 +104,7 @@ describe('Board', () => {
   it('should move a task through the mobile menu', () => {
     const element = fixture.nativeElement as HTMLElement;
     const firstCard = element.querySelector('.task-card');
-    const component = fixture.componentInstance as unknown as { selectedTask: { id: string } | null };
+    const component = fixture.componentInstance as unknown as { selectedTask: { id: number } | null };
 
     firstCard?.querySelector<HTMLElement>('.task-card__move-toggle')?.click();
     fixture.detectChanges();
@@ -89,6 +126,20 @@ describe('Board', () => {
 
     cards?.item(1).dispatchEvent(new Event('dragstart', { bubbles: true }));
     firstSlot?.dispatchEvent(new Event('drop', { bubbles: true, cancelable: true }));
+    fixture.detectChanges();
+
+    expect(column?.querySelector('.task-card__title')?.textContent).toContain('HTML Base');
+  });
+
+  it('should keep the upper drop position when the preview moves the target card', () => {
+    const element = fixture.nativeElement as HTMLElement;
+    const column = element.querySelector('.board__column[data-status="in-progress"]');
+    const cards = column?.querySelectorAll('.task-card');
+    const firstSlot = column?.querySelector('.board__task-slot');
+
+    cards?.item(1).dispatchEvent(new Event('dragstart', { bubbles: true }));
+    firstSlot?.dispatchEvent(new Event('dragover', { bubbles: true, cancelable: true }));
+    column?.dispatchEvent(new Event('drop', { bubbles: true, cancelable: true }));
     fixture.detectChanges();
 
     expect(column?.querySelector('.task-card__title')?.textContent).toContain('HTML Base');

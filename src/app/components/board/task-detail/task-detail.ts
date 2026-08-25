@@ -12,6 +12,7 @@ interface AssignedContact {
 }
 
 interface TaskDetailData {
+    isProtected: boolean;
     category: 'User Story' | 'Technical Task';
     title: string;
     description: string;
@@ -34,6 +35,7 @@ export class TaskDetail {
     editClicked = output<TaskDetailData>();
     deleteClicked = output<TaskDetailData>();
     closeClicked = output<void>();
+    subtaskChanged = output<{ index: number; done: boolean }>();
 
     deleteConfirmOpen = signal(false);
 
@@ -54,8 +56,9 @@ export class TaskDetail {
         this.closeDetail();
     }
 
-    toggleSubtask(subtask: Subtask): void {
+    toggleSubtask(subtask: Subtask, index: number): void {
         subtask.done = !subtask.done;
+        this.subtaskChanged.emit({ index, done: subtask.done });
     }
 
     onEdit(task: TaskDetailData): void {

@@ -93,10 +93,20 @@
         }
     </div>
     @if (selectedTask) {
-        <app-task-detail [task]="toDetailData(selectedTask)" (closeClicked)="closeTaskDetail()" />
+        <app-task-detail
+            [task]="toDetailData(selectedTask)"
+            (closeClicked)="closeTaskDetail()"
+            (deleteClicked)="deleteTask()"
+            (editClicked)="openEditTask()"
+            (subtaskChanged)="updateSubtask($event)"
+        />
     }
 
     @if (isAddTaskOpen) {
-        <app-add-task-overlay (closeClicked)="closeAddTask()" />
+        <app-add-task-overlay
+            [task]="editingTask"
+            (closeClicked)="closeAddTask()"
+            (taskCreated)="onTaskCreated()"
+        />
     }
 </section>

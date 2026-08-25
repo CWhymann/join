@@ -51,4 +51,14 @@ describe('TaskDetail', () => {
 
         expect(closeSpy).toHaveBeenCalled();
     });
+
+    it('should emit the updated subtask state', () => {
+        const changeSpy = vi.fn();
+        const subtask = { title: 'Test subtask', done: false };
+        component.subtaskChanged.subscribe(changeSpy);
+
+        component.toggleSubtask(subtask, 0);
+
+        expect(changeSpy).toHaveBeenCalledWith({ index: 0, done: true });
+    });
 });

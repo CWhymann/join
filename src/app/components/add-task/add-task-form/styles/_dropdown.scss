@@ -137,6 +137,7 @@
 
     &__avatars {
         display: flex;
+        min-height: 32px;
         flex-wrap: wrap;
         margin-top: $spacing-sm;
 
