@@ -19,6 +19,7 @@ describe('Board', () => {
           useValue: {
             tasks: signal(BOARD_TASKS),
             loadTasks: async () => undefined,
+            updateTask: async () => true,
             updateTaskPosition: async () => true,
           },
         },

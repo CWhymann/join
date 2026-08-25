@@ -181,6 +181,19 @@ export class Board implements OnInit {
         this.selectedTask = null;
     }
 
+    protected updateSubtask(change: { index: number; done: boolean }): void {
+        if (!this.selectedTask) return;
+        const subtasks = this.selectedTask.subtasks.map((subtask, index) =>
+            index === change.index ? { ...subtask, completed: change.done } : subtask,
+        );
+        const updatedTask = { ...this.selectedTask, subtasks };
+        this.selectedTask = updatedTask;
+        this.tasks.update((tasks) =>
+            tasks.map((task) => (task.id === updatedTask.id ? updatedTask : task)),
+        );
+        void this.tasksService.updateTask(updatedTask.id, { subtasks });
+    }
+
     protected openAddTask(): void {
         this.isAddTaskOpen = true;
     }

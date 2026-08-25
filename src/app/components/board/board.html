@@ -93,7 +93,11 @@
         }
     </div>
     @if (selectedTask) {
-        <app-task-detail [task]="toDetailData(selectedTask)" (closeClicked)="closeTaskDetail()" />
+        <app-task-detail
+            [task]="toDetailData(selectedTask)"
+            (closeClicked)="closeTaskDetail()"
+            (subtaskChanged)="updateSubtask($event)"
+        />
     }
 
     @if (isAddTaskOpen) {
