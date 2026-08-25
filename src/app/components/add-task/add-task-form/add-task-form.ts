@@ -165,6 +165,10 @@ export class AddTaskForm implements OnInit {
     }
 
     protected startEditing(index: number): void {
+        if (this.editingIndex === index) {
+            return;
+        }
+
         this.editingIndex = index;
         this.editingDraft.set(this.subtasks()[index]);
     }
