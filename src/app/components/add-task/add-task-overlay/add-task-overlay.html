@@ -1,0 +1,16 @@
+<div class="add-task-overlay" (click)="onBackdropClick($event)">
+    <section class="add-task-overlay__dialog">
+        <header class="add-task-overlay__header">
+            <h1 class="add-task-overlay__headline">{{ task() ? 'Edit Task' : 'Add Task' }}</h1>
+
+            <button
+                class="add-task-overlay__close"
+                type="button"
+                aria-label="Close"
+                (click)="close()"
+            ></button>
+        </header>
+
+        <app-add-task-form [task]="task()" (taskCreated)="created()" />
+    </section>
+</div>

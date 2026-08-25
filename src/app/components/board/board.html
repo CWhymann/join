@@ -24,7 +24,12 @@
                 }
                 <span class="board__search-icon" aria-hidden="true"></span>
             </label>
-            <button class="board__add-task" type="button" aria-label="Add task">
+            <button
+                class="board__add-task"
+                type="button"
+                aria-label="Add task"
+                (click)="openAddTask()"
+            >
                 <span class="board__add-task-label">Add task</span>
                 <span aria-hidden="true">+</span>
             </button>
@@ -88,6 +93,20 @@
         }
     </div>
     @if (selectedTask) {
-        <app-task-detail [task]="toDetailData(selectedTask)" (closeClicked)="closeTaskDetail()" />
+        <app-task-detail
+            [task]="toDetailData(selectedTask)"
+            (closeClicked)="closeTaskDetail()"
+            (deleteClicked)="deleteTask()"
+            (editClicked)="openEditTask()"
+            (subtaskChanged)="updateSubtask($event)"
+        />
+    }
+
+    @if (isAddTaskOpen) {
+        <app-add-task-overlay
+            [task]="editingTask"
+            (closeClicked)="closeAddTask()"
+            (taskCreated)="onTaskCreated()"
+        />
     }
 </section>

@@ -39,84 +39,82 @@
             </span>
 
             <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
-                <div class="contact-form__fields">
-                    <div class="contact-form__field">
-                        <div class="contact-form__input-wrap">
-                            <input
-                                type="text"
-                                formControlName="name"
-                                placeholder="Name"
-                                [maxlength]="maxLengths.name"
-                                class="contact-form__input"
-                            />
-                            <img src="icons/name_icon.svg" alt="" class="contact-form__icon" />
-                        </div>
-                        <span class="contact-form__error">
-                            @if (form.get('name')?.touched && form.get('name')?.invalid) {
-                                @if (form.get('name')?.errors?.['required']) {
-                                    Name is required.
-                                } @else if (form.get('name')?.errors?.['invalidName']) {
-                                    Please enter first and last name using letters only.
-                                }
-                            } @else if (atLimit('name')) {
-                                <span class="contact-form__hint">
-                                    Maximum {{ maxLengths.name }} characters reached.
-                                </span>
-                            }
-                        </span>
+                <div class="contact-form__field">
+                    <div class="contact-form__input-wrap">
+                        <input
+                            type="text"
+                            formControlName="name"
+                            placeholder="Name"
+                            [maxlength]="maxLengths.name"
+                            class="contact-form__input"
+                        />
+                        <img src="icons/name_icon.svg" alt="" class="contact-form__icon" />
                     </div>
+                    <span class="contact-form__error">
+                        @if (form.get('name')?.touched && form.get('name')?.invalid) {
+                            @if (form.get('name')?.errors?.['required']) {
+                                Name is required.
+                            } @else if (form.get('name')?.errors?.['invalidName']) {
+                                Letters only, first and last name.
+                            }
+                        } @else if (atLimit('name')) {
+                            <span class="contact-form__hint">
+                                Maximum {{ maxLengths.name }} characters reached.
+                            </span>
+                        }
+                    </span>
+                </div>
 
-                    <div class="contact-form__field">
-                        <div class="contact-form__input-wrap">
-                            <input
-                                type="text"
-                                formControlName="email"
-                                placeholder="Email"
-                                [maxlength]="maxLengths.email"
-                                class="contact-form__input"
-                            />
-                            <img src="icons/mail_icon.svg" alt="" class="contact-form__icon" />
-                        </div>
-                        <span class="contact-form__error">
-                            @if (form.get('email')?.touched && form.get('email')?.invalid) {
-                                @if (form.get('email')?.errors?.['required']) {
-                                    Email is required.
-                                } @else if (form.get('email')?.errors?.['pattern']) {
-                                    Please enter a valid email address.
-                                }
-                            } @else if (atLimit('email')) {
-                                <span class="contact-form__hint">
-                                    Maximum {{ maxLengths.email }} characters reached.
-                                </span>
-                            }
-                        </span>
+                <div class="contact-form__field">
+                    <div class="contact-form__input-wrap">
+                        <input
+                            type="text"
+                            formControlName="email"
+                            placeholder="Email"
+                            [maxlength]="maxLengths.email"
+                            class="contact-form__input"
+                        />
+                        <img src="icons/mail_icon.svg" alt="" class="contact-form__icon" />
                     </div>
+                    <span class="contact-form__error">
+                        @if (form.get('email')?.touched && form.get('email')?.invalid) {
+                            @if (form.get('email')?.errors?.['required']) {
+                                Email is required.
+                            } @else if (form.get('email')?.errors?.['pattern']) {
+                                Please enter a valid email address.
+                            }
+                        } @else if (atLimit('email')) {
+                            <span class="contact-form__hint">
+                                Maximum {{ maxLengths.email }} characters reached.
+                            </span>
+                        }
+                    </span>
+                </div>
 
-                    <div class="contact-form__field">
-                        <div class="contact-form__input-wrap">
-                            <input
-                                type="text"
-                                formControlName="phone"
-                                placeholder="Phone"
-                                [maxlength]="maxLengths.phone"
-                                class="contact-form__input"
-                            />
-                            <img src="icons/phone_icon.svg" alt="" class="contact-form__icon" />
-                        </div>
-                        <span class="contact-form__error">
-                            @if (form.get('phone')?.touched && form.get('phone')?.invalid) {
-                                @if (form.get('phone')?.errors?.['required']) {
-                                    Phone number is required.
-                                } @else if (form.get('phone')?.errors?.['pattern']) {
-                                    Only digits and an optional leading "+" are allowed.
-                                }
-                            } @else if (atLimit('phone')) {
-                                <span class="contact-form__hint">
-                                    Maximum {{ maxLengths.phone }} characters reached.
-                                </span>
-                            }
-                        </span>
+                <div class="contact-form__field">
+                    <div class="contact-form__input-wrap">
+                        <input
+                            type="text"
+                            formControlName="phone"
+                            placeholder="Phone"
+                            [maxlength]="maxLengths.phone"
+                            class="contact-form__input"
+                        />
+                        <img src="icons/phone_icon.svg" alt="" class="contact-form__icon" />
                     </div>
+                    <span class="contact-form__error">
+                        @if (form.get('phone')?.touched && form.get('phone')?.invalid) {
+                            @if (form.get('phone')?.errors?.['required']) {
+                                Phone number is required.
+                            } @else if (form.get('phone')?.errors?.['pattern']) {
+                                Only digits and optional leading +.
+                            }
+                        } @else if (atLimit('phone')) {
+                            <span class="contact-form__hint">
+                                Maximum {{ maxLengths.phone }} characters reached.
+                            </span>
+                        }
+                    </span>
                 </div>
 
                 <div class="contact-form__actions">
