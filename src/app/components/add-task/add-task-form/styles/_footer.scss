@@ -9,12 +9,11 @@
         align-items: flex-end;
         justify-content: space-between;
         gap: $spacing-lg;
-        margin-top: auto;
         padding-block: $spacing-md $spacing-xl;
-        background-color: var(--add-task-surface, #{$color-bg});
+        background-color: $color-bg;
 
         @include mobile {
-            bottom: var(--add-task-footer-bottom, #{$mobile-bar-height});
+            bottom: $mobile-bar-height;
             flex-direction: column;
             align-items: stretch;
         }
