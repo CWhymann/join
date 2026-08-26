@@ -70,7 +70,7 @@ $breakpoint-columns: 1255.98px;
     height: 28px;
     padding: 0;
     border: unset;
-    background: transparent url('/icons/arrow-drop-down.svg') center / 24px no-repeat;
+    background: transparent url('../../../../../public/icons/arrow-drop-down.svg') center / 24px no-repeat;
     cursor: pointer;
 
     &--left {
@@ -88,7 +88,7 @@ $breakpoint-columns: 1255.98px;
     padding: 0;
     border: 2px solid $color-text;
     border-radius: 50%;
-    background: #ffffff url('/icons/arrow-drop-down.svg') center / 24px no-repeat;
+    background: #ffffff url('../../../../../public/icons/arrow-drop-down.svg') center / 24px no-repeat;
     cursor: pointer;
     transition: border-color $transition-fast, background-color $transition-fast, transform $transition-fast;
 
@@ -221,18 +221,18 @@ $breakpoint-columns: 1255.98px;
 
     &--urgent {
       background-color: #ff3d00;
-      mask-image: url('/icons/prio-urgent.svg');
+      mask-image: url('../../../../../public/icons/prio-urgent.svg');
     }
 
     &--medium {
       height: 8px;
       background-color: #ffa800;
-      mask-image: url('/icons/prio-medium.svg');
+      mask-image: url('../../../../../public/icons/prio-medium.svg');
     }
 
     &--low {
       background-color: #7ae229;
-      mask-image: url('/icons/prio-low.svg');
+      mask-image: url('../../../../../public/icons/prio-low.svg');
     }
   }
 }

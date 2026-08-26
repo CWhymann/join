@@ -46,7 +46,7 @@
         height: 24px;
         flex-shrink: 0;
         background-color: $color-text;
-        mask-image: url('/icons/arrow-drop-down.svg');
+        mask-image: url('../../../../../../public/icons/arrow-drop-down.svg');
         mask-position: center;
         mask-repeat: no-repeat;
         mask-size: contain;
@@ -113,7 +113,7 @@
                 background-color: $color-text;
                 content: '';
                 inset: -4px;
-                mask: url('/icons/checkbox-check.svg') center / contain no-repeat;
+                mask: url('../../../../../../public/icons/checkbox-check.svg') center / contain no-repeat;
             }
         }
     }

@@ -73,16 +73,16 @@
         mask-size: contain;
 
         .add-task-form__priority--urgent & {
-            mask-image: url('/icons/prio-urgent.svg');
+            mask-image: url('../../../../../../public/icons/prio-urgent.svg');
         }
 
         .add-task-form__priority--medium & {
             height: 8px;
-            mask-image: url('/icons/prio-medium.svg');
+            mask-image: url('../../../../../../public/icons/prio-medium.svg');
         }
 
         .add-task-form__priority--low & {
-            mask-image: url('/icons/prio-low.svg');
+            mask-image: url('../../../../../../public/icons/prio-low.svg');
         }
 
         .add-task-form__priority--active & {
