@@ -46,6 +46,7 @@ $breakpoint-columns: 1255.98px;
 
     &__detail {
         flex: 1;
+        overflow-x: clip;
         padding: clamp($spacing-md, 2.22vw, $spacing-xl);
         padding-top: clamp(48px, 6.67vw, $spacing-xl * 3);
 
