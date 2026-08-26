@@ -18,6 +18,10 @@
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     font-family: 'Inter', sans-serif;
     animation: slideInFromRight 0.3s ease-out;
+
+    &.closing {
+        animation: slideOutToRight 0.3s ease-out forwards;
+    }
 }
 
 @keyframes slideInFromRight {
@@ -28,6 +32,17 @@
     to {
         transform: translateX(0);
         opacity: 1;
+    }
+}
+
+@keyframes slideOutToRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
     }
 }
 
@@ -75,6 +90,7 @@
     overflow-wrap: break-word;
     word-break: break-word;
 }
+
 .task-meta {
     display: flex;
     gap: 8px;

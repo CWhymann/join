@@ -1,13 +1,4 @@
-import {
-    Component,
-    computed,
-    HostListener,
-    inject,
-    input,
-    OnInit,
-    output,
-    signal,
-} from '@angular/core';
+import { Component, computed, HostListener, inject, input, OnInit, output, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BoardTask, NewTask, TaskCategory, TaskPriority } from '../../board/board-task.model';
 import { Contact } from '../../../core/models/contact.model';
@@ -17,6 +8,7 @@ import { getInitials } from '../../../core/utils/avatar.utils';
 import { dueDateValidator, formatDateInput, YEAR_RANGE } from '../../../core/utils/date.utils';
 import { TaskToastService } from '../../../core/services/task-toast.service';
 import { DatePicker } from './date-picker/date-picker';
+
 
 const MAX_VISIBLE_AVATARS = 3;
 
