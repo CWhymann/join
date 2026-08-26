@@ -29,7 +29,7 @@ export class Board implements OnInit, OnDestroy {
     protected selectedTask: BoardTask | null = null;
     protected dragOverStatus: TaskStatus | null = null;
     private draggedTaskId: number | null = null;
-    private dragBeforeId?: number;
+    protected dragBeforeId?: number;
     protected searchTerm = '';
     protected isAddTaskOpen = false;
     protected editingTask: BoardTask | null = null;
@@ -98,11 +98,25 @@ export class Board implements OnInit, OnDestroy {
     protected allowDrop(event: DragEvent, status: TaskStatus, beforeId?: number): void {
         event.preventDefault();
         if (beforeId) event.stopPropagation();
-        if (this.dragOverStatus !== status || beforeId !== undefined) {
-            this.dragBeforeId = beforeId;
-        }
+        this.dragBeforeId = beforeId;
         this.dragOverStatus = status;
         if (event.dataTransfer) event.dataTransfer.dropEffect = 'move';
+    }
+
+    protected allowTaskDrop(event: DragEvent, status: TaskStatus, task: BoardTask): void {
+        const card = (event.currentTarget as HTMLElement).querySelector('.task-card');
+        const rect = card?.getBoundingClientRect();
+        const isHorizontal = getComputedStyle(event.currentTarget as HTMLElement).flexBasis !== 'auto';
+        const hasPointerPosition = typeof event.clientX === 'number' && typeof event.clientY === 'number';
+        const isBefore = rect && hasPointerPosition
+            ? isHorizontal
+                ? event.clientX < rect.left + rect.width / 2
+                : event.clientY < rect.top + rect.height / 2
+            : true;
+        const columnTasks = this.tasksFor(status).filter((item) => item.id !== this.draggedTaskId);
+        const taskIndex = columnTasks.findIndex((item) => item.id === task.id);
+        const beforeId = isBefore ? task.id : columnTasks[taskIndex + 1]?.id;
+        this.allowDrop(event, status, beforeId);
     }
 
     protected dropTask(event: DragEvent, status: TaskStatus, beforeId?: number): void {
@@ -111,6 +125,11 @@ export class Board implements OnInit, OnDestroy {
         const targetBeforeId = beforeId ?? this.dragBeforeId;
         if (this.draggedTaskId) this.moveTask(this.draggedTaskId, status, targetBeforeId);
         this.clearDragState();
+    }
+
+    protected dropOnTask(event: DragEvent, status: TaskStatus, task: BoardTask): void {
+        const beforeId = this.dragOverStatus === status ? this.dragBeforeId : task.id;
+        this.dropTask(event, status, beforeId);
     }
 
     protected clearDragState(): void {
@@ -126,6 +145,14 @@ export class Board implements OnInit, OnDestroy {
     protected canMoveDown(task: BoardTask): boolean {
         const columnTasks = this.tasksFor(task.status);
         return columnTasks.findIndex((item) => item.id === task.id) < columnTasks.length - 1;
+    }
+
+    protected isDropBefore(task: BoardTask): boolean {
+        return (
+            this.dragOverStatus === task.status &&
+            this.dragBeforeId === task.id &&
+            this.draggedTaskId !== task.id
+        );
     }
 
     protected moveFromMenu(request: TaskMoveRequest): void {
