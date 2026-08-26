@@ -1,6 +1,6 @@
 @if (task(); as t) {
     <div class="task-detail-overlay" (click)="onOverlayClick($event)">
-        <div class="task-detail-card">
+        <div class="task-detail-card" [class.closing]="isClosing()">
             <div class="task-detail-header">
                 <span
                     class="category-badge"
