@@ -126,12 +126,12 @@
         mask-size: contain;
 
         &--cancel {
-            mask-image: url('/icons/cancel.svg');
+            mask-image: url('../../../../../../public/icons/cancel.svg');
             mask-size: 18px;
         }
 
         &--check {
-            mask-image: url('/icons/check.svg');
+            mask-image: url('../../../../../../public/icons/check.svg');
         }
     }
 }

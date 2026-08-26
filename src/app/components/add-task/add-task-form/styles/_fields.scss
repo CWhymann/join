@@ -15,7 +15,7 @@
         border: unset;
         background-color: $color-text;
         cursor: pointer;
-        mask-image: url('/icons/event.svg');
+        mask-image: url('../../../../../../public/icons/event.svg');
         mask-position: center;
         mask-repeat: no-repeat;
         mask-size: contain;
@@ -33,7 +33,7 @@
         bottom: 6px;
         width: 19px;
         height: 19px;
-        background: url('/icons/resize.svg') center / contain no-repeat;
+        background: url('../../../../../../public/icons/resize.svg') center / contain no-repeat;
         pointer-events: none;
     }
 

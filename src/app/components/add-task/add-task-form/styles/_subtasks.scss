@@ -75,22 +75,22 @@
         mask-size: contain;
 
         &--cancel {
-            mask-image: url('/icons/cancel_subtask.svg');
+            mask-image: url('../../../../../../public/icons/cancel_subtask.svg');
             mask-size: 30px;
         }
 
         &--check {
-            mask-image: url('/icons/check_subtask.svg');
+            mask-image: url('../../../../../../public/icons/check_subtask.svg');
             mask-size: 18px 13.5px;
         }
 
         &--edit {
-            mask-image: url('/icons/edit_subtask.svg');
+            mask-image: url('../../../../../../public/icons/edit_subtask.svg');
             mask-size: 18px;
         }
 
         &--delete {
-            mask-image: url('/icons/delete_subtask.svg');
+            mask-image: url('../../../../../../public/icons/delete_subtask.svg');
             mask-size: 16px 18px;
         }
     }
