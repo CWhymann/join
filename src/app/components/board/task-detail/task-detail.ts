@@ -66,6 +66,11 @@ export class TaskDetail {
     }
 
     onDelete(): void {
+        const task = this.task();
+        if (task?.isProtected) {
+            this.deleteClicked.emit(task);
+            return;
+        }
         this.deleteConfirmOpen.set(true);
     }
 

@@ -17,6 +17,7 @@ import { getInitials } from '../../../core/utils/avatar.utils';
 import { dueDateValidator, formatDateInput, YEAR_RANGE } from '../../../core/utils/date.utils';
 import { TaskToastService } from '../../../core/services/task-toast.service';
 
+
 const MAX_VISIBLE_AVATARS = 3;
 
 @Component({
