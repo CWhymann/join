@@ -9,6 +9,7 @@ interface Subtask {
 interface AssignedContact {
     initials: string;
     name: string;
+    color: string;
 }
 
 interface TaskDetailData {
@@ -40,7 +41,6 @@ export class TaskDetail {
     deleteConfirmOpen = signal(false);
     isClosing = signal(false);
 
-    
     closeDetail(): void {
         this.isClosing.set(true);
         setTimeout(() => {

@@ -37,7 +37,9 @@
                 <div class="assigned-list">
                     @for (contact of t.assignedTo; track contact.name) {
                         <div class="contact-row">
-                            <span class="avatar">{{ contact.initials }}</span>
+                            <span class="avatar" [style.background-color]="contact.color">{{
+                                contact.initials
+                            }}</span>
                             <span class="contact-name">{{ contact.name }}</span>
                         </div>
                     }

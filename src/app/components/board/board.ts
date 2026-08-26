@@ -168,6 +168,7 @@ export class Board implements OnInit, OnDestroy {
             ),
         );
     }
+
     protected toDetailData(task: BoardTask) {
         return {
             isProtected: task.isProtected,
@@ -183,6 +184,7 @@ export class Board implements OnInit, OnDestroy {
                     .map((n) => n[0])
                     .join(''),
                 name: a.name,
+                color: a.color,
             })),
             subtasks: task.subtasks.map((s) => ({ title: s.title, done: s.completed })),
         };
