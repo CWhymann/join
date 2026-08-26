@@ -1,5 +1,5 @@
 import { Component, HostListener, input, output, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 interface Subtask {
     title: string;
@@ -26,7 +26,7 @@ interface TaskDetailData {
 @Component({
     selector: 'app-task-detail',
     standalone: true,
-    imports: [CommonModule],
+    imports: [CommonModule, DatePipe],
     templateUrl: './task-detail.html',
     styleUrl: './task-detail.scss',
 })
@@ -41,7 +41,6 @@ export class TaskDetail {
     deleteConfirmOpen = signal(false);
     isClosing = signal(false);
 
-    
     closeDetail(): void {
         this.isClosing.set(true);
         setTimeout(() => {

@@ -17,7 +17,7 @@
 
             <div class="task-meta">
                 <span class="meta-label">Due date:</span>
-                <span class="meta-value">{{ t.dueDate }}</span>
+                <span class="meta-value">{{ t.dueDate | date: 'dd.MM.yyyy' }}</span>
             </div>
 
             <div class="task-meta">
