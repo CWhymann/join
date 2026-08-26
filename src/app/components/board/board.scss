@@ -198,7 +198,7 @@ $breakpoint-columns: 1255.98px;
         flex-direction: column;
 
         @media (min-width: 769px) {
-            height: clamp(364px, calc(100dvh - 385.2px), 664px);
+            height: clamp(364px, calc(100dvh - 369.2px), 664px);
         }
 
         @media (max-width: #{$breakpoint-columns}) {
