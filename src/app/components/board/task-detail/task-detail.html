@@ -1,6 +1,6 @@
 @if (task(); as t) {
     <div class="task-detail-overlay" (click)="onOverlayClick($event)">
-        <div class="task-detail-card">
+        <div class="task-detail-card" [class.closing]="isClosing()">
             <div class="task-detail-header">
                 <span
                     class="category-badge"
@@ -37,7 +37,9 @@
                 <div class="assigned-list">
                     @for (contact of t.assignedTo; track contact.name) {
                         <div class="contact-row">
-                            <span class="avatar">{{ contact.initials }}</span>
+                            <span class="avatar" [style.background-color]="contact.color">{{
+                                contact.initials
+                            }}</span>
                             <span class="contact-name">{{ contact.name }}</span>
                         </div>
                     }
@@ -61,7 +63,7 @@
             </div>
 
             <div class="actions">
-                <button type="button" class="action-btn" [disabled]="t.isProtected" [attr.title]="t.isProtected ? 'Protected tasks cannot be deleted' : null" (click)="onDelete()">🗑 Delete</button>
+                <button type="button" class="action-btn" (click)="onDelete()">🗑 Delete</button>
                 <span class="divider">|</span>
                 <button type="button" class="action-btn" (click)="onEdit(t)">✎ Edit</button>
             </div>

@@ -150,13 +150,12 @@ describe('Board', () => {
     const column = element.querySelector('.board__column[data-status="in-progress"]');
     const cards = column?.querySelectorAll('.task-card');
     const firstSlot = column?.querySelector('.board__task-slot');
-    const columnContent = column?.querySelector('.board__column-content');
 
     cards?.item(1).dispatchEvent(new Event('dragstart', { bubbles: true }));
     firstSlot?.dispatchEvent(new Event('dragover', { bubbles: true, cancelable: true }));
     fixture.detectChanges();
 
-    expect(columnContent?.classList.contains('board__column-content--preview')).toBe(true);
+    expect(firstSlot?.classList.contains('board__task-slot--drop-before')).toBe(true);
   });
 
   it('should reorder cards with the mobile direction buttons', () => {

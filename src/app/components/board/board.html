@@ -61,14 +61,17 @@
                     [class.board__column-content--empty]="!filteredTasksFor(column.status).length"
                     [class.board__column-content--drag-over]="dragOverStatus === column.status"
                     [class.board__column-content--preview]="
-                        dragOverStatus === column.status && filteredTasksFor(column.status).length
+                        dragOverStatus === column.status &&
+                        dragBeforeId === undefined &&
+                        filteredTasksFor(column.status).length
                     "
                 >
                     @for (task of filteredTasksFor(column.status); track task.id) {
                         <div
                             class="board__task-slot"
-                            (dragover)="allowDrop($event, column.status, task.id)"
-                            (drop)="dropTask($event, column.status, task.id)"
+                            [class.board__task-slot--drop-before]="isDropBefore(task)"
+                            (dragover)="allowTaskDrop($event, column.status, task)"
+                            (drop)="dropOnTask($event, column.status, task)"
                         >
                             <app-task-card
                                 [task]="task"

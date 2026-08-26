@@ -16,7 +16,10 @@
         <span class="contact-form__underline"></span>
     </div>
 
-    <span class="contact-form__avatar contact-form__avatar--overlap">
+    <span
+        class="contact-form__avatar contact-form__avatar--overlap"
+        [style.background-color]="editingContact()?.color"
+    >
         @if (isEditMode) {
             <span class="contact-form__avatar-initials">{{ initials }}</span>
         } @else {
@@ -30,7 +33,10 @@
         </button>
 
         <div class="contact-form__body">
-            <span class="contact-form__avatar contact-form__avatar--desktop">
+            <span
+                class="contact-form__avatar contact-form__avatar--desktop"
+                [style.background-color]="editingContact()?.color"
+            >
                 @if (isEditMode) {
                     <span class="contact-form__avatar-initials">{{ initials }}</span>
                 } @else {

@@ -9,6 +9,7 @@ interface Subtask {
 interface AssignedContact {
     initials: string;
     name: string;
+    color: string;
 }
 
 interface TaskDetailData {
@@ -38,9 +39,14 @@ export class TaskDetail {
     subtaskChanged = output<{ index: number; done: boolean }>();
 
     deleteConfirmOpen = signal(false);
+    isClosing = signal(false);
 
+    
     closeDetail(): void {
-        this.closeClicked.emit();
+        this.isClosing.set(true);
+        setTimeout(() => {
+            this.closeClicked.emit();
+        }, 300);
     }
 
     onOverlayClick(event: MouseEvent): void {
@@ -66,6 +72,11 @@ export class TaskDetail {
     }
 
     onDelete(): void {
+        const task = this.task();
+        if (task?.isProtected) {
+            this.deleteClicked.emit(task);
+            return;
+        }
         this.deleteConfirmOpen.set(true);
     }
 
