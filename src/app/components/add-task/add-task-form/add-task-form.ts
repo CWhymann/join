@@ -49,7 +49,7 @@ export class AddTaskForm implements OnInit {
     protected readonly isSubmitting = signal(false);
 
     protected readonly form = this.formBuilder.group({
-        title: ['', Validators.required],
+        title: ['', [Validators.required, Validators.maxLength(40)]],
         description: [''],
         dueDate: ['', [Validators.required, dueDateValidator]],
         priority: ['medium'],

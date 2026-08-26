@@ -10,13 +10,19 @@
                     class="add-task-form__input"
                     [class.add-task-form__input--invalid]="isInvalid('title')"
                     type="text"
+                    maxlength="40"
                     formControlName="title"
                     placeholder="Enter a title"
                 />
 
                 @if (isInvalid('title')) {
-                    <span class="add-task-form__error">This field is required</span>
+                    <span class="add-task-form__error">
+                        {{ form.get('title')?.hasError('maxlength') ? 'Maximum 40 characters' : 'This field is required' }}
+                    </span>
                 }
+                <span class="add-task-form__counter" aria-label="Title character count">
+                    {{ form.controls.title.value?.length ?? 0 }}/40
+                </span>
             </div>
 
             <div class="add-task-form__field">
