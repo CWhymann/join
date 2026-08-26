@@ -9,6 +9,7 @@ interface Subtask {
 interface AssignedContact {
     initials: string;
     name: string;
+    color: string;
 }
 
 interface TaskDetailData {
