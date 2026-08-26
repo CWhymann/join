@@ -9,6 +9,7 @@ import { dueDateValidator, formatDateInput, YEAR_RANGE } from '../../../core/uti
 import { TaskToastService } from '../../../core/services/task-toast.service';
 import { DatePicker } from './date-picker/date-picker';
 
+
 const MAX_VISIBLE_AVATARS = 3;
 
 @Component({
