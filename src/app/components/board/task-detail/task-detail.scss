@@ -156,7 +156,7 @@
     scrollbar-width: thin;
 
     &:has(.subtask-row:nth-child(3)) {
-        max-height: calc(2 * (33.25px + 8px));
+        max-height: calc(2 * (32px + 8px));
     }
 }
 .contact-row,
