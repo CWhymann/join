@@ -17,7 +17,7 @@
 .task-detail-card {
     position: relative;
     width: clamp(280px, 90vw, 525px);
-    height: min(931px, calc(100dvh - 32px));
+    max-height: min(931px, calc(100dvh - 32px));
     max-width: 90vw;
     display: flex;
     flex-direction: column;
@@ -29,7 +29,7 @@
     animation: slideInFromRight 0.3s ease-out;
 
     @include mobile {
-        height: calc(100dvh - 2 * $mobile-bar-height - 2 * $spacing-md);
+        max-height: calc(100dvh - 2 * $mobile-bar-height - 2 * $spacing-md);
     }
 
     &.closing {
@@ -99,17 +99,11 @@
     overflow-wrap: break-word;
     scrollbar-width: thin;
     word-break: normal;
-
-    &--kochwelt {
-        font-size: clamp(28px, 4.5vw, 56px);
-    }
 }
 
 .task-description {
-    min-height: clamp(48px, 8dvh, 72px);
-    max-height: clamp(120px, 16dvh, 144px);
-    flex: 1 1 144px;
-    font-size: clamp(15px, 1.5vw, 20px);
+    max-height: 4.8em;
+    font-size: clamp(16px, 1.5vw, 20px);
     font-weight: 400;
     line-height: 1.2;
     color: #000;
@@ -158,9 +152,12 @@
 
 .subtask-list {
     min-height: 0;
-    max-height: calc(2 * (32px + 8px));
     overflow-y: auto;
     scrollbar-width: thin;
+
+    &:has(.subtask-row:nth-child(3)) {
+        max-height: calc(2 * (32px + 8px));
+    }
 }
 .contact-row,
 .subtask-row {
