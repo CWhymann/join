@@ -156,9 +156,12 @@
 
 .subtask-list {
     min-height: 0;
-    max-height: calc(2 * (32px + 8px));
     overflow-y: auto;
     scrollbar-width: thin;
+
+    &:has(.subtask-row:nth-child(3)) {
+        max-height: calc(2 * (32px + 8px));
+    }
 }
 .contact-row,
 .subtask-row {
