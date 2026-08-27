@@ -90,17 +90,25 @@
 
 .task-title {
     flex-shrink: 0;
+    max-height: 3.6em;
     font-size: clamp(28px, 5vw, 61px);
     font-weight: 700;
     line-height: 1.2;
     margin: clamp(12px, 2vw, 16px) 0 clamp(8px, 1.5vw, 12px);
+    overflow-y: auto;
     overflow-wrap: break-word;
+    scrollbar-width: thin;
     word-break: normal;
+
+    &--kochwelt {
+        font-size: clamp(28px, 4.5vw, 56px);
+    }
 }
 
 .task-description {
-    height: clamp(120px, 16dvh, 144px);
-    flex-shrink: 0;
+    min-height: clamp(48px, 8dvh, 72px);
+    max-height: clamp(120px, 16dvh, 144px);
+    flex: 1 1 144px;
     font-size: clamp(15px, 1.5vw, 20px);
     font-weight: 400;
     line-height: 1.2;
@@ -136,16 +144,20 @@
 }
 .assigned-section,
 .subtasks-section {
-    flex-shrink: 0;
+    display: flex;
+    min-height: 0;
+    flex-direction: column;
     margin-top: clamp(12px, 2vw, 16px);
 }
 .assigned-list {
+    min-height: 0;
     max-height: calc(3 * (clamp(32px, 3vw, 42px) + 8px));
     overflow-y: auto;
     scrollbar-width: thin;
 }
 
 .subtask-list {
+    min-height: 0;
     max-height: calc(2 * (32px + 8px));
     overflow-y: auto;
     scrollbar-width: thin;
@@ -209,6 +221,7 @@
 
 .actions {
     display: flex;
+    flex-shrink: 0;
     justify-content: flex-end;
     align-items: center;
     gap: 8px;

@@ -1,4 +1,4 @@
-import { Component, computed, HostListener, inject, input, OnInit, output, signal } from '@angular/core';
+import { Component, computed, ElementRef, HostListener, inject, input, OnInit, output, signal, viewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BoardTask, NewTask, TaskCategory, TaskPriority } from '../../board/board-task.model';
 import { Contact } from '../../../core/models/contact.model';
@@ -47,6 +47,7 @@ export class AddTaskForm implements OnInit {
     protected readonly minYear = new Date().getFullYear();
     protected readonly maxYear = this.minYear + YEAR_RANGE;
     protected readonly isSubmitting = signal(false);
+    protected readonly titleMeasure = viewChild<ElementRef<HTMLElement>>('titleMeasure');
 
     protected readonly form = this.formBuilder.group({
         title: ['', [Validators.required, Validators.maxLength(40)]],
@@ -149,6 +150,10 @@ export class AddTaskForm implements OnInit {
         const control = this.form.get(name);
 
         return !!control && control.invalid && control.touched;
+    }
+
+    protected onTitleInput(): void {
+        requestAnimationFrame(() => this.validateTitleLines());
     }
 
     protected toggleContact(contact: Contact): void {
@@ -298,6 +303,18 @@ export class AddTaskForm implements OnInit {
             ),
         );
         this.subtasks.set(task.subtasks.map((subtask) => subtask.title));
+        this.onTitleInput();
+    }
+
+    private validateTitleLines(): void {
+        const control = this.form.controls.title;
+        const measure = this.titleMeasure()?.nativeElement;
+        if (!measure) return;
+        const lineHeight = Number.parseFloat(getComputedStyle(measure).lineHeight);
+        const errors = { ...control.errors };
+        if (measure.scrollHeight > lineHeight * 3 + 1) errors['maxLines'] = true;
+        else delete errors['maxLines'];
+        control.setErrors(Object.keys(errors).length ? errors : null);
     }
 
     private toDatabaseDate(value: string): string {

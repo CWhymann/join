@@ -11,7 +11,10 @@
                 <button class="close-btn" type="button" (click)="closeDetail()">✕</button>
             </div>
 
-            <h2 class="task-title">{{ t.title }}</h2>
+            <h2
+                class="task-title"
+                [class.task-title--kochwelt]="t.title === 'Kochwelt Page & Recipe Recommender'"
+            >{{ t.title }}</h2>
 
             <p class="task-description">{{ t.description }}</p>
 
