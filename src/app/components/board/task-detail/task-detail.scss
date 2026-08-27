@@ -1,3 +1,5 @@
+@use '../../../../styles/abstracts' as *;
+
 .task-detail-overlay {
     position: fixed;
     inset: 0;
@@ -6,18 +8,29 @@
     justify-content: center;
     background: rgba(0, 0, 0, 0.3);
     z-index: 1000;
+
+    @include mobile {
+        inset: $mobile-bar-height 0;
+    }
 }
 
 .task-detail-card {
     position: relative;
     width: clamp(280px, 90vw, 525px);
+    height: min(931px, calc(100dvh - 32px));
     max-width: 90vw;
+    display: flex;
+    flex-direction: column;
     background: #fff;
     border-radius: 24px;
     padding: clamp(20px, 4vw, 48px);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     font-family: 'Inter', sans-serif;
     animation: slideInFromRight 0.3s ease-out;
+
+    @include mobile {
+        height: calc(100dvh - 2 * $mobile-bar-height - 2 * $spacing-md);
+    }
 
     &.closing {
         animation: slideOutToRight 0.3s ease-out forwards;
@@ -48,6 +61,7 @@
 
 .task-detail-header {
     display: flex;
+    flex-shrink: 0;
     justify-content: space-between;
     align-items: center;
 }
@@ -75,26 +89,42 @@
 }
 
 .task-title {
+    flex-shrink: 0;
+    max-height: 3.6em;
     font-size: clamp(28px, 5vw, 61px);
     font-weight: 700;
     line-height: 1.2;
-    margin: clamp(16px, 3vw, 24px) 0 clamp(12px, 2vw, 16px);
+    margin: clamp(12px, 2vw, 16px) 0 clamp(8px, 1.5vw, 12px);
+    overflow-y: auto;
+    overflow-wrap: break-word;
+    scrollbar-width: thin;
+    word-break: normal;
+
+    &--kochwelt {
+        font-size: clamp(28px, 4.5vw, 56px);
+    }
 }
 
 .task-description {
+    min-height: clamp(48px, 8dvh, 72px);
+    max-height: clamp(120px, 16dvh, 144px);
+    flex: 1 1 144px;
     font-size: clamp(15px, 1.5vw, 20px);
     font-weight: 400;
     line-height: 1.2;
     color: #000;
-    margin-bottom: clamp(16px, 3vw, 24px);
+    margin-bottom: clamp(12px, 2vw, 16px);
+    overflow-y: auto;
     overflow-wrap: break-word;
-    word-break: break-word;
+    word-break: normal;
+    scrollbar-width: thin;
 }
 
 .task-meta {
     display: flex;
+    flex-shrink: 0;
     gap: 8px;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     font-size: clamp(15px, 1.5vw, 20px);
 }
 
@@ -114,25 +144,40 @@
 }
 .assigned-section,
 .subtasks-section {
-    margin-top: clamp(16px, 3vw, 24px);
+    display: flex;
+    min-height: 0;
+    flex-direction: column;
+    margin-top: clamp(12px, 2vw, 16px);
 }
 .assigned-list {
-    max-height: calc(3 * (clamp(32px, 3vw, 42px) + 12px));
+    min-height: 0;
+    max-height: calc(3 * (clamp(32px, 3vw, 42px) + 8px));
     overflow-y: auto;
     scrollbar-width: thin;
 }
 
 .subtask-list {
-    max-height: calc(2 * (24px + 12px));
+    min-height: 0;
+    max-height: calc(2 * (32px + 8px));
     overflow-y: auto;
     scrollbar-width: thin;
 }
 .contact-row,
 .subtask-row {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 12px;
-    margin-top: 12px;
+    margin-top: 8px;
+}
+
+.contact-row {
+    align-items: center;
+}
+
+.contact-name {
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-break: normal;
 }
 
 .avatar {
@@ -148,7 +193,25 @@
 }
 
 .subtask-row input[type='checkbox'] {
+    flex-shrink: 0;
     cursor: pointer;
+}
+
+.subtask-row {
+    padding: 4px 8px;
+    border-radius: 10px;
+    cursor: pointer;
+
+    &:hover,
+    &:focus-within {
+        background-color: #e7e7e7;
+    }
+}
+
+.subtask-row span {
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-break: normal;
 }
 
 .subtask-row .done {
@@ -158,10 +221,12 @@
 
 .actions {
     display: flex;
+    flex-shrink: 0;
     justify-content: flex-end;
     align-items: center;
     gap: 8px;
-    margin-top: clamp(20px, 4vw, 32px);
+    margin-top: auto;
+    padding-top: clamp(16px, 2vw, 20px);
 }
 
 .action-btn {

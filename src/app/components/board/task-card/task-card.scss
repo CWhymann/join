@@ -145,12 +145,16 @@ $breakpoint-columns: 1255.98px;
     font-size: 16px;
     font-weight: $font-weight-bold;
     line-height: 1.2;
+    overflow-wrap: break-word;
+    word-break: normal;
   }
 
   &__description {
     color: $color-text-muted;
     font-size: 16px;
     line-height: 1.2;
+    overflow-wrap: break-word;
+    word-break: normal;
   }
 
   &__subtasks {

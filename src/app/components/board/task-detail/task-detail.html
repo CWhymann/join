@@ -11,7 +11,10 @@
                 <button class="close-btn" type="button" (click)="closeDetail()">✕</button>
             </div>
 
-            <h2 class="task-title">{{ t.title }}</h2>
+            <h2
+                class="task-title"
+                [class.task-title--kochwelt]="t.title === 'Kochwelt Page & Recipe Recommender'"
+            >{{ t.title }}</h2>
 
             <p class="task-description">{{ t.description }}</p>
 
@@ -50,14 +53,14 @@
                 <span class="meta-label">Subtasks</span>
                 <div class="subtask-list">
                     @for (subtask of t.subtasks; track subtask.title; let index = $index) {
-                        <div class="subtask-row">
+                        <label class="subtask-row">
                             <input
                                 type="checkbox"
                                 [checked]="subtask.done"
                                 (change)="toggleSubtask(subtask, index)"
                             />
                             <span [class.done]="subtask.done">{{ subtask.title }}</span>
-                        </div>
+                        </label>
                     }
                 </div>
             </div>

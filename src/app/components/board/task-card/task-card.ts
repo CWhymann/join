@@ -50,7 +50,9 @@ export class TaskCard {
 
   protected get descriptionPreview(): string {
     if (this.task.description.length <= DESCRIPTION_PREVIEW_LENGTH) return this.task.description;
-    return `${this.task.description.slice(0, DESCRIPTION_PREVIEW_LENGTH).trim()}…`;
+    const preview = this.task.description.slice(0, DESCRIPTION_PREVIEW_LENGTH).trim();
+    const lastSpace = preview.lastIndexOf(' ');
+    return `${lastSpace > 0 ? preview.slice(0, lastSpace) : preview}…`;
   }
 
   protected selectTask(event: Event): void {
