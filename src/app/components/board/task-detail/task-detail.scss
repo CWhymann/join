@@ -107,7 +107,7 @@
 
 .task-description {
     min-height: clamp(48px, 8dvh, 72px);
-    max-height: clamp(120px, 16dvh, 144px);
+    max-height: 4.8em;
     flex: 1 1 144px;
     font-size: clamp(15px, 1.5vw, 20px);
     font-weight: 400;
