@@ -42,6 +42,7 @@ export class TaskDetail {
     isClosing = signal(false);
 
     closeDetail(): void {
+        if (this.isClosing()) return;
         this.isClosing.set(true);
         setTimeout(() => {
             this.closeClicked.emit();
@@ -50,6 +51,14 @@ export class TaskDetail {
 
     onOverlayClick(event: MouseEvent): void {
         if (event.target === event.currentTarget) this.closeDetail();
+    }
+
+    @HostListener('document:click', ['$event'])
+    onDocumentClick(event: MouseEvent): void {
+        const target = event.target;
+
+        if (!(target instanceof Element) || target.closest('.task-detail-overlay')) return;
+        this.closeDetail();
     }
 
     @HostListener('document:keydown.escape')
