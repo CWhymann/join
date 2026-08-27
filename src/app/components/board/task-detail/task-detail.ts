@@ -1,5 +1,5 @@
-import { Component, HostListener, input, output, signal } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { Component, HostListener, inject, input, OnDestroy, output, Renderer2, signal } from '@angular/core';
+import { CommonModule, DatePipe, DOCUMENT } from '@angular/common';
 
 interface Subtask {
     title: string;
@@ -30,7 +30,10 @@ interface TaskDetailData {
     templateUrl: './task-detail.html',
     styleUrl: './task-detail.scss',
 })
-export class TaskDetail {
+export class TaskDetail implements OnDestroy {
+    private readonly renderer = inject(Renderer2);
+    private readonly document = inject(DOCUMENT);
+
     task = input<TaskDetailData | null>(null);
 
     editClicked = output<TaskDetailData>();
@@ -40,6 +43,20 @@ export class TaskDetail {
 
     deleteConfirmOpen = signal(false);
     isClosing = signal(false);
+
+    private scrollPosition = 0;
+
+    constructor() {
+        this.scrollPosition = this.document.defaultView?.scrollY ?? 0;
+        this.renderer.setStyle(this.document.body, 'top', `-${this.scrollPosition}px`);
+        this.renderer.addClass(this.document.body, 'modal-open');
+    }
+
+    ngOnDestroy(): void {
+        this.renderer.removeClass(this.document.body, 'modal-open');
+        this.renderer.removeStyle(this.document.body, 'top');
+        this.document.defaultView?.scrollTo(0, this.scrollPosition);
+    }
 
     closeDetail(): void {
         if (this.isClosing()) return;
