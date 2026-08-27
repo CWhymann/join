@@ -76,19 +76,6 @@
         line-height: 120%;
     }
 
-    &__title-measure {
-        position: fixed;
-        visibility: hidden;
-        width: 429px;
-        font-size: 61px;
-        font-weight: $font-weight-bold;
-        line-height: 1.2;
-        overflow-wrap: break-word;
-        pointer-events: none;
-        white-space: normal;
-        word-break: normal;
-    }
-
     &__label {
         color: $color-text;
         font-size: 20px;
