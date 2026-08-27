@@ -8,24 +8,20 @@
                 <input
                     id="task-title"
                     class="add-task-form__input"
-                    [class.add-task-form__input--invalid]="isInvalid('title') || form.controls.title.hasError('maxLines')"
+                    [class.add-task-form__input--invalid]="isInvalid('title')"
                     type="text"
                     maxlength="40"
                     formControlName="title"
                     placeholder="Enter a title"
-                    (input)="onTitleInput()"
                 />
 
-                @if (isInvalid('title') || form.controls.title.hasError('maxLines')) {
+                @if (isInvalid('title')) {
                     <span class="add-task-form__error">
-                        {{ form.controls.title.hasError('maxLines') ? 'Maximum 3 lines' : form.controls.title.hasError('maxlength') ? 'Maximum 40 characters' : 'This field is required' }}
+                        {{ form.controls.title.hasError('maxlength') ? 'Maximum 40 characters' : 'This field is required' }}
                     </span>
                 }
                 <span class="add-task-form__counter" aria-label="Title character count">
                     {{ form.controls.title.value?.length ?? 0 }}/40
-                </span>
-                <span #titleMeasure class="add-task-form__title-measure" aria-hidden="true">
-                    {{ form.controls.title.value }}
                 </span>
             </div>
 
