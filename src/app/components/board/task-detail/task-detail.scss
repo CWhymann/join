@@ -17,7 +17,7 @@
 .task-detail-card {
     position: relative;
     width: clamp(280px, 90vw, 525px);
-    height: min(931px, calc(100dvh - 32px));
+    max-height: min(931px, calc(100dvh - 32px));
     max-width: 90vw;
     display: flex;
     flex-direction: column;
@@ -106,9 +106,7 @@
 }
 
 .task-description {
-    min-height: clamp(48px, 8dvh, 72px);
     max-height: 4.8em;
-    flex: 1 1 144px;
     font-size: clamp(15px, 1.5vw, 20px);
     font-weight: 400;
     line-height: 1.2;
