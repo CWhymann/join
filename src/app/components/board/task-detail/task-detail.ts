@@ -1,5 +1,7 @@
-import { Component, HostListener, inject, input, OnDestroy, output, Renderer2, signal } from '@angular/core';
+import { afterRenderEffect, Component, ElementRef, HostListener, inject, input, OnDestroy, output, Renderer2, signal, viewChild } from '@angular/core';
 import { CommonModule, DatePipe, DOCUMENT } from '@angular/common';
+
+const MIN_TITLE_FONT_SIZE = 16;
 
 interface Subtask {
     title: string;
@@ -33,6 +35,7 @@ interface TaskDetailData {
 export class TaskDetail implements OnDestroy {
     private readonly renderer = inject(Renderer2);
     private readonly document = inject(DOCUMENT);
+    private readonly titleElement = viewChild<ElementRef<HTMLElement>>('titleElement');
 
     task = input<TaskDetailData | null>(null);
 
@@ -50,6 +53,23 @@ export class TaskDetail implements OnDestroy {
         this.scrollPosition = this.document.defaultView?.scrollY ?? 0;
         this.renderer.setStyle(this.document.body, 'top', `-${this.scrollPosition}px`);
         this.renderer.addClass(this.document.body, 'modal-open');
+        afterRenderEffect(() => this.fitTitle());
+    }
+
+    private fitTitle(): void {
+        const element = this.titleElement()?.nativeElement;
+        if (!element || !this.task()) return;
+        this.renderer.removeStyle(element, 'font-size');
+        let size = Number.parseFloat(getComputedStyle(element).fontSize);
+        while (element.scrollHeight > element.clientHeight + 1 && size > MIN_TITLE_FONT_SIZE) {
+            size -= 1;
+            this.renderer.setStyle(element, 'font-size', `${size}px`);
+        }
+    }
+
+    @HostListener('window:resize')
+    onResize(): void {
+        this.fitTitle();
     }
 
     ngOnDestroy(): void {
