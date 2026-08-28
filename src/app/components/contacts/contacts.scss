@@ -169,7 +169,6 @@ $breakpoint-columns: 1255.98px;
         }
 
         @include mobile {
-            max-height: 100vh;
             height: 100%;
             width: 100%;
             max-width: none;
