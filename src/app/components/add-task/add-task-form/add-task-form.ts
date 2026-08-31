@@ -6,6 +6,7 @@ import { ContactsService } from '../../../core/services/contacts.service';
 import { TasksService } from '../../../core/services/tasks.service';
 import { getInitials } from '../../../core/utils/avatar.utils';
 import { dueDateValidator, formatDateInput, YEAR_RANGE } from '../../../core/utils/date.utils';
+import { hasReadableText, readableTextValidator } from '../../../core/utils/text.utils';
 import { TaskToastService } from '../../../core/services/task-toast.service';
 import { DatePicker } from './date-picker/date-picker';
 
@@ -49,8 +50,8 @@ export class AddTaskForm implements OnInit {
     protected readonly isSubmitting = signal(false);
 
     protected readonly form = this.formBuilder.group({
-        title: ['', [Validators.required, Validators.maxLength(40)]],
-        description: [''],
+        title: ['', [Validators.required, Validators.maxLength(40), readableTextValidator]],
+        description: ['', readableTextValidator],
         dueDate: ['', [Validators.required, dueDateValidator]],
         priority: ['medium'],
         category: ['', Validators.required],
@@ -145,6 +146,22 @@ export class AddTaskForm implements OnInit {
             : 'This field is required';
     }
 
+    protected titleError(): string {
+        const control = this.form.controls.title;
+
+        if (!control.touched || control.valid) {
+            return '';
+        }
+
+        if (control.hasError('maxlength')) {
+            return 'Maximum 40 characters';
+        }
+
+        return control.hasError('noReadableText')
+            ? 'Please enter a valid title'
+            : 'This field is required';
+    }
+
     protected isInvalid(name: string): boolean {
         const control = this.form.get(name);
 
@@ -183,7 +200,7 @@ export class AddTaskForm implements OnInit {
         event?.preventDefault();
         const value = this.subtaskDraft().trim();
 
-        if (!value) {
+        if (!hasReadableText(value)) {
             return;
         }
 
@@ -217,7 +234,7 @@ export class AddTaskForm implements OnInit {
         event?.preventDefault();
         const value = this.editingDraft().trim();
 
-        if (!value) {
+        if (!hasReadableText(value)) {
             return;
         }
 
