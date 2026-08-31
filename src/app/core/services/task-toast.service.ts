@@ -24,6 +24,6 @@ export class TaskToastService {
     }
 
     taskLocked(): void {
-        this.showToast("Task can't be deleted or edited");
+        this.showToast("Dummy-Task can't be deleted or edited");
     }
 }
