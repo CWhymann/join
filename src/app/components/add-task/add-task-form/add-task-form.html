@@ -15,10 +15,8 @@
                     placeholder="Enter a title"
                 />
 
-                @if (isInvalid('title')) {
-                    <span class="add-task-form__error">
-                        {{ form.controls.title.hasError('maxlength') ? 'Maximum 40 characters' : 'This field is required' }}
-                    </span>
+                @if (titleError()) {
+                    <span class="add-task-form__error">{{ titleError() }}</span>
                 }
                 <span class="add-task-form__counter" aria-label="Title character count">
                     {{ form.controls.title.value?.length ?? 0 }}/40
@@ -31,11 +29,16 @@
                     <textarea
                         id="task-description"
                         class="add-task-form__input add-task-form__input--textarea"
+                        [class.add-task-form__input--invalid]="isInvalid('description')"
                         formControlName="description"
                         placeholder="Enter a Description"
                     ></textarea>
                     <span class="add-task-form__resize" aria-hidden="true"></span>
                 </div>
+
+                @if (isInvalid('description')) {
+                    <span class="add-task-form__error">Please enter a valid description</span>
+                }
             </div>
 
             <div class="add-task-form__field">
