@@ -1,0 +1,192 @@
+@use '../../../../styles/abstracts' as *;
+@use 'tokens' as *;
+
+@include tablet {
+    .auth {
+        &__card--login,
+        &__legal {
+            left: 50%;
+        }
+    }
+}
+
+@include mobile {
+    .auth {
+        &__canvas {
+            min-height: 926px;
+        }
+
+        &__logo {
+            top: 37px;
+            left: 38px;
+            width: 64px;
+        }
+
+        &__register {
+            top: 778px;
+            right: 66px;
+            gap: 35px;
+        }
+
+        &__card {
+            &--login {
+                top: 225.5px;
+                left: 50%;
+                width: calc(100% - 32px);
+                max-width: 396px;
+                height: 475px;
+                padding: 32px 16px;
+            }
+
+            &--sign-up {
+                top: 165.5px;
+                width: calc(100% - 32px);
+                max-width: 396px;
+                height: 595px;
+                padding-top: 32px;
+            }
+        }
+
+        &__heading {
+            width: auto;
+            gap: 16px;
+
+            h1 {
+                font-size: 47px;
+            }
+
+            span {
+                width: 88px;
+            }
+        }
+
+        &__form {
+            width: 100%;
+            max-width: 364px;
+
+            &--login {
+                gap: 32px;
+            }
+
+            &--sign-up {
+                gap: 24px;
+                margin-top: 24px;
+            }
+        }
+
+        &__field {
+            height: 50px;
+
+            input {
+                padding-left: 21px;
+                font-size: 20px;
+            }
+        }
+
+        &__privacy {
+            margin-top: 30px;
+        }
+
+        &__actions--login {
+            bottom: 32px;
+            flex-direction: column;
+            gap: 21px;
+        }
+
+        &__button {
+            width: 180px;
+            min-width: 180px;
+            height: 51px;
+            font-size: 16px;
+
+            &--small {
+                width: 104px;
+                min-width: 104px;
+                height: 49px;
+            }
+
+            &--sign-up {
+                margin-top: 8px;
+            }
+        }
+
+        &__back {
+            top: 40px;
+            left: 40px;
+        }
+
+        &__error--login {
+            left: 16px;
+        }
+
+        &__legal {
+            bottom: 22px;
+            left: 50%;
+        }
+
+        &__splash {
+            background-color: $auth-dark;
+            animation: splash-mobile 1s ease-in-out forwards;
+        }
+
+        &__splash-logo {
+            width: 100px;
+            height: 122px;
+            animation: splash-logo-mobile 1s ease-in-out forwards;
+
+            img {
+                filter: brightness(0) invert(1);
+            }
+        }
+
+        &__greeting {
+            position: fixed;
+            z-index: 90;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background-color: $color-bg;
+            color: $auth-dark;
+            animation: greeting-guest 1.9s ease-in forwards;
+
+            p {
+                font-size: 36px;
+                line-height: 1.2;
+            }
+
+            strong {
+                color: $auth-accent;
+                font-size: 47px;
+                line-height: 1.2;
+            }
+
+            &--user {
+                animation-name: greeting-user;
+                animation-duration: 1.6s;
+            }
+        }
+    }
+}
+
+@media (max-width: 380px) {
+    .auth {
+        &__register {
+            right: 24px;
+            gap: clamp(16px, 7vw, 35px);
+        }
+
+        &__card--login {
+            top: clamp(150px, 23dvh, 225.5px);
+        }
+
+        &__card--sign-up {
+            top: clamp(118px, 18dvh, 165.5px);
+        }
+
+        &__legal {
+            bottom: 12px;
+        }
+    }
+}
