@@ -1,6 +1,15 @@
 @use '../../../../styles/abstracts' as *;
 @use 'tokens' as *;
 
+@include tablet {
+    .auth {
+        &__card--login,
+        &__legal {
+            left: 50%;
+        }
+    }
+}
+
 @include mobile {
     .auth {
         &__canvas {

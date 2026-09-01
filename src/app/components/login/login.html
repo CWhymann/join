@@ -75,7 +75,9 @@
                                 [src]="
                                     showLoginPassword()
                                         ? 'icons/auth-visibility.svg'
-                                        : 'icons/auth-lock.svg'
+                                        : loginForm.controls.password.value
+                                          ? 'icons/auth-visibility-off.svg'
+                                          : 'icons/auth-lock.svg'
                                 "
                                 alt=""
                             />
@@ -208,7 +210,9 @@
                                 [src]="
                                     showSignUpPassword()
                                         ? 'icons/auth-visibility.svg'
-                                        : 'icons/auth-lock.svg'
+                                        : signUpForm.controls.password.value
+                                          ? 'icons/auth-visibility-off.svg'
+                                          : 'icons/auth-lock.svg'
                                 "
                                 alt=""
                             />
@@ -247,7 +251,9 @@
                                 [src]="
                                     showConfirmPassword()
                                         ? 'icons/auth-visibility.svg'
-                                        : 'icons/auth-lock.svg'
+                                        : signUpForm.controls.confirmPassword.value
+                                          ? 'icons/auth-visibility-off.svg'
+                                          : 'icons/auth-lock.svg'
                                 "
                                 alt=""
                             />
