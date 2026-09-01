@@ -139,7 +139,6 @@
             box-shadow 0.15s ease;
 
         &:hover {
-            transform: translateY(-2px);
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
             background: #2a3647;
             color: #fff;
@@ -258,6 +257,9 @@
                 width: clamp(36px, 6vw, 60px);
                 height: clamp(36px, 6vw, 60px);
             }
+            &:hover {
+                transform: scaleX(1.054) scaleY(1.091);
+            }
         }
 
         @media (min-width: 640px) {
@@ -295,6 +297,9 @@
             .card__divider {
                 margin: 0;
             }
+            &:hover {
+                transform: scaleX(1.026) scaleY(1.091);
+            }
         }
 
         &--plain {
@@ -311,6 +316,9 @@
 
             .card__label {
                 font-size: clamp(13px, 1.5vw, 22px);
+            }
+            &:hover {
+                transform: scale(1.069);
             }
         }
 
