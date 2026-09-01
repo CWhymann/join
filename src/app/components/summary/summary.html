@@ -1,0 +1,82 @@
+<section class="summary">
+    <div class="summary__header">
+        <h1>Join 360</h1>
+        <span class="divider"></span>
+        <p>Key Metrics at a Glance</p>
+    </div>
+
+    <div class="summary__content">
+        <div class="summary__cards">
+            <div class="summary__row">
+                <div class="card card--icon" routerLink="/board">
+                    <div class="card__icon card__icon--dark">
+                        <span class="icon icon--edit"></span>
+                    </div>
+                    <div class="card__text">
+                        <span class="card__number">{{ todoCount() }}</span>
+                        <span class="card__label">To-do</span>
+                    </div>
+                </div>
+
+                <div class="card card--icon" routerLink="/board">
+                    <div class="card__icon card__icon--dark">
+                        <span class="icon icon--check"></span>
+                    </div>
+                    <div class="card__text">
+                        <span class="card__number">{{ doneCount() }}</span>
+                        <span class="card__label">Done</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card--wide" (click)="onUrgentClick()">
+                <div class="card__group">
+                    <div class="card__icon card__icon--urgent">
+                        <span class="icon icon--urgent"></span>
+                    </div>
+                    <div class="card__text">
+                        <span class="card__number">{{ urgentCount() }}</span>
+                        <span class="card__label">Urgent</span>
+                    </div>
+                </div>
+                <span class="card__divider"></span>
+                <div class="card__deadline">
+                    <span class="card__date">{{ formattedDeadline() }}</span>
+                    <span class="card__label">Upcoming Deadline</span>
+                </div>
+            </div>
+
+            <div class="summary__row summary__row--bottom">
+                <div class="card card--plain" routerLink="/board">
+                    <div class="card__content">
+                        <span class="card__number">{{ totalTasksInBoard() }}</span>
+                        <span class="card__label">Tasks in Board</span>
+                    </div>
+                </div>
+
+                <div class="card card--plain" routerLink="/board">
+                    <div class="card__content">
+                        <span class="card__number">{{ inProgressCount() }}</span>
+                        <span class="card__label">Tasks In Progress</span>
+                    </div>
+                </div>
+
+                <div class="card card--plain" routerLink="/board">
+                    <div class="card__content">
+                        <span class="card__number">{{ awaitFeedbackCount() }}</span>
+                        <span class="card__label">Awaiting Feedback</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="summary__greeting">
+            @if (currentUserName()) {
+                <p>{{ greetingText() }},</p>
+                <h2>{{ currentUserName() }}</h2>
+            } @else {
+                <p class="summary__greeting--single">{{ greetingText() }}!</p>
+            }
+        </div>
+    </div>
+</section>

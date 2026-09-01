@@ -1,0 +1,352 @@
+@use '../../../styles/abstracts' as *;
+
+.summary {
+    padding: clamp(1rem, 4vw, 56px) clamp(1rem, 8vw, 117px);
+
+    &__header {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: clamp(0.75rem, 1.5vw, 1rem);
+        margin-bottom: clamp(1.5rem, 3vw, 2rem);
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 61px);
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .divider {
+            width: 3px;
+            height: clamp(2rem, 5vw, 59px);
+            background: #29abe2;
+            flex-shrink: 0;
+        }
+
+        p {
+            min-width: 0;
+            flex: 1 1 auto;
+            font-size: clamp(1rem, 2.5vw, 27px);
+            color: #2a3647;
+            margin: 0;
+        }
+
+        @media (max-width: #{$breakpoint-tablet}) {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: clamp(12px, 3vw, 16px);
+
+            h1 {
+                order: 1;
+            }
+
+            p {
+                order: 2;
+            }
+
+            .divider {
+                order: 3;
+                width: clamp(2rem, 12vw, 3.5rem);
+                height: 3px;
+            }
+        }
+    }
+
+    &__content {
+        display: flex;
+        align-items: center;
+        gap: clamp(24px, 3vw, 2.5rem);
+        flex-wrap: wrap;
+    }
+
+    &__cards {
+        display: flex;
+        flex-direction: column;
+        flex: 0 1 560px;
+        gap: clamp(0.75rem, 2vw, 28px);
+    }
+
+    &__group {
+        display: flex;
+        align-items: center;
+        gap: clamp(0.5rem, 1.5vw, 16px);
+    }
+
+    &__row {
+        display: flex;
+        gap: 12px;
+
+        &--bottom {
+            gap: 12px;
+        }
+    }
+
+    @media (min-width: 640px) {
+        &__row {
+            gap: 20px;
+
+            &--bottom {
+                gap: 20px;
+            }
+        }
+    }
+
+    @media (min-width: 1024px) {
+        &__row {
+            gap: 32px;
+
+            &--bottom {
+                gap: 32px;
+            }
+        }
+    }
+
+    &__greeting {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+
+        p:not(.summary__greeting--single) {
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            margin: 0;
+        }
+
+        h2 {
+            font-size: clamp(1.3rem, 2.2vw, 1.75rem);
+            color: #29abe2;
+            margin: 0;
+        }
+
+        p.summary__greeting--single {
+            font-size: clamp(1.5rem, 3.5vw, 47px);
+            margin: 0;
+        }
+    }
+
+    .card {
+        display: flex;
+        align-items: center;
+        gap: clamp(0.5rem, 1.5vw, 1rem);
+        background: #fff;
+        border-radius: clamp(12px, 2vw, 30px);
+        padding: clamp(0.75rem, 2vw, 1.5rem);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+        cursor: pointer;
+        transition:
+            transform 0.15s ease,
+            box-shadow 0.15s ease;
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+            background: #2a3647;
+            color: #fff;
+
+            .card__icon--dark {
+                background-color: #fff;
+
+                .icon {
+                    background-color: #2a3647;
+                }
+            }
+        }
+
+        &__icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: clamp(32px, 4vw, 48px);
+            height: clamp(32px, 4vw, 48px);
+            border-radius: 50%;
+            flex-shrink: 0;
+
+            &--dark {
+                background: #2a3647;
+            }
+
+            &--urgent {
+                background: #ff3d00;
+            }
+
+            .icon {
+                width: clamp(16px, 2vw, 24px);
+                height: clamp(16px, 2vw, 24px);
+                display: inline-block;
+                background-color: #fff;
+                mask-repeat: no-repeat;
+                mask-position: center;
+                mask-size: contain;
+                -webkit-mask-repeat: no-repeat;
+                -webkit-mask-position: center;
+                -webkit-mask-size: contain;
+            }
+
+            .icon--edit {
+                mask-image: url('/icons/edit.svg');
+                -webkit-mask-image: url('/icons/edit.svg');
+            }
+
+            .icon--check {
+                mask-image: url('/icons/check.svg');
+                -webkit-mask-image: url('/icons/check.svg');
+            }
+
+            .icon--urgent {
+                mask-image: url('/icons/prio-urgent.svg');
+                -webkit-mask-image: url('/icons/prio-urgent.svg');
+            }
+        }
+
+        &__text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        &__content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: clamp(60px, 8vw, 93px);
+        }
+
+        &__number {
+            font-size: clamp(1.8rem, 5vw, 4rem);
+            font-weight: 700;
+        }
+
+        &__label {
+            font-size: clamp(0.85rem, 1.1vw, 1.1rem);
+            color: inherit;
+        }
+
+        &__divider {
+            width: 1px;
+            height: clamp(40px, 10vw, 102px);
+            background: #d1d1d1;
+            flex-shrink: 0;
+        }
+
+        &__deadline {
+            display: flex;
+            flex-direction: column;
+
+            .card__date {
+                white-space: nowrap;
+            }
+
+            .card__label {
+                font-size: clamp(12px, 1.2vw, 16px);
+            }
+        }
+
+        &__date {
+            font-weight: 700;
+            font-size: clamp(15px, 1.6vw, 21px);
+        }
+
+        &--icon {
+            width: calc(50% - 6px);
+            height: clamp(90px, 16vw, 168px);
+            flex: none;
+            justify-content: center;
+            gap: clamp(0.5rem, 1.5vw, 18px);
+
+            .card__icon {
+                width: clamp(36px, 6vw, 60px);
+                height: clamp(36px, 6vw, 60px);
+            }
+        }
+
+        @media (min-width: 640px) {
+            &--icon {
+                width: calc(50% - 10px);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            &--icon {
+                width: calc(50% - 16px);
+            }
+        }
+
+        &--wide {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            box-sizing: border-box;
+            height: clamp(90px, 16vw, 168px);
+            padding: clamp(12px, 2.5vw, 28px) clamp(16px, 4.5vw, 48px);
+            gap: clamp(16px, 6vw, 61px);
+
+            .card__group {
+                display: flex;
+                align-items: center;
+                gap: clamp(0.5rem, 1.5vw, 18px);
+
+                .card__icon {
+                    width: clamp(36px, 6vw, 60px);
+                    height: clamp(36px, 6vw, 60px);
+                }
+            }
+
+            .card__divider {
+                margin: 0;
+            }
+        }
+
+        &--plain {
+            width: calc(33.333% - 8px);
+            aspect-ratio: 1;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            text-align: center;
+
+            .card__number {
+                font-size: clamp(1.6rem, 5vw, 4rem);
+            }
+
+            .card__label {
+                font-size: clamp(13px, 1.5vw, 22px);
+            }
+        }
+
+        @media (min-width: 640px) {
+            &--plain {
+                width: calc(33.333% - 13.333px);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            &--plain {
+                width: calc(33.333% - 21.333px);
+            }
+        }
+    }
+}
+@media (max-width: #{$breakpoint-tablet}) {
+    .summary__greeting {
+        display: none;
+    }
+
+    .summary__content {
+        justify-content: center;
+    }
+
+    @media (max-width: 360px) {
+        .card--wide {
+            min-width: 0;
+
+            .card__deadline {
+                min-width: 0;
+
+                .card__date {
+                    white-space: normal;
+                }
+            }
+        }
+    }
+}
