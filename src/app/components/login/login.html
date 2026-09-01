@@ -92,12 +92,6 @@
                         <p class="auth__error auth__error--login">{{ errorMessage() }}</p>
                     }
 
-                    <label class="auth__remember">
-                        <input type="checkbox" formControlName="rememberMe" />
-                        <span aria-hidden="true"></span>
-                        Remember me
-                    </label>
-
                     <div class="auth__actions auth__actions--login">
                         <button class="auth__button" type="submit" [disabled]="isLoading()">
                             Log in

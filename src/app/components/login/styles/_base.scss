@@ -10,7 +10,7 @@
     &__canvas {
         position: relative;
         width: min(100%, $max-width);
-        min-height: max(100dvh, 1024px);
+        min-height: 100dvh;
         margin-inline: auto;
     }
 
@@ -34,6 +34,7 @@
 
         > span {
             width: 153px;
+            white-space: nowrap;
         }
     }
 
@@ -67,6 +68,7 @@
 
     &__heading {
         display: flex;
+        width: 315px;
         flex-direction: column;
         align-items: center;
         gap: 13px;
@@ -161,7 +163,6 @@
         font-size: 20px;
     }
 
-    &__remember,
     &__privacy {
         display: flex;
         align-items: center;
@@ -190,12 +191,6 @@
                 no-repeat;
             border-color: transparent;
         }
-    }
-
-    &__remember {
-        position: absolute;
-        bottom: 108px;
-        left: 154px;
     }
 
     &__privacy {

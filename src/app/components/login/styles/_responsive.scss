@@ -39,6 +39,7 @@
         }
 
         &__heading {
+            width: auto;
             gap: 16px;
 
             h1 {
@@ -51,7 +52,7 @@
         }
 
         &__form {
-            width: calc(100% - 32px);
+            width: 100%;
             max-width: 364px;
 
             &--login {
@@ -71,11 +72,6 @@
                 padding-left: 21px;
                 font-size: 20px;
             }
-        }
-
-        &__remember {
-            bottom: 163px;
-            left: 32px;
         }
 
         &__privacy {

@@ -11,7 +11,6 @@ import { RouterLink } from '@angular/router';
 export interface LoginData {
     email: string;
     password: string;
-    rememberMe: boolean;
 }
 
 export interface SignUpData {
@@ -58,7 +57,6 @@ export class Login {
     protected readonly loginForm = new FormBuilder().nonNullable.group({
         email: ['', [Validators.required, Validators.email]],
         password: ['', Validators.required],
-        rememberMe: [false],
     });
 
     protected readonly signUpForm = new FormBuilder().nonNullable.group({
