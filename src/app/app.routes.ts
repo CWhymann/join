@@ -6,15 +6,15 @@ import { Help } from './pages/help/help';
 import { Policy } from './pages/policy/policy';
 import { Notice } from './pages/notice/notice';
 import { Board } from './components/board/board';
-import { Summary } from './components/summary/summary';
+import { Login } from './components/login/login';
 
 export const routes: Routes = [
+    { path: 'login', component: Login },
+    { path: '', pathMatch: 'full', redirectTo: 'login' },
     {
         path: '',
         component: MainLayout,
         children: [
-            { path: '', pathMatch: 'full', redirectTo: 'summary' },
-            { path: 'summary', component: Summary },
             { path: 'add-task', component: AddTask },
             { path: 'contacts', component: Contacts },
             { path: 'board', component: Board },
@@ -23,5 +23,5 @@ export const routes: Routes = [
             { path: 'legal-notice', component: Notice },
         ],
     },
-    { path: '**', redirectTo: 'summary' },
+    { path: '**', redirectTo: 'login' },
 ];

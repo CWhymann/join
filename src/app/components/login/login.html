@@ -1,0 +1,325 @@
+<main class="auth" [class.auth--sign-up]="isSignUp()">
+    <div class="auth__canvas">
+        <img class="auth__logo" src="icons/join-logo-mobile.svg" alt="Join" />
+
+        @if (!isSignUp()) {
+            <div class="auth__register">
+                <span>Not a Join user?</span>
+                <button
+                    class="auth__button auth__button--small"
+                    type="button"
+                    (click)="openSignUp()"
+                >
+                    Sign up
+                </button>
+            </div>
+
+            <section class="auth__card auth__card--login">
+                <div class="auth__heading">
+                    <h1>Log in</h1>
+                    <span aria-hidden="true"></span>
+                </div>
+
+                <form
+                    class="auth__form auth__form--login"
+                    [formGroup]="loginForm"
+                    (ngSubmit)="submitLogin()"
+                    novalidate
+                >
+                    <label
+                        class="auth__field"
+                        [class.auth__field--invalid]="
+                            loginForm.controls.email.touched && loginForm.controls.email.invalid
+                        "
+                    >
+                        <span class="auth__visually-hidden">Email</span>
+                        <input
+                            type="email"
+                            formControlName="email"
+                            placeholder="Email"
+                            autocomplete="email"
+                        />
+                        <img src="icons/mail_icon.svg" alt="" />
+                        @if (loginForm.controls.email.touched && loginForm.controls.email.invalid) {
+                            <span class="auth__error">
+                                @if (loginForm.controls.email.hasError('required')) {
+                                    This field is required
+                                } @else {
+                                    Please enter a valid email address.
+                                }
+                            </span>
+                        }
+                    </label>
+
+                    <label
+                        class="auth__field"
+                        [class.auth__field--invalid]="
+                            loginForm.controls.password.touched &&
+                            loginForm.controls.password.invalid
+                        "
+                    >
+                        <span class="auth__visually-hidden">Password</span>
+                        <input
+                            [type]="showLoginPassword() ? 'text' : 'password'"
+                            formControlName="password"
+                            placeholder="Password"
+                            autocomplete="current-password"
+                        />
+                        <button
+                            class="auth__field-action"
+                            type="button"
+                            aria-label="Toggle password visibility"
+                            (click)="showLoginPassword.set(!showLoginPassword())"
+                        >
+                            <img
+                                [src]="
+                                    showLoginPassword()
+                                        ? 'icons/auth-visibility.svg'
+                                        : loginForm.controls.password.value
+                                          ? 'icons/auth-visibility-off.svg'
+                                          : 'icons/auth-lock.svg'
+                                "
+                                alt=""
+                            />
+                        </button>
+                        @if (
+                            loginForm.controls.password.touched &&
+                            loginForm.controls.password.invalid
+                        ) {
+                            <span class="auth__error">This field is required</span>
+                        }
+                    </label>
+
+                    @if (errorMessage()) {
+                        <p class="auth__error auth__error--login">{{ errorMessage() }}</p>
+                    }
+
+                    <div class="auth__actions auth__actions--login">
+                        <button class="auth__button" type="submit" [disabled]="isLoading()">
+                            Log in
+                        </button>
+                        <button
+                            class="auth__button auth__button--secondary"
+                            type="button"
+                            [disabled]="isLoading()"
+                            (click)="guestLoginRequested.emit()"
+                        >
+                            Guest Log in
+                        </button>
+                    </div>
+                </form>
+            </section>
+        } @else {
+            <section class="auth__card auth__card--sign-up">
+                <button
+                    class="auth__back"
+                    type="button"
+                    aria-label="Back to login"
+                    (click)="openLogin()"
+                >
+                    <img src="icons/arrow-left.svg" alt="" />
+                </button>
+
+                <div class="auth__heading">
+                    <h1>Sign up</h1>
+                    <span aria-hidden="true"></span>
+                </div>
+
+                <form
+                    class="auth__form auth__form--sign-up"
+                    [formGroup]="signUpForm"
+                    (ngSubmit)="submitSignUp()"
+                    novalidate
+                >
+                    <label
+                        class="auth__field"
+                        [class.auth__field--invalid]="
+                            signUpForm.controls.name.touched && signUpForm.controls.name.invalid
+                        "
+                    >
+                        <span class="auth__visually-hidden">Name</span>
+                        <input
+                            type="text"
+                            formControlName="name"
+                            placeholder="Name"
+                            autocomplete="name"
+                            maxlength="40"
+                        />
+                        <img src="icons/auth-person.svg" alt="" />
+                        @if (signUpForm.controls.name.touched && signUpForm.controls.name.invalid) {
+                            <span class="auth__error">
+                                @if (signUpForm.controls.name.hasError('required')) {
+                                    This field is required
+                                } @else {
+                                    Please enter your first and last name.
+                                }
+                            </span>
+                        }
+                    </label>
+
+                    <label
+                        class="auth__field"
+                        [class.auth__field--invalid]="
+                            signUpForm.controls.email.touched && signUpForm.controls.email.invalid
+                        "
+                    >
+                        <span class="auth__visually-hidden">Email</span>
+                        <input
+                            type="email"
+                            formControlName="email"
+                            placeholder="Email"
+                            autocomplete="email"
+                            maxlength="80"
+                        />
+                        <img src="icons/mail_icon.svg" alt="" />
+                        @if (
+                            signUpForm.controls.email.touched && signUpForm.controls.email.invalid
+                        ) {
+                            <span class="auth__error">
+                                @if (signUpForm.controls.email.hasError('required')) {
+                                    This field is required
+                                } @else {
+                                    Please enter a valid email address.
+                                }
+                            </span>
+                        }
+                    </label>
+
+                    <label
+                        class="auth__field"
+                        [class.auth__field--invalid]="
+                            signUpForm.controls.password.touched &&
+                            signUpForm.controls.password.invalid
+                        "
+                    >
+                        <span class="auth__visually-hidden">Password</span>
+                        <input
+                            [type]="showSignUpPassword() ? 'text' : 'password'"
+                            formControlName="password"
+                            class="auth__input--sign-up-password"
+                            placeholder="Password"
+                            autocomplete="new-password"
+                        />
+                        <button
+                            class="auth__field-action"
+                            type="button"
+                            aria-label="Toggle password visibility"
+                            (click)="showSignUpPassword.set(!showSignUpPassword())"
+                        >
+                            <img
+                                [src]="
+                                    showSignUpPassword()
+                                        ? 'icons/auth-visibility.svg'
+                                        : signUpForm.controls.password.value
+                                          ? 'icons/auth-visibility-off.svg'
+                                          : 'icons/auth-lock.svg'
+                                "
+                                alt=""
+                            />
+                        </button>
+                        @if (
+                            signUpForm.controls.password.touched &&
+                            signUpForm.controls.password.invalid
+                        ) {
+                            <span class="auth__error">This field is required</span>
+                        }
+                    </label>
+
+                    <label
+                        class="auth__field"
+                        [class.auth__field--invalid]="
+                            signUpForm.controls.confirmPassword.touched &&
+                            (signUpForm.controls.confirmPassword.invalid ||
+                                signUpForm.controls.confirmPassword.value !==
+                                    signUpForm.controls.password.value)
+                        "
+                    >
+                        <span class="auth__visually-hidden">Confirm Password</span>
+                        <input
+                            [type]="showConfirmPassword() ? 'text' : 'password'"
+                            formControlName="confirmPassword"
+                            placeholder="Confirm Password"
+                            autocomplete="new-password"
+                        />
+                        <button
+                            class="auth__field-action"
+                            type="button"
+                            aria-label="Toggle password visibility"
+                            (click)="showConfirmPassword.set(!showConfirmPassword())"
+                        >
+                            <img
+                                [src]="
+                                    showConfirmPassword()
+                                        ? 'icons/auth-visibility.svg'
+                                        : signUpForm.controls.confirmPassword.value
+                                          ? 'icons/auth-visibility-off.svg'
+                                          : 'icons/auth-lock.svg'
+                                "
+                                alt=""
+                            />
+                        </button>
+                        @if (
+                            signUpForm.controls.confirmPassword.touched &&
+                            signUpForm.controls.confirmPassword.invalid
+                        ) {
+                            <span class="auth__error">This field is required</span>
+                        } @else if (
+                            signUpForm.controls.confirmPassword.touched &&
+                            signUpForm.controls.confirmPassword.value !==
+                                signUpForm.controls.password.value
+                        ) {
+                            <span class="auth__error">Ups! your password don’t match</span>
+                        }
+                    </label>
+
+                    <label class="auth__privacy">
+                        <input type="checkbox" formControlName="acceptedPrivacy" />
+                        <span aria-hidden="true"></span>
+                        <span>I accept the <a routerLink="/privacy-policy">Privacy policy</a></span>
+                    </label>
+
+                    <button
+                        class="auth__button auth__button--sign-up"
+                        type="submit"
+                        [disabled]="
+                            isLoading() ||
+                            signUpForm.invalid ||
+                            signUpForm.controls.confirmPassword.value !==
+                                signUpForm.controls.password.value
+                        "
+                    >
+                        Sign up
+                    </button>
+                </form>
+            </section>
+        }
+
+        <nav class="auth__legal" aria-label="Legal links">
+            <a routerLink="/privacy-policy">Privacy Policy</a>
+            <a routerLink="/legal-notice">Legal notice</a>
+        </nav>
+    </div>
+
+    @if (showSplash()) {
+        <div class="auth__splash" aria-hidden="true" (animationend)="finishSplash()">
+            <span class="auth__splash-logo">
+                <img src="icons/join-logo-mobile.svg" alt="" />
+            </span>
+        </div>
+    }
+
+    @if (result()) {
+        <div
+            class="auth__greeting"
+            [class.auth__greeting--user]="result() === 'user'"
+            (animationend)="finishGreeting()"
+        >
+            @if (result() === 'user') {
+                <p>Good morning,</p>
+                <strong>{{ userName() }}</strong>
+            } @else {
+                <p>Good morning!</p>
+            }
+        </div>
+    }
+</main>
