@@ -78,6 +78,7 @@
                                 [moveOptions]="columns"
                                 [canMoveUp]="canMoveUp(task)"
                                 [canMoveDown]="canMoveDown(task)"
+                                [isPulsing]="isPulsing(task)"
                                 (taskSelected)="selectTask($event)"
                                 (taskDragStart)="startDrag($event)"
                                 (taskDragEnd)="clearDragState()"

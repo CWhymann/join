@@ -1,90 +1,94 @@
 <article
-  class="task-card"
-  [class.task-card--dragging]="isDragging"
-  [class.task-card--technical]="task.category === 'Technical Task'"
-  role="button"
-  tabindex="0"
-  draggable="true"
-  (click)="selectTask($event)"
-  (keydown.enter)="selectTask($event)"
-  (dragstart)="startDrag($event)"
-  (dragend)="endDrag()"
+    class="task-card"
+    [class.task-card--dragging]="isDragging"
+    [class.task-card--technical]="task.category === 'Technical Task'"
+    [class.task-card--pulsing]="isPulsing"
+    role="button"
+    tabindex="0"
+    draggable="true"
+    (click)="selectTask($event)"
+    (keydown.enter)="selectTask($event)"
+    (dragstart)="startDrag($event)"
+    (dragend)="endDrag()"
 >
-  <div class="task-card__top">
-    <span class="task-card__category">{{ task.category }}</span>
+    <div class="task-card__top">
+        <span class="task-card__category">{{ task.category }}</span>
 
-    <div class="task-card__move" (click)="$event.stopPropagation()">
-      @if (canMoveUp) {
-        <button
-          class="task-card__position-button task-card__position-button--left"
-          type="button"
-          aria-label="Move task left"
-          (click)="requestPositionMove($event, 'up')"
-        ></button>
-      }
-      @if (canMoveDown) {
-        <button
-          class="task-card__position-button task-card__position-button--right"
-          type="button"
-          aria-label="Move task right"
-          (click)="requestPositionMove($event, 'down')"
-        ></button>
-      }
-      <button
-        class="task-card__move-toggle"
-        type="button"
-        aria-label="Move task"
-        [attr.aria-expanded]="isMoveMenuOpen"
-        (click)="toggleMoveMenu($event)"
-      ></button>
+        <div class="task-card__move" (click)="$event.stopPropagation()">
+            @if (canMoveUp) {
+                <button
+                    class="task-card__position-button task-card__position-button--left"
+                    type="button"
+                    aria-label="Move task left"
+                    (click)="requestPositionMove($event, 'up')"
+                ></button>
+            }
+            @if (canMoveDown) {
+                <button
+                    class="task-card__position-button task-card__position-button--right"
+                    type="button"
+                    aria-label="Move task right"
+                    (click)="requestPositionMove($event, 'down')"
+                ></button>
+            }
+            <button
+                class="task-card__move-toggle"
+                type="button"
+                aria-label="Move task"
+                [attr.aria-expanded]="isMoveMenuOpen"
+                (click)="toggleMoveMenu($event)"
+            ></button>
 
-      @if (isMoveMenuOpen) {
-        <div class="task-card__move-menu">
-          @for (option of availableMoveOptions(); track option.status) {
-            <button type="button" (click)="requestStatusMove($event, option.status)">
-              Move to {{ option.title }}
-            </button>
-          }
+            @if (isMoveMenuOpen) {
+                <div class="task-card__move-menu">
+                    @for (option of availableMoveOptions(); track option.status) {
+                        <button type="button" (click)="requestStatusMove($event, option.status)">
+                            Move to {{ option.title }}
+                        </button>
+                    }
+                </div>
+            }
         </div>
-      }
     </div>
-  </div>
 
-  <div class="task-card__copy">
-    <h3 class="task-card__title">{{ task.title }}</h3>
-    <p class="task-card__description">{{ descriptionPreview }}</p>
-  </div>
-
-  @if (task.subtasks.length) {
-    <div class="task-card__subtasks">
-      <span class="task-card__progress" aria-hidden="true">
-        <span class="task-card__progress-value" [style.width.%]="subtaskProgress"></span>
-      </span>
-      <span>{{ completedSubtasks }}/{{ task.subtasks.length }} Subtasks</span>
+    <div class="task-card__copy">
+        <h3 class="task-card__title">{{ task.title }}</h3>
+        <p class="task-card__description">{{ descriptionPreview }}</p>
     </div>
-  }
 
-  <div class="task-card__footer">
-    <div class="task-card__avatars" aria-label="Assigned contacts">
-      @for (assignee of visibleAssignees; track assignee.id) {
+    @if (task.subtasks.length) {
+        <div class="task-card__subtasks">
+            <span class="task-card__progress" aria-hidden="true">
+                <span class="task-card__progress-value" [style.width.%]="subtaskProgress"></span>
+            </span>
+            <span>{{ completedSubtasks }}/{{ task.subtasks.length }} Subtasks</span>
+        </div>
+    }
+
+    <div class="task-card__footer">
+        <div class="task-card__avatars" aria-label="Assigned contacts">
+            @for (assignee of visibleAssignees; track assignee.id) {
+                <span
+                    class="task-card__avatar"
+                    [style.background-color]="assignee.color"
+                    [title]="assignee.name"
+                    >{{ getInitials(assignee.name) }}</span
+                >
+            }
+            @if (hiddenAssigneesCount) {
+                <span class="task-card__avatar task-card__avatar--more"
+                    >+{{ hiddenAssigneesCount }}</span
+                >
+            }
+        </div>
+
         <span
-          class="task-card__avatar"
-          [style.background-color]="assignee.color"
-          [title]="assignee.name"
-        >{{ getInitials(assignee.name) }}</span>
-      }
-      @if (hiddenAssigneesCount) {
-        <span class="task-card__avatar task-card__avatar--more">+{{ hiddenAssigneesCount }}</span>
-      }
+            class="task-card__priority"
+            [class.task-card__priority--urgent]="task.priority === 'urgent'"
+            [class.task-card__priority--medium]="task.priority === 'medium'"
+            [class.task-card__priority--low]="task.priority === 'low'"
+            [attr.aria-label]="task.priority + ' priority'"
+            role="img"
+        ></span>
     </div>
-
-    <span
-      class="task-card__priority"
-      [class.task-card__priority--urgent]="task.priority === 'urgent'"
-      [class.task-card__priority--medium]="task.priority === 'medium'"
-      [class.task-card__priority--low]="task.priority === 'low'"
-      [attr.aria-label]="task.priority + ' priority'"
-      role="img"
-    ></span>
-  </div>
 </article>

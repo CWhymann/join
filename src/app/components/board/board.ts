@@ -6,6 +6,7 @@ import { TasksService } from '../../core/services/tasks.service';
 import { TaskCard } from './task-card/task-card';
 import { TaskDetail } from './task-detail/task-detail';
 import { TaskToastService } from '../../core/services/task-toast.service';
+import { UrgentHighlightService } from '../../core/services/urgent-highlight.service';
 
 interface BoardColumn {
     title: string;
@@ -24,6 +25,7 @@ export class Board implements OnInit, OnDestroy {
     private readonly contactsService = inject(ContactsService);
     private readonly tasksService = inject(TasksService);
     protected readonly taskToastService = inject(TaskToastService);
+    protected readonly urgentHighlightService = inject(UrgentHighlightService);
 
     protected readonly tasks = signal<BoardTask[]>([]);
     protected selectedTask: BoardTask | null = null;
@@ -33,6 +35,7 @@ export class Board implements OnInit, OnDestroy {
     protected searchTerm = '';
     protected isAddTaskOpen = false;
     protected editingTask: BoardTask | null = null;
+    private readonly settledUrgentTaskIds = new Set<number>();
 
     protected readonly columns: BoardColumn[] = [
         { title: 'To do', status: 'todo', emptyMessage: 'No tasks To do' },
@@ -53,6 +56,7 @@ export class Board implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         void this.tasksService.unsubscribeFromChanges();
+        this.urgentHighlightService.consume();
     }
 
     protected tasksFor(status: TaskStatus): BoardTask[] {
@@ -85,7 +89,17 @@ export class Board implements OnInit, OnDestroy {
     protected hasNoResults(status: TaskStatus): boolean {
         return this.searchTerm.trim().length >= 3 && this.filteredTasksFor(status).length === 0;
     }
+
+    protected isPulsing(task: BoardTask): boolean {
+        return (
+            this.urgentHighlightService.highlightUrgent() &&
+            task.priority === 'urgent' &&
+            !this.settledUrgentTaskIds.has(task.id)
+        );
+    }
+
     protected selectTask(task: BoardTask): void {
+        this.settledUrgentTaskIds.add(task.id);
         this.selectedTask = task;
     }
 
@@ -106,13 +120,16 @@ export class Board implements OnInit, OnDestroy {
     protected allowTaskDrop(event: DragEvent, status: TaskStatus, task: BoardTask): void {
         const card = (event.currentTarget as HTMLElement).querySelector('.task-card');
         const rect = card?.getBoundingClientRect();
-        const isHorizontal = getComputedStyle(event.currentTarget as HTMLElement).flexBasis !== 'auto';
-        const hasPointerPosition = typeof event.clientX === 'number' && typeof event.clientY === 'number';
-        const isBefore = rect && hasPointerPosition
-            ? isHorizontal
-                ? event.clientX < rect.left + rect.width / 2
-                : event.clientY < rect.top + rect.height / 2
-            : true;
+        const isHorizontal =
+            getComputedStyle(event.currentTarget as HTMLElement).flexBasis !== 'auto';
+        const hasPointerPosition =
+            typeof event.clientX === 'number' && typeof event.clientY === 'number';
+        const isBefore =
+            rect && hasPointerPosition
+                ? isHorizontal
+                    ? event.clientX < rect.left + rect.width / 2
+                    : event.clientY < rect.top + rect.height / 2
+                : true;
         const columnTasks = this.tasksFor(status).filter((item) => item.id !== this.draggedTaskId);
         const taskIndex = columnTasks.findIndex((item) => item.id === task.id);
         const beforeId = isBefore ? task.id : columnTasks[taskIndex + 1]?.id;
