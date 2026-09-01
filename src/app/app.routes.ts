@@ -6,6 +6,7 @@ import { Help } from './pages/help/help';
 import { Policy } from './pages/policy/policy';
 import { Notice } from './pages/notice/notice';
 import { Board } from './components/board/board';
+import { Summary } from './components/summary/summary';
 import { Login } from './components/login/login';
 
 export const routes: Routes = [
@@ -15,6 +16,7 @@ export const routes: Routes = [
         path: '',
         component: MainLayout,
         children: [
+            { path: 'summary', component: Summary },
             { path: 'add-task', component: AddTask },
             { path: 'contacts', component: Contacts },
             { path: 'board', component: Board },
