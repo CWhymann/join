@@ -1,4 +1,4 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, inject, output, signal } from '@angular/core';
 import {
     AbstractControl,
     FormBuilder,
@@ -6,7 +6,8 @@ import {
     ValidationErrors,
     Validators,
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../core/services/auth.service';
 
 export interface LoginData {
     email: string;
@@ -22,6 +23,7 @@ export interface SignUpData {
 }
 
 export type LoginResult = 'user' | 'guest' | null;
+const GREETING_MEDIA_QUERY = '(max-width: 767px)';
 
 function fullNameValidator(control: AbstractControl): ValidationErrors | null {
     const name = control.value.trim();
@@ -39,15 +41,15 @@ function fullNameValidator(control: AbstractControl): ValidationErrors | null {
     styleUrl: './login.scss',
 })
 export class Login {
-    readonly errorMessage = input('');
-    readonly isLoading = input(false);
-    readonly result = input<LoginResult>(null);
-    readonly userName = input('');
-    readonly loginSubmitted = output<LoginData>();
-    readonly guestLoginRequested = output<void>();
     readonly signUpSubmitted = output<SignUpData>();
-    readonly greetingFinished = output<void>();
 
+    private readonly authService = inject(AuthService);
+    private readonly router = inject(Router);
+
+    protected readonly errorMessage = signal('');
+    protected readonly isLoading = signal(false);
+    protected readonly result = signal<LoginResult>(null);
+    protected readonly userName = signal('');
     protected readonly isSignUp = signal(false);
     protected readonly showSplash = signal(true);
     protected readonly showLoginPassword = signal(false);
@@ -75,9 +77,38 @@ export class Login {
         this.isSignUp.set(false);
     }
 
-    protected submitLogin(): void {
-        if (this.loginForm.invalid || this.isLoading()) return this.loginForm.markAllAsTouched();
-        this.loginSubmitted.emit(this.loginForm.getRawValue());
+    protected async submitLogin(): Promise<void> {
+        if (this.loginForm.invalid || this.isLoading()) {
+            this.loginForm.markAllAsTouched();
+            return;
+        }
+        const { email, password } = this.loginForm.getRawValue();
+        await this.runLogin(() => this.authService.login(email, password), 'user');
+    }
+
+    protected async loginAsGuest(): Promise<void> {
+        if (this.isLoading()) return;
+        await this.runLogin(() => this.authService.loginAsGuest(), 'guest');
+    }
+
+    private async runLogin(
+        request: () => Promise<string | null>,
+        result: 'user' | 'guest',
+    ): Promise<void> {
+        this.isLoading.set(true);
+        this.errorMessage.set('');
+        const error = await request();
+        this.isLoading.set(false);
+        if (error) {
+            this.errorMessage.set(error);
+            return;
+        }
+        this.userName.set(this.authService.userName());
+        if (window.matchMedia(GREETING_MEDIA_QUERY).matches) {
+            this.result.set(result);
+            return;
+        }
+        this.finishGreeting();
     }
 
     protected submitSignUp(): void {
@@ -90,6 +121,6 @@ export class Login {
     }
 
     protected finishGreeting(): void {
-        this.greetingFinished.emit();
+        this.router.navigate(['/summary']);
     }
 }
