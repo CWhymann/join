@@ -29,7 +29,8 @@
                     <label
                         class="auth__field"
                         [class.auth__field--invalid]="
-                            loginForm.controls.email.touched && loginForm.controls.email.invalid
+                            !!errorMessage() ||
+                            (loginForm.controls.email.touched && loginForm.controls.email.invalid)
                         "
                     >
                         <span class="auth__visually-hidden">Email</span>
@@ -54,8 +55,9 @@
                     <label
                         class="auth__field"
                         [class.auth__field--invalid]="
-                            loginForm.controls.password.touched &&
-                            loginForm.controls.password.invalid
+                            !!errorMessage() ||
+                            (loginForm.controls.password.touched &&
+                                loginForm.controls.password.invalid)
                         "
                     >
                         <span class="auth__visually-hidden">Password</span>
@@ -277,6 +279,10 @@
                         <span aria-hidden="true"></span>
                         <span>I accept the <a routerLink="/privacy-policy">Privacy policy</a></span>
                     </label>
+
+                    @if (errorMessage()) {
+                        <p class="auth__error auth__error--sign-up">{{ errorMessage() }}</p>
+                    }
 
                     <button
                         class="auth__button auth__button--sign-up"

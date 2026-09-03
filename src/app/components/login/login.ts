@@ -25,6 +25,9 @@ export interface SignUpData {
 export type LoginResult = 'user' | 'guest' | null;
 const GREETING_MEDIA_QUERY = '(max-width: 767px)';
 
+// Matches $breakpoint-mobile: the greeting overlay is only rendered below this width.
+const GREETING_MEDIA_QUERY = '(max-width: 767px)';
+
 function fullNameValidator(control: AbstractControl): ValidationErrors | null {
     const name = control.value.trim();
     if (!name) return null;
@@ -70,10 +73,12 @@ export class Login {
     });
 
     protected openSignUp(): void {
+        this.errorMessage.set('');
         this.isSignUp.set(true);
     }
 
     protected openLogin(): void {
+        this.errorMessage.set('');
         this.isSignUp.set(false);
     }
 
@@ -111,9 +116,14 @@ export class Login {
         this.finishGreeting();
     }
 
-    protected submitSignUp(): void {
-        if (this.signUpForm.invalid || this.isLoading()) return this.signUpForm.markAllAsTouched();
-        this.signUpSubmitted.emit(this.signUpForm.getRawValue());
+    protected async submitSignUp(): Promise<void> {
+        this.errorMessage.set('');
+        const { name, email, password, confirmPassword } = this.signUpForm.getRawValue();
+        if (this.signUpForm.invalid || this.isLoading() || password !== confirmPassword) {
+            this.signUpForm.markAllAsTouched();
+            return;
+        }
+        await this.runLogin(() => this.authService.signUp({ name, email, password }), 'user');
     }
 
     protected finishSplash(): void {
