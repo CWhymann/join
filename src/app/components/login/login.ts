@@ -1,14 +1,23 @@
 import { Component, inject, signal } from '@angular/core';
-import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import {
+    AbstractControl,
+    FormBuilder,
+    ReactiveFormsModule,
+    ValidationErrors,
+    Validators,
+} from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
+import { TaskToastService } from '../../core/services/task-toast.service';
 
 export type LoginResult = 'user' | 'guest' | null;
 const GREETING_MEDIA_QUERY = '(max-width: 767px)';
 
 function fullNameValidator(control: AbstractControl): ValidationErrors | null {
-    const name = control.value.trim();
-    if (!name) return null;
+    const name = String(control.value ?? '').trim();
+    if (!name) {
+        return null;
+    }
     const hasValidCharacters = /^\p{L}+([ '-]\p{L}+)*$/u.test(name);
     const hasFirstAndLastName = name.split(/\s+/).length >= 2;
     return hasValidCharacters && hasFirstAndLastName ? null : { invalidName: true };
@@ -23,6 +32,7 @@ function fullNameValidator(control: AbstractControl): ValidationErrors | null {
 })
 export class Login {
     private readonly authService = inject(AuthService);
+    protected readonly taskToastService = inject(TaskToastService);
     private readonly router = inject(Router);
 
     protected readonly errorMessage = signal('');
@@ -60,12 +70,19 @@ export class Login {
 
     protected async submitLogin(): Promise<void> {
         this.errorMessage.set('');
+
         if (this.loginForm.invalid || this.isLoading()) {
             this.loginForm.markAllAsTouched();
             return;
         }
+
         const { email, password } = this.loginForm.getRawValue();
-        await this.runLogin(() => this.authService.login(email, password), 'user');
+
+        const success = await this.runLogin(() => this.authService.login(email, password), 'user');
+
+        if (success) {
+            this.taskToastService.login();
+        }
     }
 
     protected async loginAsGuest(): Promise<void> {
@@ -76,31 +93,48 @@ export class Login {
     private async runLogin(
         request: () => Promise<string | null>,
         result: 'user' | 'guest',
-    ): Promise<void> {
+    ): Promise<boolean> {
         this.isLoading.set(true);
         this.errorMessage.set('');
+
         const error = await request();
+
         this.isLoading.set(false);
+
         if (error) {
             this.errorMessage.set(error);
-            return;
+            return false;
         }
+
         this.userName.set(this.authService.userName());
+
         if (window.matchMedia(GREETING_MEDIA_QUERY).matches) {
             this.result.set(result);
-            return;
+            return true;
         }
+
         this.finishGreeting();
+        return true;
     }
 
     protected async submitSignUp(): Promise<void> {
         this.errorMessage.set('');
+
         const { name, email, password, confirmPassword } = this.signUpForm.getRawValue();
+
         if (this.signUpForm.invalid || this.isLoading() || password !== confirmPassword) {
             this.signUpForm.markAllAsTouched();
             return;
         }
-        await this.runLogin(() => this.authService.signUp({ name, email, password }), 'user');
+
+        const success = await this.runLogin(
+            () => this.authService.signUp({ name, email, password }),
+            'user',
+        );
+
+        if (success) {
+            this.taskToastService.signUp();
+        }
     }
 
     protected finishSplash(): void {

@@ -1,0 +1,33 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+@mixin toast {
+    position: fixed;
+    z-index: 200;
+    top: 50%;
+    left: 50%;
+    width: fit-content;
+    min-width: clamp(200px, 60vw, 260px);
+    max-width: calc(100% - 32px);
+    height: clamp(60px, 13.75vw, 74px);
+    padding-inline: clamp(12px, 5vw, 24px);
+    box-sizing: border-box;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    color: #ffffff;
+    background-color: #2a3647;
+    box-shadow: 0 8px 24px rgb(0 0 0 / 20%);
+    font-size: clamp(16px, 2vw, 18px);
+    font-weight: 400;
+    line-height: 1.2;
+    text-align: center;
+    white-space: nowrap;
+
+    @include mobile {
+        top: auto;
+        bottom: 80px;
+    }
+}
