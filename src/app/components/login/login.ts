@@ -1,26 +1,7 @@
-import { Component, inject, output, signal } from '@angular/core';
-import {
-    AbstractControl,
-    FormBuilder,
-    ReactiveFormsModule,
-    ValidationErrors,
-    Validators,
-} from '@angular/forms';
+import { Component, inject, signal } from '@angular/core';
+import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
-
-export interface LoginData {
-    email: string;
-    password: string;
-}
-
-export interface SignUpData {
-    name: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
-    acceptedPrivacy: boolean;
-}
 
 export type LoginResult = 'user' | 'guest' | null;
 const GREETING_MEDIA_QUERY = '(max-width: 767px)';
@@ -41,8 +22,6 @@ function fullNameValidator(control: AbstractControl): ValidationErrors | null {
     styleUrl: './login.scss',
 })
 export class Login {
-    readonly signUpSubmitted = output<SignUpData>();
-
     private readonly authService = inject(AuthService);
     private readonly router = inject(Router);
 
@@ -80,6 +59,7 @@ export class Login {
     }
 
     protected async submitLogin(): Promise<void> {
+        this.errorMessage.set('');
         if (this.loginForm.invalid || this.isLoading()) {
             this.loginForm.markAllAsTouched();
             return;
