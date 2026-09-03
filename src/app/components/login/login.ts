@@ -1,4 +1,4 @@
-import { Component, inject, output, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
     AbstractControl,
     FormBuilder,
@@ -9,20 +9,9 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 
-export interface LoginData {
-    email: string;
-    password: string;
-}
-
-export interface SignUpData {
-    name: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
-    acceptedPrivacy: boolean;
-}
-
 export type LoginResult = 'user' | 'guest' | null;
+
+// Matches $breakpoint-mobile: the greeting overlay is only rendered below this width.
 const GREETING_MEDIA_QUERY = '(max-width: 767px)';
 
 function fullNameValidator(control: AbstractControl): ValidationErrors | null {
@@ -41,8 +30,6 @@ function fullNameValidator(control: AbstractControl): ValidationErrors | null {
     styleUrl: './login.scss',
 })
 export class Login {
-    readonly signUpSubmitted = output<SignUpData>();
-
     private readonly authService = inject(AuthService);
     private readonly router = inject(Router);
 
@@ -70,14 +57,17 @@ export class Login {
     });
 
     protected openSignUp(): void {
+        this.errorMessage.set('');
         this.isSignUp.set(true);
     }
 
     protected openLogin(): void {
+        this.errorMessage.set('');
         this.isSignUp.set(false);
     }
 
     protected async submitLogin(): Promise<void> {
+        this.errorMessage.set('');
         if (this.loginForm.invalid || this.isLoading()) {
             this.loginForm.markAllAsTouched();
             return;
@@ -111,9 +101,14 @@ export class Login {
         this.finishGreeting();
     }
 
-    protected submitSignUp(): void {
-        if (this.signUpForm.invalid || this.isLoading()) return this.signUpForm.markAllAsTouched();
-        this.signUpSubmitted.emit(this.signUpForm.getRawValue());
+    protected async submitSignUp(): Promise<void> {
+        this.errorMessage.set('');
+        const { name, email, password, confirmPassword } = this.signUpForm.getRawValue();
+        if (this.signUpForm.invalid || this.isLoading() || password !== confirmPassword) {
+            this.signUpForm.markAllAsTouched();
+            return;
+        }
+        await this.runLogin(() => this.authService.signUp({ name, email, password }), 'user');
     }
 
     protected finishSplash(): void {
