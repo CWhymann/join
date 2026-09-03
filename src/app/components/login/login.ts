@@ -25,9 +25,6 @@ export interface SignUpData {
 export type LoginResult = 'user' | 'guest' | null;
 const GREETING_MEDIA_QUERY = '(max-width: 767px)';
 
-// Matches $breakpoint-mobile: the greeting overlay is only rendered below this width.
-const GREETING_MEDIA_QUERY = '(max-width: 767px)';
-
 function fullNameValidator(control: AbstractControl): ValidationErrors | null {
     const name = control.value.trim();
     if (!name) return null;

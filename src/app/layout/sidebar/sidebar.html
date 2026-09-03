@@ -1,5 +1,9 @@
 <aside class="sidebar">
-  <a class="sidebar__logo" routerLink="/summary" aria-label="Go to summary">
+  <a
+    class="sidebar__logo"
+    [routerLink]="isLoggedIn() ? '/summary' : '/login'"
+    [attr.aria-label]="isLoggedIn() ? 'Go to summary' : 'Go to login'"
+  >
     <img src="icons/join-logo.svg" alt="Join">
   </a>
 
