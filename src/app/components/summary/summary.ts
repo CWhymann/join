@@ -1,5 +1,6 @@
-import { Component, OnInit, computed, inject, input } from '@angular/core';
+import { Component, OnInit, computed, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../core/services/auth.service';
 import { TasksService } from '../../core/services/tasks.service';
 import { UrgentHighlightService } from '../../core/services/urgent-highlight.service';
 
@@ -14,10 +15,11 @@ export class Summary implements OnInit {
     private readonly tasksService = inject(TasksService);
     private readonly urgentHighlightService = inject(UrgentHighlightService);
     private readonly router = inject(Router);
+    private readonly authService = inject(AuthService);
 
-    // TODO: connect to auth service once login is implemented
-    // e.g. [currentUserName]="user()?.name" from AuthService
-    readonly currentUserName = input<string | null>(null);
+    readonly currentUserName = computed(() =>
+        this.authService.isGuest() ? null : this.authService.userName(),
+    );
 
     readonly greetingText = computed(() => this.getGreetingByHour(new Date().getHours()));
 

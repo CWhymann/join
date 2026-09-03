@@ -8,18 +8,19 @@ import { Notice } from './pages/notice/notice';
 import { Board } from './components/board/board';
 import { Summary } from './components/summary/summary';
 import { Login } from './components/login/login';
+import { authGuard, guestGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
-    { path: 'login', component: Login },
+    { path: 'login', component: Login, canActivate: [guestGuard] },
     { path: '', pathMatch: 'full', redirectTo: 'login' },
     {
         path: '',
         component: MainLayout,
         children: [
-            { path: 'summary', component: Summary },
-            { path: 'add-task', component: AddTask },
-            { path: 'contacts', component: Contacts },
-            { path: 'board', component: Board },
+            { path: 'summary', component: Summary, canActivate: [authGuard] },
+            { path: 'add-task', component: AddTask, canActivate: [authGuard] },
+            { path: 'contacts', component: Contacts, canActivate: [authGuard] },
+            { path: 'board', component: Board, canActivate: [authGuard] },
             { path: 'help', component: Help },
             { path: 'privacy-policy', component: Policy },
             { path: 'legal-notice', component: Notice },
