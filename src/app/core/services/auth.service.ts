@@ -1,6 +1,7 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { AuthError, User } from '@supabase/supabase-js';
 import { getInitials } from '../utils/avatar.utils';
+import { ContactsService } from './contacts.service';
 import { SupabaseService } from './supabase.service';
 
 const GUEST_EMAIL = 'guest@join.de';
@@ -15,6 +16,7 @@ export interface SignUpInput {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
     private readonly supabase = inject(SupabaseService).client;
+    private readonly contactsService = inject(ContactsService);
     private readonly userSignal = signal<User | null>(null);
 
     readonly user = this.userSignal.asReadonly();
@@ -47,7 +49,18 @@ export class AuthService {
         });
         if (error) return this.toMessage(error);
         this.userSignal.set(data.user);
+        await this.addToContacts(input);
         return null;
+    }
+
+    private async addToContacts(input: SignUpInput): Promise<void> {
+        await this.contactsService.loadContacts();
+        const email = input.email.toLowerCase();
+        const isListed = this.contactsService
+            .contacts()
+            .some((contact) => contact.email.toLowerCase() === email);
+        if (isListed) return;
+        await this.contactsService.addContact({ name: input.name, email: input.email, phone: '' });
     }
 
     async logout(): Promise<void> {
