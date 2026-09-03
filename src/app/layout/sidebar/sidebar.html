@@ -1,4 +1,4 @@
-<aside class="sidebar">
+<aside class="sidebar" [class.sidebar--logged-out]="!isLoggedIn()">
   <a
     class="sidebar__logo"
     [routerLink]="isLoggedIn() ? '/summary' : '/login'"

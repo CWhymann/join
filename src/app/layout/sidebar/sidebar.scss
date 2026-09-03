@@ -141,5 +141,41 @@
     &__navigation-link:not(.sidebar__navigation-link--active):hover img {
       filter: none;
     }
+
+    &--logged-out {
+      padding-inline: clamp(4px, calc(11.111vw - 31.556px), 16px);
+
+      .sidebar__navigation {
+        width: auto;
+        flex: 1;
+        padding: 0;
+      }
+
+      .sidebar__legal {
+        display: flex;
+        width: auto;
+        margin: 0;
+        padding: 0;
+        flex-direction: row;
+        gap: 0;
+      }
+
+      .sidebar__legal a {
+        display: flex;
+        height: 76px;
+        padding-inline: clamp(4px, calc(7.407vw - 19.704px), 12px);
+        align-items: center;
+        justify-content: center;
+        border-radius: 16px;
+        color: #ffffff;
+        white-space: nowrap;
+
+        &:hover,
+        &.sidebar__legal-link--active {
+          background: $color-sidebar-active;
+          font-weight: $font-weight-regular;
+        }
+      }
+    }
   }
 }

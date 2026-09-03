@@ -47,6 +47,10 @@
         color: #124658;
     }
 
+    &__back {
+        display: none;
+    }
+
     @include mobile {
         padding: $spacing-lg $spacing-md 48px;
 
@@ -56,6 +60,44 @@
 
         &__section-title {
             font-size: 22px;
+        }
+
+        &--logged-out {
+            position: relative;
+            height: calc(100dvh - 2 * #{$mobile-bar-height});
+            padding-top: 48px;
+            overflow-wrap: anywhere;
+
+            .policy__title {
+                margin-bottom: 32px;
+                padding-right: 40px;
+                font-size: clamp(32px, calc(13.889vw - 12.444px), 47px);
+            }
+
+            .policy__section-title {
+                font-size: 27px;
+            }
+
+            .policy__back {
+                position: absolute;
+                top: 48px;
+                right: 16px;
+                display: flex;
+                width: 32px;
+                height: 32px;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+
+                &:hover {
+                    background: #eeeeee;
+                }
+
+                img {
+                    width: 28px;
+                    height: 28px;
+                }
+            }
         }
     }
 }

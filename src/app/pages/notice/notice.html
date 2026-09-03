@@ -1,4 +1,9 @@
-<section class="notice">
+<section class="notice" [class.notice--logged-out]="!isLoggedIn()">
+    @if (!isLoggedIn()) {
+        <a class="notice__back" routerLink="/login" aria-label="Back to login">
+            <img src="icons/arrow-left.svg" alt="">
+        </a>
+    }
   <h1 class="notice__title">Legal Notice</h1>
 
   <h2 class="notice__section-title">Imprint</h2>
