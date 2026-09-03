@@ -1,4 +1,9 @@
-<section class="policy">
+<section class="policy" [class.policy--logged-out]="!isLoggedIn()">
+    @if (!isLoggedIn()) {
+        <a class="policy__back" routerLink="/login" aria-label="Back to login">
+            <img src="icons/arrow-left.svg" alt="">
+        </a>
+    }
     <h1 class="policy__title">Privacy Policy</h1>
 
     <p class="policy__meta">Last updated: [date]</p>
