@@ -3,7 +3,9 @@ import { DOCUMENT } from '@angular/common';
 import { ContactList } from './contact-list/contact-list';
 import { ContactDetail } from './contact-detail/contact-detail';
 import { ContactForm } from './contact-form/contact-form';
+import { Router } from '@angular/router';
 import { Contact } from '../../core/models/contact.model';
+import { AuthService } from '../../core/services/auth.service';
 import { ContactsService } from '../../core/services/contacts.service';
 
 @Component({
@@ -17,6 +19,8 @@ export class Contacts implements OnInit {
     @ViewChild(ContactDetail, { read: ElementRef }) private contactDetail?: ElementRef<HTMLElement>;
 
     private contactsService = inject(ContactsService);
+    private authService = inject(AuthService);
+    private router = inject(Router);
     private renderer = inject(Renderer2);
     private document = inject(DOCUMENT);
 
@@ -77,12 +81,23 @@ export class Contacts implements OnInit {
         if (this.selectedContact()?.id === contact.id) {
             this.selectedContact.set(null);
         }
+        if (await this.logoutIfOwnContact(contact)) return;
         this.showToastMessage('Contact deleted');
     }
 
-    onFormDeleted(): void {
+    async onFormDeleted(): Promise<void> {
+        const deleted = this.editingContact();
         this.selectedContact.set(null);
+        if (deleted && (await this.logoutIfOwnContact(deleted))) return;
         this.showToastMessage('Contact deleted');
+    }
+
+    private async logoutIfOwnContact(contact: Contact): Promise<boolean> {
+        const email = this.authService.user()?.email?.toLowerCase();
+        if (!email || contact.email.toLowerCase() !== email) return false;
+        await this.authService.logout();
+        this.router.navigate(['/login']);
+        return true;
     }
 
     private showToastMessage(message: string): void {
