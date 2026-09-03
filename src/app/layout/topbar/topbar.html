@@ -6,14 +6,16 @@
       <a class="topbar__help" routerLink="/help" aria-label="Help">
         <img src="icons/help.svg" alt="">
       </a>
-      <button
-        class="topbar__profile"
-        type="button"
-        aria-label="Open profile menu"
-        aria-haspopup="menu"
-        [attr.aria-expanded]="isProfileMenuOpen"
-        (click)="toggleProfileMenu($event)"
-      >{{ initials() }}</button>
+      @if (isLoggedIn()) {
+        <button
+          class="topbar__profile"
+          type="button"
+          aria-label="Open profile menu"
+          aria-haspopup="menu"
+          [attr.aria-expanded]="isProfileMenuOpen"
+          (click)="toggleProfileMenu($event)"
+        >{{ initials() }}</button>
+      }
 
       @if (isProfileMenuOpen) {
         <nav class="topbar__profile-menu" aria-label="Profile menu" role="menu" (click)="$event.stopPropagation()">

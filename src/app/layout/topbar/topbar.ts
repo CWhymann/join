@@ -12,6 +12,7 @@ export class Topbar {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
 
+  protected readonly isLoggedIn = this.authService.isLoggedIn;
   protected readonly initials = this.authService.initials;
 
   protected isProfileMenuOpen = false;
