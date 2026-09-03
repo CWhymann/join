@@ -33,6 +33,7 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "/angular-projects/join/",
               "budgets": [
                 {
                   "type": "initial",
