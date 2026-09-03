@@ -1,6 +1,6 @@
 import { Component, HostListener, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { SupabaseService } from '../../core/services/supabase.service';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-topbar',
@@ -9,7 +9,10 @@ import { SupabaseService } from '../../core/services/supabase.service';
   styleUrl: './topbar.scss'
 })
 export class Topbar {
-  private readonly supabaseService = inject(SupabaseService);
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
+
+  protected readonly initials = this.authService.initials;
 
   protected isProfileMenuOpen = false;
 
@@ -23,8 +26,9 @@ export class Topbar {
   }
 
   protected async logout(): Promise<void> {
-    await this.supabaseService.client.auth.signOut();
+    await this.authService.logout();
     this.closeProfileMenu();
+    this.router.navigate(['/login']);
   }
 
   @HostListener('document:click')

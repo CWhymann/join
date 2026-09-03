@@ -13,7 +13,7 @@
         aria-haspopup="menu"
         [attr.aria-expanded]="isProfileMenuOpen"
         (click)="toggleProfileMenu($event)"
-      >SM</button>
+      >{{ initials() }}</button>
 
       @if (isProfileMenuOpen) {
         <nav class="topbar__profile-menu" aria-label="Profile menu" role="menu" (click)="$event.stopPropagation()">
