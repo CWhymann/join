@@ -30,7 +30,7 @@
 
         &__card {
             &--login {
-                top: 225.5px;
+                top: clamp(150px, 24.35dvh, 225.5px);
                 left: 50%;
                 width: calc(100% - 32px);
                 max-width: 396px;
@@ -39,11 +39,11 @@
             }
 
             &--sign-up {
-                top: 165.5px;
+                top: clamp(150px, 24.35dvh, 225.5px);
                 width: calc(100% - 32px);
                 max-width: 396px;
                 height: 595px;
-                padding-top: 32px;
+                padding: 32px 16px 0;
             }
         }
 
@@ -62,7 +62,6 @@
 
         &__form {
             width: 100%;
-            max-width: 364px;
 
             &--login {
                 gap: 32px;
@@ -112,7 +111,7 @@
 
         &__back {
             top: 40px;
-            left: 40px;
+            left: clamp(16px, calc(22.22vw - 55.1px), 40px);
         }
 
         &__legal {
@@ -171,14 +170,6 @@
         &__register {
             right: 24px;
             gap: clamp(16px, 7vw, 35px);
-        }
-
-        &__card--login {
-            top: clamp(150px, 23dvh, 225.5px);
-        }
-
-        &__card--sign-up {
-            top: clamp(118px, 18dvh, 165.5px);
         }
 
         &__legal {

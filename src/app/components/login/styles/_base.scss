@@ -50,7 +50,7 @@
         box-shadow: 0 0 14px 3px rgb(0 0 0 / 4%);
 
         &--login {
-            top: clamp(225.5px, 26.855vh, 275px);
+            top: clamp(150px, 26.855dvh, 275px);
             left: calc(50% - 22.5px);
             width: min(652px, calc(100% - 32px));
             height: 449px;
@@ -59,7 +59,7 @@
         }
 
         &--sign-up {
-            top: clamp(165.5px, 19.238vh, 197px);
+            top: clamp(150px, 19.238dvh, 197px);
             width: min(598px, calc(100% - 32px));
             height: 630px;
             padding-top: 48px;
