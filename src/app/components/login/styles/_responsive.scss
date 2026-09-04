@@ -41,8 +41,7 @@
             }
 
             &--sign-up {
-                top: 50%;
-                transform: translate(-50%, -50%);
+                top: clamp(150px, 24.35dvh, 225.5px);
                 left: 50%;
                 width: calc(100% - 32px);
                 max-width: 396px;
@@ -167,23 +166,6 @@
                 animation-name: greeting-user;
                 animation-duration: 1.6s;
             }
-        }
-    }
-}
-
-@media (max-width: 380px) {
-    .auth {
-        &__register {
-            right: 24px;
-            gap: clamp(16px, 7vw, 35px);
-        }
-
-        &__card--login {
-            top: clamp(150px, 23dvh, 225.5px);
-        }
-
-        &__legal {
-            bottom: 12px;
         }
     }
 }
