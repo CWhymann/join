@@ -1,18 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
-import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
+import { EMAIL_PATTERN, MIN_PASSWORD_LENGTH, fullNameValidator } from '../../core/utils/validation.utils';
 
 export type LoginResult = 'user' | 'guest' | null;
 const GREETING_MEDIA_QUERY = '(max-width: 767px)';
-
-function fullNameValidator(control: AbstractControl): ValidationErrors | null {
-    const name = control.value.trim();
-    if (!name) return null;
-    const hasValidCharacters = /^\p{L}+([ '-]\p{L}+)*$/u.test(name);
-    const hasFirstAndLastName = name.split(/\s+/).length >= 2;
-    return hasValidCharacters && hasFirstAndLastName ? null : { invalidName: true };
-}
 
 @Component({
     selector: 'app-login',
@@ -42,8 +35,8 @@ export class Login {
 
     protected readonly signUpForm = new FormBuilder().nonNullable.group({
         name: ['', [Validators.required, Validators.maxLength(40), fullNameValidator]],
-        email: ['', [Validators.required, Validators.email, Validators.maxLength(80)]],
-        password: ['', Validators.required],
+        email: ['', [Validators.required, Validators.pattern(EMAIL_PATTERN), Validators.maxLength(80)]],
+        password: ['', [Validators.required, Validators.minLength(MIN_PASSWORD_LENGTH)]],
         confirmPassword: ['', Validators.required],
         acceptedPrivacy: [false, Validators.requiredTrue],
     });
