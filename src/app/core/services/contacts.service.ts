@@ -72,6 +72,10 @@ export class ContactsService {
     return true;
   }
 
+  async claimContact(id: number, userId: string): Promise<void> {
+    await this.updateContact(id, { user_id: userId });
+  }
+
   findById(id: number): Contact | undefined {
     return this.contactsSignal().find((contact) => contact.id === id);
   }

@@ -24,13 +24,15 @@
 
         &__register {
             top: 778px;
-            right: 66px;
+            right: auto;
+            left: 50%;
             gap: 35px;
+            transform: translateX(-50%);
         }
 
         &__card {
             &--login {
-                top: 225.5px;
+                top: clamp(150px, 24.35dvh, 225.5px);
                 left: 50%;
                 width: calc(100% - 32px);
                 max-width: 396px;
@@ -64,7 +66,6 @@
 
         &__form {
             width: 100%;
-            max-width: 364px;
 
             &--login {
                 gap: 32px;

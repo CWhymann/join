@@ -223,7 +223,13 @@
                             signUpForm.controls.password.touched &&
                             signUpForm.controls.password.invalid
                         ) {
-                            <span class="auth__error">This field is required</span>
+                            <span class="auth__error">
+                                @if (signUpForm.controls.password.hasError('required')) {
+                                    This field is required
+                                } @else {
+                                    Please use at least 6 characters.
+                                }
+                            </span>
                         }
                     </label>
 

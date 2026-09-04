@@ -4,6 +4,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ContactsService } from '../../../core/services/contacts.service';
 import { Contact } from '../../../core/models/contact.model';
 import { getInitials } from '../../../core/utils/avatar.utils';
+import { EMAIL_PATTERN, fullNameValidator } from '../../../core/utils/validation.utils';
 
 @Component({
     selector: 'app-contact-form',
@@ -28,15 +29,8 @@ export class ContactForm implements OnInit {
     readonly maxLengths = { name: 40, email: 80, phone: 20 };
 
     form = this.fb.group({
-        name: ['', [Validators.required, Validators.maxLength(40), this.nameValidator]],
-        email: [
-            '',
-            [
-                Validators.required,
-                Validators.maxLength(80),
-                Validators.pattern(/^[\w+-]+(\.[\w+-]+)*@([a-z\d]([a-z\d-]*[a-z\d])?\.){1,3}[a-z]{2,}$/i),
-            ],
-        ],
+        name: ['', [Validators.required, Validators.maxLength(40), fullNameValidator]],
+        email: ['', [Validators.required, Validators.maxLength(80), Validators.pattern(EMAIL_PATTERN)]],
         phone: ['', [Validators.required, Validators.maxLength(20), Validators.pattern(/^\+?[0-9]+$/)]],
     });
 
@@ -68,14 +62,6 @@ export class ContactForm implements OnInit {
 
     get initials(): string {
         return getInitials(this.editingContact()?.name ?? '');
-    }
-
-    private nameValidator(control: any) {
-        const value = (control.value || '').trim();
-        if (!value) return null;
-        const hasValidChars = /^\p{L}+([ '-]\p{L}+)*$/u.test(value);
-        const hasTwoParts = value.split(' ').length >= 2;
-        return hasValidChars && hasTwoParts ? null : { invalidName: true };
     }
 
     async onSubmit(): Promise<void> {
@@ -127,11 +113,9 @@ export class ContactForm implements OnInit {
                 this.deleted.emit();
                 this.closed.emit();
             } else {
-                
                 this.deleteError.set(this.contactsService.error());
             }
         } catch {
-            
             this.deleteError.set('Something went wrong');
         }
     }

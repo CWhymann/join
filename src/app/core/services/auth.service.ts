@@ -49,18 +49,28 @@ export class AuthService {
         });
         if (error) return this.toMessage(error);
         this.userSignal.set(data.user);
-        await this.addToContacts(input);
+        await this.addToContacts(input, data.user?.id);
         return null;
     }
 
-    private async addToContacts(input: SignUpInput): Promise<void> {
+    private async addToContacts(input: SignUpInput, userId?: string): Promise<void> {
         await this.contactsService.loadContacts();
         const email = input.email.toLowerCase();
-        const isListed = this.contactsService
+        const listed = this.contactsService
             .contacts()
-            .some((contact) => contact.email.toLowerCase() === email);
-        if (isListed) return;
-        await this.contactsService.addContact({ name: input.name, email: input.email, phone: '' });
+            .find((contact) => contact.email.toLowerCase() === email);
+        if (listed) {
+            if (userId && !listed.user_id) {
+                await this.contactsService.claimContact(listed.id, userId);
+            }
+            return;
+        }
+        await this.contactsService.addContact({
+            name: input.name,
+            email: input.email,
+            phone: '',
+            user_id: userId,
+        });
     }
 
     async logout(): Promise<void> {

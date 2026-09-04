@@ -1,11 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import {
-    AbstractControl,
-    FormBuilder,
-    ReactiveFormsModule,
-    ValidationErrors,
-    Validators,
-} from '@angular/forms';
+import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { TaskToastService } from '../../core/services/task-toast.service';
@@ -52,8 +46,8 @@ export class Login {
 
     protected readonly signUpForm = new FormBuilder().nonNullable.group({
         name: ['', [Validators.required, Validators.maxLength(40), fullNameValidator]],
-        email: ['', [Validators.required, Validators.email, Validators.maxLength(80)]],
-        password: ['', Validators.required],
+        email: ['', [Validators.required, Validators.pattern(EMAIL_PATTERN), Validators.maxLength(80)]],
+        password: ['', [Validators.required, Validators.minLength(MIN_PASSWORD_LENGTH)]],
         confirmPassword: ['', Validators.required],
         acceptedPrivacy: [false, Validators.requiredTrue],
     });

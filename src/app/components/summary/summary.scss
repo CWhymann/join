@@ -114,7 +114,8 @@
         }
 
         h2 {
-            font-size: clamp(1.3rem, 2.2vw, 4rem);
+            width: min-content;
+            font-size: clamp(1.3rem, 4vw, 3.75rem);
             color: rgb(18, 70, 88, 1);
             margin: 0;
         }

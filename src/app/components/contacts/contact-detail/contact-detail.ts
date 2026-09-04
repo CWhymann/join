@@ -12,6 +12,7 @@ import { getInitials } from '../../../core/utils/avatar.utils';
 })
 export class ContactDetail {
     contact = input<Contact | null>(null);
+    locked = input(false);
 
     editClicked = output<Contact>();
     deleteClicked = output<Contact>();
@@ -29,10 +30,12 @@ export class ContactDetail {
     }
 
     onEdit(contact: Contact): void {
+        if (this.locked()) return;
         this.editClicked.emit(contact);
     }
 
     onDelete(): void {
+        if (this.locked()) return;
         this.deleteConfirmOpen.set(true);
     }
 

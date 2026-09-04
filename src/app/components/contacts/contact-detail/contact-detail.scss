@@ -83,8 +83,13 @@
         font-size: 16px;
         transition: $transition-fast;
 
-        &:hover {
+        &:hover:not(:disabled) {
             color: $color-accent;
+        }
+
+        &:disabled {
+            cursor: default;
+            opacity: 0.4;
         }
     }
 
@@ -184,6 +189,11 @@
         &:last-child {
             border-bottom-left-radius: 12px;
             border-bottom-right-radius: 12px;
+        }
+
+        &:disabled {
+            cursor: default;
+            opacity: 0.4;
         }
 
         img {
