@@ -1,21 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
-import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { TaskToastService } from '../../core/services/task-toast.service';
+import { EMAIL_PATTERN, fullNameValidator, MIN_PASSWORD_LENGTH } from '../../core/utils/validation.utils';
 
 export type LoginResult = 'user' | 'guest' | null;
 const GREETING_MEDIA_QUERY = '(max-width: 767px)';
-
-function fullNameValidator(control: AbstractControl): ValidationErrors | null {
-    const name = String(control.value ?? '').trim();
-    if (!name) {
-        return null;
-    }
-    const hasValidCharacters = /^\p{L}+([ '-]\p{L}+)*$/u.test(name);
-    const hasFirstAndLastName = name.split(/\s+/).length >= 2;
-    return hasValidCharacters && hasFirstAndLastName ? null : { invalidName: true };
-}
 
 @Component({
     selector: 'app-login',
