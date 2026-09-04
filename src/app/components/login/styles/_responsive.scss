@@ -24,8 +24,10 @@
 
         &__register {
             top: 778px;
-            right: 66px;
+            right: auto;
+            left: 50%;
             gap: 35px;
+            transform: translateX(-50%);
         }
 
         &__card {
@@ -161,19 +163,6 @@
                 animation-name: greeting-user;
                 animation-duration: 1.6s;
             }
-        }
-    }
-}
-
-@media (max-width: 380px) {
-    .auth {
-        &__register {
-            right: 24px;
-            gap: clamp(16px, 7vw, 35px);
-        }
-
-        &__legal {
-            bottom: 12px;
         }
     }
 }
