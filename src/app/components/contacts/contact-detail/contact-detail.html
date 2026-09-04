@@ -7,11 +7,11 @@
             <div class="contact-detail__info">
                 <h2 class="contact-detail__name">{{ c.name }}</h2>
                 <div class="contact-detail__actions">
-                    <button class="contact-detail__action" (click)="onEdit(c)">
+                    <button class="contact-detail__action" [disabled]="locked()" (click)="onEdit(c)">
                         <img src="icons/edit.svg" alt="" class="contact-detail__action-icon" />
                         Edit
                     </button>
-                    <button class="contact-detail__action" (click)="onDelete()">
+                    <button class="contact-detail__action" [disabled]="locked()" (click)="onDelete()">
                         <img
                             src="icons/maintrash.svg"
                             alt=""
@@ -41,11 +41,11 @@
 
         @if (menuOpen()) {
             <div class="contact-detail__menu">
-                <button class="contact-detail__menu-item" (click)="onEdit(c); toggleMenu()">
+                <button class="contact-detail__menu-item" [disabled]="locked()" (click)="onEdit(c); toggleMenu()">
                     <img src="icons/edit.svg" alt="" />
                     Edit
                 </button>
-                <button class="contact-detail__menu-item" (click)="onDelete(); toggleMenu()">
+                <button class="contact-detail__menu-item" [disabled]="locked()" (click)="onDelete(); toggleMenu()">
                     <img src="icons/maintrash.svg" alt="" />
                     Delete
                 </button>

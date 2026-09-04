@@ -18,6 +18,7 @@
 
       <app-contact-detail
         [contact]="selectedContact()"
+        [locked]="detailLocked()"
         (editClicked)="openEditForm($event)"
         (deleteClicked)="onDeleteContact($event)"
       ></app-contact-detail>

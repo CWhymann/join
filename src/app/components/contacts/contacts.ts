@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, OnInit, signal, Renderer2, ViewChild } from '@angular/core';
+import { Component, computed, ElementRef, inject, OnInit, signal, Renderer2, ViewChild } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { ContactList } from './contact-list/contact-list';
 import { ContactDetail } from './contact-detail/contact-detail';
@@ -30,6 +30,8 @@ export class Contacts implements OnInit {
     editingContact = signal<Contact | null>(null);
     showToast = signal(false);
     toastMessage = signal('');
+
+    readonly detailLocked = computed(() => this.isLocked(this.selectedContact()));
 
     ngOnInit(): void {
         this.contactsService.loadContacts();
@@ -67,12 +69,14 @@ export class Contacts implements OnInit {
     }
 
     openEditForm(contact: Contact): void {
+        if (this.isLocked(contact)) return;
         this.editingContact.set(contact);
         this.showForm.set(true);
         this.renderer.addClass(this.document.body, 'modal-open');
     }
 
     async onDeleteContact(contact: Contact): Promise<void> {
+        if (this.isLocked(contact)) return;
         const success = await this.contactsService.deleteContact(contact.id);
         if (!success) {
             this.showToastMessage('Something went wrong');
@@ -90,6 +94,12 @@ export class Contacts implements OnInit {
         this.selectedContact.set(null);
         if (deleted && (await this.logoutIfOwnContact(deleted))) return;
         this.showToastMessage('Contact deleted');
+    }
+
+    private isLocked(contact: Contact | null): boolean {
+        if (!contact) return false;
+        if (contact.is_protected) return true;
+        return !!contact.user_id && contact.user_id !== this.authService.user()?.id;
     }
 
     private async logoutIfOwnContact(contact: Contact): Promise<boolean> {
