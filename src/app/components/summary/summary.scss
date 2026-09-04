@@ -1,4 +1,5 @@
 @use '../../../styles/abstracts' as *;
+@use '../../../styles/abstracts/toast' as *;
 
 .summary {
     padding: clamp(1rem, 4vw, 56px) clamp(1rem, 8vw, 117px);
@@ -356,4 +357,7 @@
             }
         }
     }
+}
+.toast {
+    @include toast;
 }
