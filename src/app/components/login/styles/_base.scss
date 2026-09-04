@@ -1,5 +1,6 @@
 @use '../../../../styles/abstracts' as *;
 @use 'tokens' as *;
+@use '../../../../styles/abstracts/toast' as *;
 
 .auth {
     width: 100%;
@@ -182,13 +183,16 @@
             width: 24px;
             height: 24px;
             flex-shrink: 0;
-            border: 2px solid $auth-dark;
+            background: url('../../../../../public/icons/privacy-checkbox.svg') center / 18px
+                no-repeat;
             border-radius: 3px;
         }
 
         input:checked + span[aria-hidden='true'] {
-            background: url('../../../../../public/icons/checkbox-check.svg') center / 24px
-                no-repeat;
+            background:
+                url('../../../../../public/icons/privacy-checkbox-tick.svg') center / 24px no-repeat,
+                url('../../../../../public/icons/privacy-checkbox-checked.svg') center / 18px
+                    no-repeat;
             border-color: transparent;
         }
     }
@@ -393,4 +397,8 @@
 
 .auth--sign-up .auth__legal {
     left: 50%;
+}
+
+.toast {
+    @include toast;
 }

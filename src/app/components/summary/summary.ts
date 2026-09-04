@@ -3,6 +3,7 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { TasksService } from '../../core/services/tasks.service';
 import { UrgentHighlightService } from '../../core/services/urgent-highlight.service';
+import { TaskToastService } from '../../core/services/task-toast.service';
 
 @Component({
     selector: 'app-summary',
@@ -13,6 +14,7 @@ import { UrgentHighlightService } from '../../core/services/urgent-highlight.ser
 })
 export class Summary implements OnInit {
     private readonly tasksService = inject(TasksService);
+    protected readonly taskToastService = inject(TaskToastService);
     private readonly urgentHighlightService = inject(UrgentHighlightService);
     private readonly router = inject(Router);
     private readonly authService = inject(AuthService);

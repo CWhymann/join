@@ -334,4 +334,10 @@
             }
         </div>
     }
+
+    @if (taskToastService.show()) {
+        <div class="toast">
+            {{ taskToastService.message() }}
+        </div>
+    }
 </main>

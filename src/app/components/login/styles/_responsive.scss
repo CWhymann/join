@@ -17,9 +17,9 @@
         }
 
         &__logo {
-            top: 37px;
-            left: 38px;
-            width: 64px;
+            top: clamp(20px, 6vw, 37px);
+            left: clamp(20px, 6vw, 38px);
+            width: clamp(44px, 14vw, 64px);
         }
 
         &__register {
@@ -41,11 +41,13 @@
             }
 
             &--sign-up {
-                top: clamp(150px, 24.35dvh, 225.5px);
+                top: 50%;
+                transform: translate(-50%, -50%);
+                left: 50%;
                 width: calc(100% - 32px);
                 max-width: 396px;
-                height: 595px;
-                padding: 32px 16px 0;
+                height: auto;
+                padding: 32px 16px;
             }
         }
 
@@ -54,11 +56,11 @@
             gap: 16px;
 
             h1 {
-                font-size: 47px;
+                font-size: clamp(34px, 12.5vw, 47px);
             }
 
             span {
-                width: 88px;
+                width: clamp(64px, 22vw, 88px);
             }
         }
 
@@ -112,8 +114,10 @@
         }
 
         &__back {
-            top: 40px;
-            left: clamp(16px, calc(22.22vw - 55.1px), 40px);
+            top: clamp(28px, 8vw, 40px);
+            left: clamp(24px, 8vw, 40px);
+            width: clamp(24px, 7vw, 32px);
+            height: clamp(24px, 7vw, 32px);
         }
 
         &__legal {
@@ -163,6 +167,23 @@
                 animation-name: greeting-user;
                 animation-duration: 1.6s;
             }
+        }
+    }
+}
+
+@media (max-width: 380px) {
+    .auth {
+        &__register {
+            right: 24px;
+            gap: clamp(16px, 7vw, 35px);
+        }
+
+        &__card--login {
+            top: clamp(150px, 23dvh, 225.5px);
+        }
+
+        &__legal {
+            bottom: 12px;
         }
     }
 }

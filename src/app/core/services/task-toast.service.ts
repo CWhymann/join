@@ -8,7 +8,7 @@ export class TaskToastService {
     showToast(message: string): void {
         this.message.set(message);
         this.show.set(true);
-        setTimeout(() => this.show.set(false), 2500);
+        setTimeout(() => this.show.set(false), 2200);
     }
 
     taskCreated(): void {
@@ -25,5 +25,17 @@ export class TaskToastService {
 
     taskLocked(): void {
         this.showToast("Dummy-Task can't be deleted or edited");
+    }
+
+    login(): void {
+        this.showToast('Logged in successfully');
+    }
+
+    signUp(): void {
+        this.showToast('You Signed Up successfully');
+    }
+
+    logout(): void {
+        this.showToast('Successfully logged out');
     }
 }
