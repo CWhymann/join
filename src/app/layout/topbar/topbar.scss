@@ -18,7 +18,7 @@
     width: 100%;
     align-items: center;
     justify-content: space-between;
-    padding: 0 40px 0 116px;
+    padding: 0 40px 0 96px;
   }
 
   &__title {
@@ -111,6 +111,16 @@
 
   &__profile-menu-link--mobile {
     display: none;
+  }
+
+  @include tablet {
+    &__title {
+      display: none;
+    }
+
+    &__actions {
+      margin-left: auto;
+    }
   }
 
   @include mobile {

@@ -64,7 +64,6 @@ $breakpoint-columns: 1255.98px;
 
             &.contacts__detail--visible-mobile {
                 display: block;
-                animation: contact-detail-slide-in 300ms cubic-bezier(0, 0, 0.58, 1);
             }
         }
     }
