@@ -6,7 +6,7 @@ import { TaskToastService } from '../../core/services/task-toast.service';
 import { EMAIL_PATTERN, fullNameValidator, MIN_PASSWORD_LENGTH } from '../../core/utils/validation.utils';
 
 export type LoginResult = 'user' | 'guest' | null;
-const GREETING_MEDIA_QUERY = '(max-width: 767px)';
+const GREETING_MEDIA_QUERY = '(max-width: 1255px)';
 
 @Component({
     selector: 'app-login',

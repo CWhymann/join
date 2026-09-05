@@ -2,14 +2,15 @@
 @use '../../../styles/abstracts/toast' as *;
 
 .summary {
-    padding: clamp(1rem, 4vw, 56px) clamp(1rem, 8vw, 117px);
+    padding: clamp(16px, calc(16px + (100dvh - 788px) * 0.3983), 110px)
+        clamp(1rem, 8vw, 96px) 0;
 
     &__header {
         display: flex;
         align-items: center;
         flex-wrap: wrap;
         gap: clamp(0.75rem, 1.5vw, 1rem);
-        margin-bottom: clamp(1.5rem, 3vw, 2rem);
+        margin-bottom: clamp(24px, calc(24px + (100dvh - 788px) * 0.1356), 56px);
 
         h1 {
             font-size: clamp(2rem, 5vw, 61px);
@@ -56,12 +57,14 @@
     &__content {
         display: flex;
         align-items: center;
-        gap: clamp(24px, 3vw, 2.5rem);
-        flex-wrap: wrap;
+        width: calc(100% + 9px);
+        gap: clamp(24px, 5.556vw, 80px);
+        flex-wrap: nowrap;
     }
 
     &__cards {
         display: flex;
+        min-width: 0;
         flex-direction: column;
         flex: 0 1 560px;
         gap: clamp(0.75rem, 2vw, 28px);
@@ -104,24 +107,35 @@
 
     &__greeting {
         display: flex;
+        min-width: 0;
+        flex: 1;
         flex-direction: column;
         justify-content: center;
         align-items: flex-start;
 
         p:not(.summary__greeting--single) {
-            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            font-size: clamp(36px, 3.264vw, 47px);
+            font-weight: 500;
+            line-height: 1.2;
             margin: 0;
         }
 
         h2 {
-            width: min-content;
-            font-size: clamp(1.3rem, 4vw, 3.75rem);
-            color: rgb(18, 70, 88, 1);
+            width: max-content;
+            max-width: calc(100% + clamp(32px, 4vw, 64px));
+            font-size: clamp(47px, 4.445vw, 64px);
+            font-weight: 700;
+            line-height: 1.2;
+            overflow-wrap: normal;
+            word-break: normal;
+            color: #124658;
             margin: 0;
         }
 
         p.summary__greeting--single {
             font-size: clamp(1.5rem, 3.5vw, 47px);
+            font-weight: 500;
+            line-height: 1.2;
             margin: 0;
         }
     }
@@ -336,7 +350,7 @@
         }
     }
 }
-@media (max-width: #{$breakpoint-tablet}) {
+@media (max-width: #{$breakpoint-columns}) {
     .summary__greeting {
         display: none;
     }
@@ -361,4 +375,11 @@
 }
 .toast {
     @include toast;
+    top: auto;
+    bottom: clamp(48px, 8dvh, 82px);
+    width: min(312px, calc(100% - 32px));
+    min-width: 0;
+    height: 74px;
+    transform: translateX(-50%);
+    font-size: 20px;
 }
