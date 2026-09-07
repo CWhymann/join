@@ -240,6 +240,7 @@ $breakpoint-columns: 1255.98px;
         font-weight: $font-weight-semibold;
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
         z-index: 200;
+        white-space: nowrap;
         animation: fadeInOut 2.5s ease-in-out;
     }
 }
