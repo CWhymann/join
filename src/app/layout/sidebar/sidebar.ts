@@ -8,6 +8,7 @@ import { AuthService } from '../../core/services/auth.service';
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.scss'
 })
+/** Renders the main navigation and swaps its entries with the login state. */
 export class Sidebar {
   protected readonly isLoggedIn = inject(AuthService).isLoggedIn;
 

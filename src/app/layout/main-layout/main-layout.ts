@@ -9,4 +9,5 @@ import { Topbar } from '../topbar/topbar';
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.scss'
 })
+/** Frames the signed-in routes with the sidebar and the topbar. */
 export class MainLayout {}
