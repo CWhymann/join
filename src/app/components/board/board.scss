@@ -1,5 +1,6 @@
 @use '../../../styles/abstracts' as *;
 @use '../../../styles/abstracts/buttons' as *;
+@use '../../../styles/abstracts/toast' as *;
 
 $breakpoint-columns: 1255.98px;
 
@@ -43,12 +44,6 @@ $breakpoint-columns: 1255.98px;
         align-items: center;
         gap: clamp(12px, 1.5vw, 16px);
 
-        &__title {
-            color: #000000;
-            font-size: clamp(47px, 4.25vw, 61px);
-            font-weight: $font-weight-bold;
-            line-height: 1.2;
-        }
         @media (max-width: 850px) {
             width: 100%;
         }
@@ -222,28 +217,6 @@ $breakpoint-columns: 1255.98px;
         line-height: 1.2;
     }
 
-    &__column-add {
-        display: none;
-        width: clamp(24px, 2vw, 28px);
-        height: clamp(24px, 2vw, 28px);
-        flex: 0 0 auto;
-        place-items: center;
-        padding: 0;
-        border: 2px solid $color-text;
-        border-radius: 8px;
-        background-color: transparent;
-        color: $color-text;
-        font-size: clamp(18px, 1.5vw, 22px);
-        line-height: 1;
-        cursor: pointer;
-        transition: $transition-fast;
-
-        &:hover {
-            border-color: $color-accent;
-            color: $color-accent;
-        }
-    }
-
     &__column-content {
         position: relative;
         display: flex;
@@ -378,37 +351,8 @@ $breakpoint-columns: 1255.98px;
         text-align: center;
     }
     .task-toast {
-        position: fixed;
-        bottom: 100px;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: $color-sidebar-bg;
-        color: #ffffff;
-        padding: $spacing-md $spacing-xl;
-        border-radius: 12px;
-        font-family: $font-primary;
-        font-weight: $font-weight-semibold;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-        z-index: 1100;
-        animation: fadeInOut 2.5s ease-in-out;
+        @include task-toast;
     }
 
-    @keyframes fadeInOut {
-        0% {
-            opacity: 0;
-            transform: translateX(-50%) translateY(20px);
-        }
-        15% {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-        85% {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-        100% {
-            opacity: 0;
-            transform: translateX(-50%) translateY(20px);
-        }
-    }
+    @include task-toast-animation;
 }

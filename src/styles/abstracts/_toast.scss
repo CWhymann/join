@@ -31,3 +31,40 @@
         bottom: 80px;
     }
 }
+
+@mixin task-toast {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: $color-sidebar-bg;
+    color: #ffffff;
+    padding: $spacing-md $spacing-xl;
+    border-radius: 12px;
+    font-family: $font-primary;
+    font-weight: $font-weight-semibold;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    z-index: 1100;
+    animation: fadeInOut 2.5s ease-in-out;
+}
+
+@mixin task-toast-animation {
+    @keyframes fadeInOut {
+        0% {
+            opacity: 0;
+            transform: translateX(-50%) translateY(20px);
+        }
+        15% {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        85% {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        100% {
+            opacity: 0;
+            transform: translateX(-50%) translateY(20px);
+        }
+    }
+}

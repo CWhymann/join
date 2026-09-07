@@ -51,13 +51,6 @@ describe('Board', () => {
     expect(emptyStates).toHaveLength(3);
   });
 
-  it('should render add buttons for every open column', () => {
-    const element = fixture.nativeElement as HTMLElement;
-    const addButtons = element.querySelectorAll('.board__column-add');
-
-    expect(addButtons).toHaveLength(3);
-  });
-
   it('should render the prepared board tasks', () => {
     const element = fixture.nativeElement as HTMLElement;
     const taskCards = element.querySelectorAll('.task-card');
