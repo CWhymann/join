@@ -2,6 +2,7 @@ import { Component, input, model, output } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginFormGroup } from '../auth-forms.model';
 
+/** Login card; the form itself lives in the surrounding page. */
 @Component({
     selector: 'app-login-card',
     standalone: true,
