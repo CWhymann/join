@@ -107,6 +107,10 @@ export class AddTaskForm implements OnInit {
             priority: 'medium',
             category: '',
         });
+        this.resetTaskSelection();
+    }
+
+    private resetTaskSelection(): void {
         this.selectedContacts.set([]);
         this.subtasks.set([]);
         this.subtaskDraft.set('');
@@ -133,17 +137,15 @@ export class AddTaskForm implements OnInit {
             return '';
         }
 
-        if (control.hasError('invalidDate')) {
-            return 'Please enter a valid date';
-        }
-
-        if (control.hasError('yearRange')) {
-            return `Please choose a year between ${this.minYear} and ${this.maxYear}`;
-        }
-
+        if (control.hasError('invalidDate')) return 'Please enter a valid date';
+        if (control.hasError('yearRange')) return this.yearRangeError();
         return control.hasError('pastDate')
             ? 'The date must not be in the past'
             : 'This field is required';
+    }
+
+    private yearRangeError(): string {
+        return `Please choose a year between ${this.minYear} and ${this.maxYear}`;
     }
 
     protected titleError(): string {
@@ -153,10 +155,7 @@ export class AddTaskForm implements OnInit {
             return '';
         }
 
-        if (control.hasError('maxlength')) {
-            return 'Maximum 40 characters';
-        }
-
+        if (control.hasError('maxlength')) return 'Maximum 40 characters';
         return control.hasError('noReadableText')
             ? 'Please enter a valid title'
             : 'This field is required';
@@ -254,54 +253,78 @@ export class AddTaskForm implements OnInit {
     }
 
     protected async createTask(): Promise<void> {
-        if (this.form.invalid || this.isSubmitting()) {
-            this.form.markAllAsTouched();
-            return;
-        }
+        if (this.taskSubmissionBlocked()) return;
 
         this.isSubmitting.set(true);
         const currentTask = this.task();
-        const task = currentTask
-            ? await this.tasksService.updateTask(currentTask.id, this.buildTask())
-            : await this.tasksService.addTask(this.buildTask());
+        const task = await this.saveTask(currentTask);
         this.isSubmitting.set(false);
 
         if (!task) return;
         this.clearForm();
-        if (currentTask) {
-            this.taskToastService.taskSaved();
-        } else {
-            this.taskToastService.taskCreated();
-        }
+        this.showTaskToast(currentTask);
         this.taskCreated.emit();
     }
 
-    private buildTask(): NewTask {
-        const value = this.form.getRawValue();
-        const currentTask = this.task();
+    private taskSubmissionBlocked(): boolean {
+        if (!this.form.invalid && !this.isSubmitting()) return false;
+        this.form.markAllAsTouched();
+        return true;
+    }
 
+    private saveTask(currentTask: BoardTask | null): Promise<BoardTask | boolean | null> {
+        return currentTask
+            ? this.tasksService.updateTask(currentTask.id, this.buildTask())
+            : this.tasksService.addTask(this.buildTask());
+    }
+
+    private showTaskToast(currentTask: BoardTask | null): void {
+        currentTask ? this.taskToastService.taskSaved() : this.taskToastService.taskCreated();
+    }
+
+    private buildTask(): NewTask {
+        const currentTask = this.task();
+        return {
+            ...this.buildTaskFields(),
+            status: currentTask?.status ?? 'todo',
+            position: currentTask?.position ?? this.todoTaskCount(),
+            assigned_to: this.selectedContacts().map((contact) => contact.id),
+            subtasks: this.buildSubtasks(currentTask),
+        };
+    }
+
+    private buildTaskFields(): Pick<NewTask, 'title' | 'description' | 'due_date' | 'priority' | 'category'> {
+        const value = this.form.getRawValue();
         return {
             title: value.title ?? '',
             description: value.description ?? '',
             due_date: this.toDatabaseDate(value.dueDate ?? ''),
             priority: (value.priority ?? 'medium') as TaskPriority,
             category: value.category as TaskCategory,
-            status: currentTask?.status ?? 'todo',
-            position:
-                currentTask?.position ??
-                this.tasksService.tasks().filter((task) => task.status === 'todo').length,
-            assigned_to: this.selectedContacts().map((contact) => contact.id),
-            subtasks: this.subtasks().map((title, index) => ({
-                id: currentTask?.subtasks[index]?.id ?? `subtask-${Date.now()}-${index}`,
-                title,
-                completed: currentTask?.subtasks[index]?.completed ?? false,
-            })),
         };
+    }
+
+    private todoTaskCount(): number {
+        return this.tasksService.tasks().filter((task) => task.status === 'todo').length;
+    }
+
+    private buildSubtasks(currentTask: BoardTask | null): NewTask['subtasks'] {
+        return this.subtasks().map((title, index) => ({
+            id: currentTask?.subtasks[index]?.id ?? `subtask-${Date.now()}-${index}`,
+            title,
+            completed: currentTask?.subtasks[index]?.completed ?? false,
+        }));
     }
 
     private setTaskValues(): void {
         const task = this.task();
         if (!task) return;
+        this.patchTaskForm(task);
+        this.setTaskContacts(task);
+        this.subtasks.set(task.subtasks.map((subtask) => subtask.title));
+    }
+
+    private patchTaskForm(task: BoardTask): void {
         this.form.patchValue({
             title: task.title,
             description: task.description,
@@ -309,12 +332,14 @@ export class AddTaskForm implements OnInit {
             priority: task.priority,
             category: task.category,
         });
+    }
+
+    private setTaskContacts(task: BoardTask): void {
         this.selectedContacts.set(
             this.contacts().filter((contact) =>
                 task.assignees.some((assignee) => assignee.id === contact.id),
             ),
         );
-        this.subtasks.set(task.subtasks.map((subtask) => subtask.title));
     }
 
     private toDatabaseDate(value: string): string {
