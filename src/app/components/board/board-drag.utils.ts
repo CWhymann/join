@@ -1,5 +1,17 @@
 import { BoardTask } from './board-task.model';
 
+export function createDragImage(card: HTMLElement): HTMLElement {
+    const dragImage = card.cloneNode(true) as HTMLElement;
+    dragImage.style.position = 'fixed';
+    dragImage.style.top = '-1000px';
+    dragImage.style.left = '-1000px';
+    dragImage.style.opacity = '1';
+    dragImage.style.transform = 'rotate(5deg)';
+    dragImage.style.pointerEvents = 'none';
+    document.body.appendChild(dragImage);
+    return dragImage;
+}
+
 function hasPointerPosition(event: DragEvent): boolean {
     return typeof event.clientX === 'number' && typeof event.clientY === 'number';
 }
