@@ -1,0 +1,171 @@
+<button class="auth__back" type="button" aria-label="Back to login" (click)="back.emit()">
+    <img src="icons/arrow-left.svg" alt="" />
+</button>
+
+<div class="auth__heading">
+    <h1>Sign up</h1>
+    <span aria-hidden="true"></span>
+</div>
+
+<form
+    class="auth__form auth__form--sign-up"
+    [formGroup]="form()"
+    (ngSubmit)="submitted.emit()"
+    novalidate
+>
+    <label
+        class="auth__field"
+        [class.auth__field--invalid]="form().controls.name.touched && form().controls.name.invalid"
+    >
+        <span class="auth__visually-hidden">Name</span>
+        <input
+            type="text"
+            formControlName="name"
+            placeholder="Name"
+            autocomplete="name"
+            maxlength="40"
+        />
+        <img src="icons/auth-person.svg" alt="" />
+        @if (form().controls.name.touched && form().controls.name.invalid) {
+            <span class="auth__error">
+                @if (form().controls.name.hasError('required')) {
+                    This field is required
+                } @else {
+                    Please enter your first and last name.
+                }
+            </span>
+        }
+    </label>
+
+    <label
+        class="auth__field"
+        [class.auth__field--invalid]="
+            form().controls.email.touched && form().controls.email.invalid
+        "
+    >
+        <span class="auth__visually-hidden">Email</span>
+        <input
+            type="email"
+            formControlName="email"
+            placeholder="Email"
+            autocomplete="email"
+            maxlength="80"
+        />
+        <img src="icons/mail_icon.svg" alt="" />
+        @if (form().controls.email.touched && form().controls.email.invalid) {
+            <span class="auth__error">
+                @if (form().controls.email.hasError('required')) {
+                    This field is required
+                } @else {
+                    Please enter a valid email address.
+                }
+            </span>
+        }
+    </label>
+
+    <label
+        class="auth__field"
+        [class.auth__field--invalid]="
+            form().controls.password.touched && form().controls.password.invalid
+        "
+    >
+        <span class="auth__visually-hidden">Password</span>
+        <input
+            [type]="showPassword() ? 'text' : 'password'"
+            formControlName="password"
+            class="auth__input--sign-up-password"
+            placeholder="Password"
+            autocomplete="new-password"
+        />
+        <button
+            class="auth__field-action"
+            type="button"
+            aria-label="Toggle password visibility"
+            (click)="showPassword.set(!showPassword())"
+        >
+            <img
+                [src]="
+                    showPassword()
+                        ? 'icons/auth-visibility.svg'
+                        : form().controls.password.value
+                          ? 'icons/auth-visibility-off.svg'
+                          : 'icons/auth-lock.svg'
+                "
+                alt=""
+            />
+        </button>
+        @if (form().controls.password.touched && form().controls.password.invalid) {
+            <span class="auth__error">
+                @if (form().controls.password.hasError('required')) {
+                    This field is required
+                } @else {
+                    Please use at least 6 characters.
+                }
+            </span>
+        }
+    </label>
+
+    <label
+        class="auth__field"
+        [class.auth__field--invalid]="
+            form().controls.confirmPassword.touched &&
+            (form().controls.confirmPassword.invalid ||
+                form().controls.confirmPassword.value !== form().controls.password.value)
+        "
+    >
+        <span class="auth__visually-hidden">Confirm Password</span>
+        <input
+            [type]="showConfirmPassword() ? 'text' : 'password'"
+            formControlName="confirmPassword"
+            placeholder="Confirm Password"
+            autocomplete="new-password"
+        />
+        <button
+            class="auth__field-action"
+            type="button"
+            aria-label="Toggle password visibility"
+            (click)="showConfirmPassword.set(!showConfirmPassword())"
+        >
+            <img
+                [src]="
+                    showConfirmPassword()
+                        ? 'icons/auth-visibility.svg'
+                        : form().controls.confirmPassword.value
+                          ? 'icons/auth-visibility-off.svg'
+                          : 'icons/auth-lock.svg'
+                "
+                alt=""
+            />
+        </button>
+        @if (form().controls.confirmPassword.touched && form().controls.confirmPassword.invalid) {
+            <span class="auth__error">This field is required</span>
+        } @else if (
+            form().controls.confirmPassword.touched &&
+            form().controls.confirmPassword.value !== form().controls.password.value
+        ) {
+            <span class="auth__error">Ups! your password don’t match</span>
+        }
+    </label>
+
+    <label class="auth__privacy">
+        <input type="checkbox" formControlName="acceptedPrivacy" />
+        <span aria-hidden="true"></span>
+        <span>I accept the <a routerLink="/privacy-policy">Privacy policy</a></span>
+    </label>
+
+    @if (errorMessage()) {
+        <p class="auth__error auth__error--sign-up">{{ errorMessage() }}</p>
+    }
+
+    <button
+        class="auth__button auth__button--sign-up"
+        type="submit"
+        [disabled]="
+            isLoading() ||
+            form().invalid ||
+            form().controls.confirmPassword.value !== form().controls.password.value
+        "
+    >
+        Sign up
+    </button>
+</form>

@@ -1,9 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { TaskToastService } from '../../core/services/task-toast.service';
 import { EMAIL_PATTERN, fullNameValidator, MIN_PASSWORD_LENGTH } from '../../core/utils/validation.utils';
+import { LoginCard } from './login-card/login-card';
+import { SignUpCard } from './sign-up-card/sign-up-card';
 
 export type LoginResult = 'user' | 'guest' | null;
 const GREETING_MEDIA_QUERY = '(max-width: 1255px)';
@@ -11,7 +13,7 @@ const GREETING_MEDIA_QUERY = '(max-width: 1255px)';
 @Component({
     selector: 'app-login',
     standalone: true,
-    imports: [ReactiveFormsModule, RouterLink],
+    imports: [RouterLink, LoginCard, SignUpCard],
     templateUrl: './login.html',
     styleUrl: './login.scss',
 })
