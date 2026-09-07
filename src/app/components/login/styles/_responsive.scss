@@ -1,11 +1,44 @@
 @use '../../../../styles/abstracts' as *;
 @use 'tokens' as *;
 
-@include tablet {
+@media (min-width: #{$breakpoint-mobile + 1}) and (max-width: #{$breakpoint-columns}) {
     .auth {
         &__card--login,
         &__legal {
             left: 50%;
+        }
+
+        &__greeting {
+            position: fixed;
+            z-index: 90;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background-color: $color-bg;
+            color: $auth-dark;
+            animation: greeting-guest 1.9s ease-in forwards;
+
+            p {
+                font-size: 36px;
+                line-height: 1.2;
+            }
+
+            strong {
+                max-width: calc(100% - 32px);
+                color: #124658;
+                font-size: 47px;
+                line-height: 1.2;
+                overflow-wrap: normal;
+                text-align: center;
+                word-break: normal;
+            }
+
+            &--user {
+                animation-name: greeting-user;
+                animation-duration: 1.6s;
+            }
         }
     }
 }
@@ -157,9 +190,13 @@
             }
 
             strong {
-                color: $auth-accent;
+                max-width: calc(100% - 32px);
+                color: #124658;
                 font-size: 47px;
                 line-height: 1.2;
+                overflow-wrap: normal;
+                text-align: center;
+                word-break: normal;
             }
 
             &--user {
@@ -167,5 +204,12 @@
                 animation-duration: 1.6s;
             }
         }
+    }
+}
+
+@media (max-width: #{$breakpoint-tablet}) {
+    .toast {
+        width: min(326px, calc(100% - 32px));
+        font-size: clamp(20px, 5.374vw, 23px);
     }
 }

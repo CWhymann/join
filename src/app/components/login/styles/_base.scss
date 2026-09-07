@@ -401,4 +401,11 @@
 
 .toast {
     @include toast;
+    top: auto;
+    bottom: clamp(96px, 21.33dvh, 198px);
+    width: min(312px, calc(100% - 32px));
+    min-width: 0;
+    height: 74px;
+    transform: translateX(-50%);
+    font-size: 20px;
 }
