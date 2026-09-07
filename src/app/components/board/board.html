@@ -46,15 +46,6 @@
             >
                 <div class="board__column-header">
                     <h2 class="board__column-title">{{ column.title }}</h2>
-                    @if (column.status !== 'done') {
-                        <button
-                            class="board__column-add"
-                            type="button"
-                            [attr.aria-label]="'Add task to ' + column.title"
-                        >
-                            +
-                        </button>
-                    }
                 </div>
                 <div
                     class="board__column-content"
