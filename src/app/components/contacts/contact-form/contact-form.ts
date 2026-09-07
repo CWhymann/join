@@ -65,25 +65,29 @@ export class ContactForm implements OnInit {
     }
 
     async onSubmit(): Promise<void> {
-        if (this.form.invalid) {
-            this.form.markAllAsTouched();
-            return;
-        }
+        if (this.submissionBlocked()) return;
 
         this.isSubmitting = true;
-
-        const { name, email, phone } = this.form.value;
         const contact = this.editingContact();
-        const input = { name: name!, email: email!, phone: phone! };
-
-        const result = contact
-            ? await this.contactsService.updateContact(contact.id, input)
-            : await this.contactsService.addContact(input);
-
+        const result = await this.saveContact(contact);
         this.isSubmitting = false;
         this.form.reset();
         this.saved.emit(result);
         this.closed.emit();
+    }
+
+    private submissionBlocked(): boolean {
+        if (this.form.valid) return false;
+        this.form.markAllAsTouched();
+        return true;
+    }
+
+    private saveContact(contact: Contact | null): Promise<Contact | null> {
+        const { name, email, phone } = this.form.value;
+        const input = { name: name!, email: email!, phone: phone! };
+        return contact
+            ? this.contactsService.updateContact(contact.id, input)
+            : this.contactsService.addContact(input);
     }
 
     onCancel(): void {
@@ -106,17 +110,20 @@ export class ContactForm implements OnInit {
 
         try {
             const success = await this.contactsService.deleteContact(contact.id);
-
-            if (success) {
-                this.deleteConfirmOpen.set(false);
-                this.deleteError.set(null);
-                this.deleted.emit();
-                this.closed.emit();
-            } else {
-                this.deleteError.set(this.contactsService.error());
-            }
+            this.handleDeleteResult(success);
         } catch {
             this.deleteError.set('Something went wrong');
         }
+    }
+
+    private handleDeleteResult(success: boolean): void {
+        if (!success) {
+            this.deleteError.set(this.contactsService.error());
+            return;
+        }
+        this.deleteConfirmOpen.set(false);
+        this.deleteError.set(null);
+        this.deleted.emit();
+        this.closed.emit();
     }
 }
