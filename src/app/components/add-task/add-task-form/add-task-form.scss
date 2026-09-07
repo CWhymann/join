@@ -1,9 +1,15 @@
 @use '../../../../styles/abstracts' as *;
-@use 'styles/priority';
-@use 'styles/dropdown';
-@use 'styles/subtasks';
-@use 'styles/fields';
-@use 'styles/footer';
+@use '../../../../styles/abstracts/add-task-priority' as *;
+@use '../../../../styles/abstracts/add-task-dropdown' as *;
+@use '../../../../styles/abstracts/add-task-subtasks' as *;
+@use '../../../../styles/abstracts/add-task-fields' as *;
+@use '../../../../styles/abstracts/add-task-footer' as *;
+
+@include add-task-priority;
+@include add-task-dropdown;
+@include add-task-subtasks;
+@include add-task-fields;
+@include add-task-footer;
 
 :host {
     display: flex;
@@ -16,7 +22,6 @@
     max-width: 976px;
     flex: 1;
     flex-direction: column;
-    // justify-content: space-between;
 
     @media (max-width: #{$breakpoint-columns}) {
         gap: 48px;
