@@ -120,16 +120,16 @@ export class Contacts implements OnInit {
         const modal = this.document.querySelector('.contacts__modal');
         if (modal) {
             this.renderer.addClass(modal, 'contacts__modal--closing');
-            setTimeout(() => {
-                this.showForm.set(false);
-                this.editingContact.set(null);
-                this.renderer.removeClass(this.document.body, 'modal-open');
-            }, 300);
+            setTimeout(() => this.resetForm(), 300);
         } else {
-            this.showForm.set(false);
-            this.editingContact.set(null);
-            this.renderer.removeClass(this.document.body, 'modal-open');
+            this.resetForm();
         }
+    }
+
+    private resetForm(): void {
+        this.showForm.set(false);
+        this.editingContact.set(null);
+        this.renderer.removeClass(this.document.body, 'modal-open');
     }
 
     onFormSaved(contact: Contact | null): void {
