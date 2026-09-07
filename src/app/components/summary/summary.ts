@@ -5,6 +5,7 @@ import { TasksService } from '../../core/services/tasks.service';
 import { UrgentHighlightService } from '../../core/services/urgent-highlight.service';
 import { TaskToastService } from '../../core/services/task-toast.service';
 
+/** Dashboard with the task counters, the next urgent deadline and the greeting. */
 @Component({
     selector: 'app-summary',
     standalone: true,
@@ -60,15 +61,22 @@ export class Summary implements OnInit {
         });
     });
 
+    /** Loads the tasks the counters are derived from. */
     ngOnInit(): void {
         this.tasksService.loadTasks();
     }
 
+    /** Opens the board and asks it to highlight the urgent tasks. */
     onUrgentClick(): void {
         this.urgentHighlightService.trigger();
         this.router.navigate(['/board']);
     }
 
+    /**
+     * Picks the greeting that fits the time of day.
+     * @param hour - Hour of the day from 0 to 23.
+     * @returns Greeting for morning, afternoon or evening.
+     */
     private getGreetingByHour(hour: number): string {
         if (hour < 12) return 'Good morning';
         if (hour < 18) return 'Good afternoon';

@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 
+/** Static legal notice page. */
 @Component({
     selector: 'app-notice',
     standalone: true,
