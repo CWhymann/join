@@ -7,6 +7,8 @@ import { TaskCard } from './task-card/task-card';
 import { TaskDetail } from './task-detail/task-detail';
 import { TaskToastService } from '../../core/services/task-toast.service';
 import { UrgentHighlightService } from '../../core/services/urgent-highlight.service';
+import { getDropBeforeId, isDropBeforeCard } from './board-drag.utils';
+import { toTaskDetailData } from './board-task.mapper';
 
 interface BoardColumn {
     title: string;
@@ -118,21 +120,8 @@ export class Board implements OnInit, OnDestroy {
     }
 
     protected allowTaskDrop(event: DragEvent, status: TaskStatus, task: BoardTask): void {
-        const card = (event.currentTarget as HTMLElement).querySelector('.task-card');
-        const rect = card?.getBoundingClientRect();
-        const isHorizontal =
-            getComputedStyle(event.currentTarget as HTMLElement).flexBasis !== 'auto';
-        const hasPointerPosition =
-            typeof event.clientX === 'number' && typeof event.clientY === 'number';
-        const isBefore =
-            rect && hasPointerPosition
-                ? isHorizontal
-                    ? event.clientX < rect.left + rect.width / 2
-                    : event.clientY < rect.top + rect.height / 2
-                : true;
         const columnTasks = this.tasksFor(status).filter((item) => item.id !== this.draggedTaskId);
-        const taskIndex = columnTasks.findIndex((item) => item.id === task.id);
-        const beforeId = isBefore ? task.id : columnTasks[taskIndex + 1]?.id;
+        const beforeId = getDropBeforeId(columnTasks, task.id, isDropBeforeCard(event));
         this.allowDrop(event, status, beforeId);
     }
 
@@ -214,24 +203,7 @@ export class Board implements OnInit, OnDestroy {
     }
 
     protected toDetailData(task: BoardTask) {
-        return {
-            isProtected: task.isProtected,
-            category: task.category,
-            title: task.title,
-            description: task.description,
-            dueDate: task.dueDate,
-            priority: (task.priority.charAt(0).toUpperCase() + task.priority.slice(1)) as
-                'Urgent' | 'Medium' | 'Low',
-            assignedTo: task.assignees.map((a) => ({
-                initials: a.name
-                    .split(' ')
-                    .map((n) => n[0])
-                    .join(''),
-                name: a.name,
-                color: a.color,
-            })),
-            subtasks: task.subtasks.map((s) => ({ title: s.title, done: s.completed })),
-        };
+        return toTaskDetailData(task);
     }
 
     protected closeTaskDetail(): void {
