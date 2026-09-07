@@ -1,5 +1,6 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { AuthError, User } from '@supabase/supabase-js';
+import { Contact } from '../models/contact.model';
 import { getInitials } from '../utils/avatar.utils';
 import { ContactsService } from './contacts.service';
 import { SupabaseService } from './supabase.service';
@@ -55,14 +56,9 @@ export class AuthService {
 
     private async addToContacts(input: SignUpInput, userId?: string): Promise<void> {
         await this.contactsService.loadContacts();
-        const email = input.email.toLowerCase();
-        const listed = this.contactsService
-            .contacts()
-            .find((contact) => contact.email.toLowerCase() === email);
+        const listed = this.findContactByEmail(input.email);
         if (listed) {
-            if (userId && !listed.user_id) {
-                await this.contactsService.claimContact(listed.id, userId);
-            }
+            await this.claimListedContact(listed, userId);
             return;
         }
         await this.contactsService.addContact({
@@ -71,6 +67,19 @@ export class AuthService {
             phone: '',
             user_id: userId,
         });
+    }
+
+    private findContactByEmail(email: string): Contact | undefined {
+        const normalizedEmail = email.toLowerCase();
+        return this.contactsService
+            .contacts()
+            .find((contact) => contact.email.toLowerCase() === normalizedEmail);
+    }
+
+    private async claimListedContact(contact: Contact, userId?: string): Promise<void> {
+        if (userId && !contact.user_id) {
+            await this.contactsService.claimContact(contact.id, userId);
+        }
     }
 
     async logout(): Promise<void> {
