@@ -40,14 +40,17 @@ function toHues(colors: readonly string[]): number[] {
   return hues;
 }
 
+function nextHue(hues: number[], index: number): number {
+  return index + 1 < hues.length ? hues[index + 1] : hues[0] + 360;
+}
+
 function findLargestGapHue(hues: number[]): number {
   if (hues.length === 0) return 0;
   const sorted = [...hues].sort((a, b) => a - b);
   let bestHue = 0;
   let bestGap = -1;
   for (let i = 0; i < sorted.length; i++) {
-    const next = i + 1 < sorted.length ? sorted[i + 1] : sorted[0] + 360;
-    const gap = next - sorted[i];
+    const gap = nextHue(sorted, i) - sorted[i];
     if (gap > bestGap) {
       bestGap = gap;
       bestHue = (sorted[i] + gap / 2) % 360;

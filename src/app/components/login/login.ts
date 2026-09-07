@@ -57,19 +57,16 @@ export class Login {
 
     protected async submitLogin(): Promise<void> {
         this.errorMessage.set('');
-
-        if (this.loginForm.invalid || this.isLoading()) {
-            this.loginForm.markAllAsTouched();
-            return;
-        }
-
+        if (this.isLoginBlocked()) return;
         const { email, password } = this.loginForm.getRawValue();
-
         const success = await this.runLogin(() => this.authService.login(email, password), 'user');
+        if (success) this.taskToastService.login();
+    }
 
-        if (success) {
-            this.taskToastService.login();
-        }
+    private isLoginBlocked(): boolean {
+        if (this.loginForm.valid && !this.isLoading()) return false;
+        this.loginForm.markAllAsTouched();
+        return true;
     }
 
     protected async loginAsGuest(): Promise<void> {
@@ -81,47 +78,49 @@ export class Login {
         request: () => Promise<string | null>,
         result: 'user' | 'guest',
     ): Promise<boolean> {
+        this.startLogin();
+        const error = await request();
+        this.isLoading.set(false);
+        if (error) return this.handleLoginError(error);
+        this.completeLogin(result);
+        return true;
+    }
+
+    private startLogin(): void {
         this.isLoading.set(true);
         this.errorMessage.set('');
+    }
 
-        const error = await request();
+    private handleLoginError(error: string): false {
+        this.errorMessage.set(error);
+        return false;
+    }
 
-        this.isLoading.set(false);
-
-        if (error) {
-            this.errorMessage.set(error);
-            return false;
-        }
-
+    private completeLogin(result: 'user' | 'guest'): void {
         this.userName.set(this.authService.userName());
-
         if (window.matchMedia(GREETING_MEDIA_QUERY).matches) {
             this.result.set(result);
-            return true;
+            return;
         }
-
         this.finishGreeting();
-        return true;
     }
 
     protected async submitSignUp(): Promise<void> {
         this.errorMessage.set('');
-
         const { name, email, password, confirmPassword } = this.signUpForm.getRawValue();
+        if (this.isSignUpBlocked(password, confirmPassword)) return;
+        const success = await this.registerUser(name, email, password);
+        if (success) this.taskToastService.signUp();
+    }
 
-        if (this.signUpForm.invalid || this.isLoading() || password !== confirmPassword) {
-            this.signUpForm.markAllAsTouched();
-            return;
-        }
+    private isSignUpBlocked(password: string, confirmation: string): boolean {
+        if (this.signUpForm.valid && !this.isLoading() && password === confirmation) return false;
+        this.signUpForm.markAllAsTouched();
+        return true;
+    }
 
-        const success = await this.runLogin(
-            () => this.authService.signUp({ name, email, password }),
-            'user',
-        );
-
-        if (success) {
-            this.taskToastService.signUp();
-        }
+    private registerUser(name: string, email: string, password: string): Promise<boolean> {
+        return this.runLogin(() => this.authService.signUp({ name, email, password }), 'user');
     }
 
     protected finishSplash(): void {

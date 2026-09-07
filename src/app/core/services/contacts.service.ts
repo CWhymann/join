@@ -43,9 +43,7 @@ export class ContactsService {
 
   async updateContact(id: number, changes: ContactUpdate): Promise<Contact | null> {
     this.startRequest();
-    const { data, error } = await this.supabase
-      .from(TABLE)
-      .update(changes)
+    const { data, error } = await this.supabase.from(TABLE).update(changes)
       .eq('id', id)
       .select()
       .single();
