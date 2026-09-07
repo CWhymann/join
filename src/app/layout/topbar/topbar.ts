@@ -3,13 +3,13 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { TaskToastService } from '../../core/services/task-toast.service';
 
+/** Renders the header with the profile menu and the logout action. */
 @Component({
     selector: 'app-topbar',
     imports: [RouterLink],
     templateUrl: './topbar.html',
     styleUrl: './topbar.scss',
 })
-/** Renders the header with the profile menu and the logout action. */
 export class Topbar {
     private readonly authService = inject(AuthService);
     private readonly taskToastService = inject(TaskToastService);

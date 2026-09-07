@@ -6,8 +6,8 @@ import { SupabaseService } from './supabase.service';
 
 const TABLE = 'tasks';
 
-@Injectable({ providedIn: 'root' })
 /** Loads and edits the board tasks and mirrors changes made in other sessions. */
+@Injectable({ providedIn: 'root' })
 export class TasksService {
   private readonly supabase = inject(SupabaseService).client;
   private readonly contactsService = inject(ContactsService);

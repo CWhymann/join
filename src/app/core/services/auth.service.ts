@@ -15,8 +15,8 @@ export interface SignUpInput {
     password: string;
 }
 
-@Injectable({ providedIn: 'root' })
 /** Signs users in and out and keeps the current user in a signal. */
+@Injectable({ providedIn: 'root' })
 export class AuthService {
     private readonly supabase = inject(SupabaseService).client;
     private readonly contactsService = inject(ContactsService);

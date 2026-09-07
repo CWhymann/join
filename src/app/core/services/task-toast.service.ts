@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 
-@Injectable({ providedIn: 'root' })
 /** Drives the short confirmation toast shown after board and auth actions. */
+@Injectable({ providedIn: 'root' })
 export class TaskToastService {
     show = signal(false);
     message = signal('');

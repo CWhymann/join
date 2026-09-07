@@ -1,9 +1,9 @@
 import { Injectable, signal } from '@angular/core';
 
+/** Passes the request to highlight urgent tasks from the summary to the board. */
 @Injectable({
     providedIn: 'root',
 })
-/** Passes the request to highlight urgent tasks from the summary to the board. */
 export class UrgentHighlightService {
     private readonly highlightUrgentSignal = signal<boolean>(false);
     readonly highlightUrgent = this.highlightUrgentSignal.asReadonly();

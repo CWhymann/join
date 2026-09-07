@@ -6,8 +6,8 @@ import { SupabaseService } from './supabase.service';
 
 const TABLE = 'contacts';
 
-@Injectable({ providedIn: 'root' })
 /** Loads and edits the contacts and keeps them sorted and grouped by letter. */
+@Injectable({ providedIn: 'root' })
 export class ContactsService {
   private readonly supabase = inject(SupabaseService).client;
   private readonly contactsSignal = signal<Contact[]>([]);
