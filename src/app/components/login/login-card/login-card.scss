@@ -1,0 +1,82 @@
+@use '../../../../styles/abstracts' as *;
+@use '../../../../styles/abstracts/auth' as *;
+
+:host {
+    @include auth-card;
+    top: clamp(150px, 26.855dvh, 275px);
+    left: calc(50% - 22.5px);
+    width: min(652px, calc(100% - 32px));
+    height: 449px;
+    padding: 48px clamp(16px, 7.986vw, 115px);
+    gap: 32px;
+}
+
+@include auth-heading;
+@include auth-field;
+@include auth-button;
+@include auth-error;
+@include auth-visually-hidden;
+
+.auth__form {
+    width: 422px;
+
+    &--login {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+}
+
+.auth__actions {
+    display: flex;
+    justify-content: center;
+
+    &--login {
+        position: absolute;
+        bottom: 48px;
+        left: 50%;
+        gap: 35px;
+        transform: translateX(-50%);
+    }
+}
+
+.auth__error--login {
+    position: static;
+    margin-top: -16px;
+    font-size: 16px;
+}
+
+@media (min-width: #{$breakpoint-mobile + 1}) and (max-width: #{$breakpoint-columns}) {
+    :host {
+        left: 50%;
+    }
+}
+
+@include auth-heading-mobile;
+@include auth-field-mobile;
+@include auth-button-mobile;
+
+@include mobile {
+    :host {
+        top: clamp(150px, 24.35dvh, 225.5px);
+        left: 50%;
+        width: calc(100% - 32px);
+        max-width: 396px;
+        height: 475px;
+        padding: 32px 16px;
+    }
+
+    .auth__form {
+        width: 100%;
+
+        &--login {
+            gap: 32px;
+        }
+    }
+
+    .auth__actions--login {
+        bottom: 32px;
+        flex-direction: column;
+        gap: 21px;
+    }
+}

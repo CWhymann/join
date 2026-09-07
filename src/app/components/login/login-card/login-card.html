@@ -1,0 +1,83 @@
+<div class="auth__heading">
+    <h1>Log in</h1>
+    <span aria-hidden="true"></span>
+</div>
+
+<form
+    class="auth__form auth__form--login"
+    [formGroup]="form()"
+    (ngSubmit)="submitted.emit()"
+    novalidate
+>
+    <label
+        class="auth__field"
+        [class.auth__field--invalid]="
+            !!errorMessage() || (form().controls.email.touched && form().controls.email.invalid)
+        "
+    >
+        <span class="auth__visually-hidden">Email</span>
+        <input type="email" formControlName="email" placeholder="Email" autocomplete="email" />
+        <img src="icons/mail_icon.svg" alt="" />
+        @if (form().controls.email.touched && form().controls.email.invalid) {
+            <span class="auth__error">
+                @if (form().controls.email.hasError('required')) {
+                    This field is required
+                } @else {
+                    Please enter a valid email address.
+                }
+            </span>
+        }
+    </label>
+
+    <label
+        class="auth__field"
+        [class.auth__field--invalid]="
+            !!errorMessage() ||
+            (form().controls.password.touched && form().controls.password.invalid)
+        "
+    >
+        <span class="auth__visually-hidden">Password</span>
+        <input
+            [type]="showPassword() ? 'text' : 'password'"
+            formControlName="password"
+            placeholder="Password"
+            autocomplete="current-password"
+        />
+        <button
+            class="auth__field-action"
+            type="button"
+            aria-label="Toggle password visibility"
+            (click)="showPassword.set(!showPassword())"
+        >
+            <img
+                [src]="
+                    showPassword()
+                        ? 'icons/auth-visibility.svg'
+                        : form().controls.password.value
+                          ? 'icons/auth-visibility-off.svg'
+                          : 'icons/auth-lock.svg'
+                "
+                alt=""
+            />
+        </button>
+        @if (form().controls.password.touched && form().controls.password.invalid) {
+            <span class="auth__error">This field is required</span>
+        }
+    </label>
+
+    @if (errorMessage()) {
+        <p class="auth__error auth__error--login">{{ errorMessage() }}</p>
+    }
+
+    <div class="auth__actions auth__actions--login">
+        <button class="auth__button" type="submit" [disabled]="isLoading()">Log in</button>
+        <button
+            class="auth__button auth__button--secondary"
+            type="button"
+            [disabled]="isLoading()"
+            (click)="guestRequested.emit()"
+        >
+            Guest Log in
+        </button>
+    </div>
+</form>

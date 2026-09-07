@@ -1,3 +1,214 @@
-@use 'styles/base';
-@use 'styles/responsive';
-@use 'styles/animations';
+@use '../../../styles/abstracts' as *;
+@use '../../../styles/abstracts/auth' as *;
+@use '../../../styles/abstracts/auth-animations' as *;
+@use '../../../styles/abstracts/toast' as *;
+
+.auth {
+    width: 100%;
+    min-height: 100dvh;
+    color: #000000;
+    background-color: $color-bg;
+
+    &__canvas {
+        position: relative;
+        width: min(100%, $max-width);
+        min-height: 100dvh;
+        margin-inline: auto;
+    }
+
+    &__logo {
+        position: absolute;
+        top: clamp(37px, 6.543vw, 67px);
+        left: clamp(38px, 7.52vw, 77px);
+        width: clamp(64px, 9.766vw, 100px);
+        height: auto;
+    }
+
+    &__register {
+        position: absolute;
+        top: 67px;
+        right: clamp(32px, 8.472vw, 122px);
+        display: flex;
+        align-items: center;
+        gap: 35px;
+        font-size: 20px;
+        line-height: 1.2;
+
+        > span {
+            width: 153px;
+            white-space: nowrap;
+        }
+    }
+
+    &__legal {
+        position: absolute;
+        bottom: 38px;
+        left: calc(50% - 22.5px);
+        display: flex;
+        width: 246px;
+        height: 35px;
+        align-items: center;
+        justify-content: space-between;
+        transform: translateX(-50%);
+
+        a {
+            color: $color-text-muted;
+            font-size: 16px;
+            text-decoration: none;
+            transition: color 100ms ease-out;
+
+            &:hover {
+                color: $auth-accent;
+            }
+        }
+    }
+
+    &__splash {
+        position: fixed;
+        z-index: 100;
+        inset: 0;
+        background-color: $color-bg;
+        pointer-events: none;
+        animation: splash-desktop 700ms ease-in-out forwards;
+    }
+
+    &__splash-logo {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 274px;
+        height: 334px;
+        transform: translate(-50%, -50%);
+        animation: splash-logo-desktop 700ms ease-in-out forwards;
+
+        &::after {
+            position: absolute;
+            top: 24.704%;
+            left: 16.056%;
+            width: 22.158%;
+            height: 18.25%;
+            background-color: $auth-accent;
+            content: '';
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    &__greeting {
+        display: none;
+    }
+}
+
+@include auth-button;
+
+.auth--sign-up .auth__legal {
+    left: 50%;
+}
+
+.toast {
+    @include toast;
+    top: auto;
+    bottom: clamp(96px, 21.33dvh, 198px);
+    width: min(312px, calc(100% - 32px));
+    min-width: 0;
+    height: 74px;
+    transform: translateX(-50%);
+    font-size: 20px;
+}
+
+@include auth-animations;
+
+@media (max-width: #{$breakpoint-columns}) {
+    .auth__greeting {
+        position: fixed;
+        z-index: 90;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        background-color: $color-bg;
+        color: $auth-dark;
+        animation: greeting-guest 1.9s ease-in forwards;
+
+        p {
+            font-size: 36px;
+            line-height: 1.2;
+        }
+
+        strong {
+            max-width: calc(100% - 32px);
+            color: #124658;
+            font-size: 47px;
+            line-height: 1.2;
+            overflow-wrap: normal;
+            text-align: center;
+            word-break: normal;
+        }
+
+        &--user {
+            animation-name: greeting-user;
+            animation-duration: 1.6s;
+        }
+    }
+}
+
+@media (min-width: #{$breakpoint-mobile + 1}) and (max-width: #{$breakpoint-columns}) {
+    .auth__legal {
+        left: 50%;
+    }
+}
+
+@include mobile {
+    .auth {
+        &__canvas {
+            min-height: 926px;
+        }
+
+        &__logo {
+            top: clamp(20px, 6vw, 37px);
+            left: clamp(20px, 6vw, 38px);
+            width: clamp(44px, 14vw, 64px);
+        }
+
+        &__register {
+            top: 778px;
+            right: auto;
+            left: 50%;
+            gap: 35px;
+            transform: translateX(-50%);
+        }
+
+        &__legal {
+            bottom: 22px;
+            left: 50%;
+        }
+
+        &__splash {
+            background-color: $auth-dark;
+            animation: splash-mobile 1s ease-in-out forwards;
+        }
+
+        &__splash-logo {
+            width: 100px;
+            height: 122px;
+            animation: splash-logo-mobile 1s ease-in-out forwards;
+
+            img {
+                filter: brightness(0) invert(1);
+            }
+        }
+    }
+}
+
+@include auth-button-mobile;
+
+@media (max-width: #{$breakpoint-tablet}) {
+    .toast {
+        width: min(326px, calc(100% - 32px));
+        font-size: clamp(20px, 5.374vw, 23px);
+    }
+}
