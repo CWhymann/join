@@ -1,4 +1,5 @@
 import { BoardTask, TaskAssignee, TaskPriority } from './board-task.model';
+import { getInitials } from '../../core/utils/avatar.utils';
 
 /**
  * Capitalises a priority for the detail overlay.
@@ -16,10 +17,7 @@ function formatPriority(priority: TaskPriority): 'Urgent' | 'Medium' | 'Low' {
  */
 function toAssignedContact(assignee: TaskAssignee) {
     return {
-        initials: assignee.name
-            .split(' ')
-            .map((name) => name[0])
-            .join(''),
+        initials: getInitials(assignee.name),
         name: assignee.name,
         color: assignee.color,
     };
