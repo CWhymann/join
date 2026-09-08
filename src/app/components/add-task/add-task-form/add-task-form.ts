@@ -1,4 +1,13 @@
-import { Component, computed, HostListener, inject, input, OnInit, output, signal } from '@angular/core';
+import {
+    Component,
+    computed,
+    HostListener,
+    inject,
+    input,
+    OnInit,
+    output,
+    signal,
+} from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BoardTask, NewTask, TaskCategory, TaskPriority } from '../../board/board-task.model';
 import { Contact } from '../../../core/models/contact.model';
@@ -9,7 +18,6 @@ import { dueDateValidator, formatDateInput, YEAR_RANGE } from '../../../core/uti
 import { hasReadableText, readableTextValidator } from '../../../core/utils/text.utils';
 import { TaskToastService } from '../../../core/services/task-toast.service';
 import { DatePicker } from './date-picker/date-picker';
-
 
 const MAX_VISIBLE_AVATARS = 3;
 
@@ -49,7 +57,7 @@ export class AddTaskForm implements OnInit {
     protected readonly minYear = new Date().getFullYear();
     protected readonly maxYear = this.minYear + YEAR_RANGE;
     protected readonly isSubmitting = signal(false);
-
+    private initialSnapshot = '';
     protected readonly form = this.formBuilder.group({
         title: ['', [Validators.required, Validators.maxLength(40), readableTextValidator]],
         description: ['', readableTextValidator],
@@ -131,6 +139,16 @@ export class AddTaskForm implements OnInit {
             category: '',
         });
         this.resetTaskSelection();
+    }
+
+    /** Reports whether anything changed since the task was loaded. */
+    hasUnsavedChanges(): boolean {
+        return this.buildSnapshot() !== this.initialSnapshot;
+    }
+
+    /** Triggers the same save the submit button runs. */
+    async submitFromOutside(): Promise<void> {
+        await this.createTask();
     }
 
     /** Clears the assignees, the subtasks and the subtask being edited. */
@@ -404,7 +422,10 @@ export class AddTaskForm implements OnInit {
      * Reads the plain fields out of the form.
      * @returns Title, description, due date, priority and category.
      */
-    private buildTaskFields(): Pick<NewTask, 'title' | 'description' | 'due_date' | 'priority' | 'category'> {
+    private buildTaskFields(): Pick<
+        NewTask,
+        'title' | 'description' | 'due_date' | 'priority' | 'category'
+    > {
         const value = this.form.getRawValue();
         return {
             title: value.title ?? '',
@@ -443,6 +464,18 @@ export class AddTaskForm implements OnInit {
         this.patchTaskForm(task);
         this.setTaskContacts(task);
         this.subtasks.set(task.subtasks.map((subtask) => subtask.title));
+        this.initialSnapshot = this.buildSnapshot();
+    }
+
+    /** Captures the fields, assignees and subtasks as one comparable string. */
+    private buildSnapshot(): string {
+        return JSON.stringify({
+            value: this.form.getRawValue(),
+            contacts: this.selectedContacts()
+                .map((contact) => contact.id)
+                .sort(),
+            subtasks: this.subtasks(),
+        });
     }
 
     /**
