@@ -38,12 +38,13 @@ $breakpoint-columns: 1255.98px;
 
     &__category {
         align-self: flex-start;
-        padding: 4px 16px;
+        padding: 4px 8px;
         border-radius: 8px;
         background-color: #0038ff;
         color: #ffffff;
         font-size: 16px;
         line-height: 1.2;
+        white-space: nowrap;
 
         .task-card--technical & {
             background-color: #1fd7c1;
@@ -54,7 +55,7 @@ $breakpoint-columns: 1255.98px;
         display: flex;
         align-items: flex-start;
         justify-content: space-between;
-        gap: 10px;
+        gap: 6px;
     }
 
     &__move {
@@ -64,18 +65,29 @@ $breakpoint-columns: 1255.98px;
         @media (max-width: #{$breakpoint-columns}) {
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 2px;
         }
     }
 
     &__position-button {
-        width: 28px;
-        height: 28px;
+        width: 24px;
+        height: 32px;
         padding: 0;
         border: unset;
-        background: transparent url('../../../../../public/icons/arrow-drop-down.svg') center / 24px
+        border-radius: 50%;
+        background: transparent url('../../../../../public/icons/arrow-drop-down.svg') center / 20px
             no-repeat;
         cursor: pointer;
+        transition: background-color $transition-fast;
+
+        &:hover {
+            background-color: #e7e7e7;
+        }
+
+        &:focus-visible {
+            outline: 2px solid $color-accent;
+            outline-offset: 1px;
+        }
 
         &--left {
             transform: rotate(90deg);
@@ -214,7 +226,7 @@ $breakpoint-columns: 1255.98px;
         border: 1px solid #ffffff;
         border-radius: 50%;
         color: #ffffff;
-        font-size: 12px;
+        font-size: 16px;
         line-height: 1;
 
         &--more {

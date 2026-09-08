@@ -74,7 +74,7 @@
                 font-size: 20px;
 
                 @include mobile {
-                    font-size: clamp(16px, 0.259rem + 3.704vw, 20px);
+                    font-size: clamp(16px, calc(4px + 3.704vw), 20px);
                 }
 
                 &:hover {
@@ -97,7 +97,7 @@
                 font-weight: $font-weight-bold;
 
                 @include mobile {
-                    font-size: clamp(17px, 0.322rem + 3.704vw, 21px);
+                    font-size: clamp(17px, calc(5px + 3.704vw), 21px);
                 }
 
                 &:disabled {

@@ -13,7 +13,7 @@
         margin-bottom: clamp(24px, calc(24px + (100dvh - 788px) * 0.1356), 56px);
 
         h1 {
-            font-size: clamp(2rem, 5vw, 61px);
+            font-size: clamp(32px, 5vw, 61px);
             font-weight: 700;
             margin: 0;
         }
@@ -28,7 +28,7 @@
         p {
             min-width: 0;
             flex: 1 1 auto;
-            font-size: clamp(1rem, 2.5vw, 27px);
+            font-size: clamp(16px, 2.5vw, 27px);
             color: #2a3647;
             margin: 0;
         }
@@ -133,7 +133,7 @@
         }
 
         p.summary__greeting--single {
-            font-size: clamp(1.5rem, 3.5vw, 47px);
+            font-size: clamp(24px, 3.5vw, 47px);
             font-weight: 500;
             line-height: 1.2;
             margin: 0;
@@ -223,16 +223,16 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: clamp(60px, 8vw, 93px);
+            width: 100%;
         }
 
         &__number {
-            font-size: clamp(1.8rem, 5vw, 4rem);
+            font-size: clamp(29px, 5vw, 64px);
             font-weight: 700;
         }
 
         &__label {
-            font-size: clamp(0.85rem, 1.1vw, 1.1rem);
+            font-size: clamp(16px, 1.1vw, 18px);
             color: inherit;
         }
 
@@ -252,13 +252,13 @@
             }
 
             .card__label {
-                font-size: clamp(12px, 1.2vw, 16px);
+                font-size: 16px;
             }
         }
 
         &__date {
             font-weight: 700;
-            font-size: clamp(15px, 1.6vw, 21px);
+            font-size: clamp(16px, 1.6vw, 21px);
         }
 
         &--icon {
@@ -326,11 +326,11 @@
             text-align: center;
 
             .card__number {
-                font-size: clamp(1.6rem, 5vw, 4rem);
+                font-size: clamp(26px, 5vw, 64px);
             }
 
             .card__label {
-                font-size: clamp(13px, 1.5vw, 22px);
+                font-size: clamp(16px, 1.5vw, 22px);
             }
             &:hover {
                 transform: scale(1.069);
