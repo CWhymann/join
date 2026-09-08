@@ -56,7 +56,7 @@
     &__letter {
         font-family: $font-primary;
         font-weight: $font-weight-regular;
-        font-size: clamp(20px, 1.5vw, 20px);
+        font-size: 20px;
         color: $color-text;
         padding: $spacing-ml $spacing-xxxl;
         height: 58px;
@@ -121,7 +121,7 @@
 
     &__name {
         font-family: $font-primary;
-        font-size: clamp(17px, 1.5vw, 20px);
+        font-size: 20px;
         color: $color-text;
     }
 

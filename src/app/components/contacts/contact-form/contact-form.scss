@@ -23,7 +23,7 @@
         --contact-form-header-height: clamp(220px, 46.32%, 50%);
         --contact-form-avatar-size: clamp(88px, 12.96dvh, 120px);
         --contact-form-field-height: clamp(36px, 4.43dvh, 41px);
-        --contact-form-field-gap: clamp(13px, calc(4.247dvh - 15.33px), 24px);
+        --contact-form-field-gap: 24px;
         --contact-form-button-height: clamp(44px, 5.51dvh, 51px);
         flex-direction: column;
         width: 100%;
@@ -339,7 +339,7 @@
             top: var(--contact-form-field-height);
             left: 0;
             width: 100%;
-            font-size: clamp(12px, 3.27vw, 14px);
+            font-size: 16px;
         }
     }
 
