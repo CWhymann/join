@@ -3,9 +3,8 @@
 
 :host {
     @include auth-card;
-    top: clamp(150px, 26.855dvh, 275px);
-    left: calc(50% - 22.5px);
     width: min(652px, calc(100% - 32px));
+    margin-right: 45px;
     height: 449px;
     padding: 48px clamp(16px, 7.986vw, 115px);
     gap: 32px;
@@ -48,7 +47,7 @@
 
 @media (min-width: #{$breakpoint-mobile + 1}) and (max-width: #{$breakpoint-columns}) {
     :host {
-        left: 50%;
+        margin-right: 0;
     }
 }
 
@@ -58,11 +57,10 @@
 
 @include mobile {
     :host {
-        top: clamp(150px, 24.35dvh, 225.5px);
-        left: 50%;
         width: calc(100% - 32px);
         max-width: 396px;
         height: 475px;
+        margin-right: 0;
         padding: 32px 16px;
     }
 
@@ -78,5 +76,29 @@
         bottom: 32px;
         flex-direction: column;
         gap: 21px;
+    }
+}
+
+@media (max-width: #{$breakpoint-mobile}) and (max-height: 820px) {
+    :host {
+        height: 380px;
+        padding-block: 16px;
+    }
+
+    .auth__field {
+        height: 44px;
+    }
+
+    .auth__form--login {
+        gap: 24px;
+    }
+
+    .auth__actions--login {
+        bottom: 16px;
+        gap: 12px;
+    }
+
+    .auth__heading h1 {
+        font-size: min(clamp(34px, 12.5vw, 47px), 6dvh);
     }
 }

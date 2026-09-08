@@ -11,9 +11,18 @@
 
     &__canvas {
         position: relative;
+        display: flex;
         width: min(100%, $max-width);
-        min-height: 100dvh;
+        height: 100dvh;
+        flex-direction: column;
+        align-items: center;
         margin-inline: auto;
+
+        &::before {
+            flex: 0 1 275px;
+            min-height: 190px;
+            content: '';
+        }
     }
 
     &__logo {
@@ -41,15 +50,16 @@
     }
 
     &__legal {
-        position: absolute;
-        bottom: 38px;
-        left: calc(50% - 22.5px);
         display: flex;
         width: 246px;
         height: 35px;
+        flex-shrink: 0;
         align-items: center;
         justify-content: space-between;
-        transform: translateX(-50%);
+        margin-top: auto;
+        margin-right: 45px;
+        margin-bottom: 38px;
+        padding-top: 16px;
 
         a {
             color: $color-text-muted;
@@ -105,7 +115,13 @@
 @include auth-button;
 
 .auth--sign-up .auth__legal {
-    left: 50%;
+    margin-right: 0;
+}
+
+@media (min-width: #{$breakpoint-mobile + 1}) {
+    .auth--sign-up .auth__canvas::before {
+        flex-basis: 197px;
+    }
 }
 
 .toast {
@@ -158,14 +174,34 @@
 
 @media (min-width: #{$breakpoint-mobile + 1}) and (max-width: #{$breakpoint-columns}) {
     .auth__legal {
-        left: 50%;
+        margin-right: 0;
+    }
+}
+
+@media (min-width: #{$breakpoint-mobile + 1}) and (max-height: 900px) {
+    .auth {
+        &__canvas::before {
+            min-height: 150px;
+        }
+
+        &__logo {
+            top: min(clamp(37px, 6.543vw, 67px), 5.5dvh);
+            width: min(clamp(64px, 9.766vw, 100px), 11dvh);
+        }
+
+        &__legal {
+            margin-bottom: 22px;
+        }
     }
 }
 
 @include mobile {
     .auth {
         &__canvas {
-            min-height: 926px;
+            &::before {
+                flex-basis: 225.5px;
+                min-height: 120px;
+            }
         }
 
         &__logo {
@@ -175,16 +211,18 @@
         }
 
         &__register {
-            top: 778px;
-            right: auto;
-            left: 50%;
+            position: static;
+            order: 1;
+            flex-shrink: 0;
+            margin-top: 77.5px;
             gap: 35px;
-            transform: translateX(-50%);
+            transform: none;
         }
 
         &__legal {
-            bottom: 22px;
-            left: 50%;
+            order: 2;
+            margin-right: 0;
+            margin-bottom: 22px;
         }
 
         &__splash {
@@ -205,6 +243,16 @@
 }
 
 @include auth-button-mobile;
+
+@media (max-width: #{$breakpoint-mobile}) and (max-height: 820px) {
+    .auth__canvas::before {
+        min-height: 96px;
+    }
+
+    .auth__register {
+        margin-top: 24px;
+    }
+}
 
 @media (max-width: #{$breakpoint-tablet}) {
     .toast {

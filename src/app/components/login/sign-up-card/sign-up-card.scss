@@ -3,7 +3,6 @@
 
 :host {
     @include auth-card;
-    top: clamp(150px, 19.238dvh, 197px);
     width: min(598px, calc(100% - 32px));
     height: 630px;
     padding-top: 48px;
@@ -96,14 +95,32 @@
     text-align: center;
 }
 
+@media (min-width: #{$breakpoint-mobile + 1}) and (max-height: 900px) {
+    :host {
+        height: auto;
+        padding-block: 32px;
+    }
+
+    .auth__form--sign-up {
+        gap: 16px;
+        margin-top: 24px;
+    }
+
+    .auth__privacy {
+        margin-top: 10px;
+    }
+
+    .auth__back {
+        top: 40px;
+    }
+}
+
 @include auth-heading-mobile;
 @include auth-field-mobile;
 @include auth-button-mobile;
 
 @include mobile {
     :host {
-        top: clamp(150px, 24.35dvh, 225.5px);
-        left: 50%;
         width: calc(100% - 32px);
         max-width: 396px;
         height: auto;
@@ -128,5 +145,28 @@
         left: clamp(24px, 8vw, 40px);
         width: clamp(24px, 7vw, 32px);
         height: clamp(24px, 7vw, 32px);
+    }
+}
+
+@media (max-width: #{$breakpoint-mobile}) and (max-height: 820px) {
+    :host {
+        padding-block: 16px;
+    }
+
+    .auth__form--sign-up {
+        gap: 12px;
+        margin-top: 12px;
+    }
+
+    .auth__field {
+        height: 44px;
+    }
+
+    .auth__privacy {
+        margin-top: 10px;
+    }
+
+    .auth__heading h1 {
+        font-size: min(clamp(34px, 12.5vw, 47px), 6dvh);
     }
 }
