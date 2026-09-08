@@ -20,7 +20,7 @@ export class AddTaskOverlay {
 
     /** Closes right away when nothing changed, otherwise asks first. */
     protected attemptClose(): void {
-        if (this.task() && this.addTaskForm()?.hasUnsavedChanges()) {
+        if (this.addTaskForm()?.hasUnsavedChanges()) {
             this.discardConfirmOpen.set(true);
             return;
         }
