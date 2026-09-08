@@ -68,6 +68,7 @@ export class AddTaskForm implements OnInit {
 
     /** Loads contacts and tasks, then fills the form when a task is being edited. */
     async ngOnInit(): Promise<void> {
+        this.initialSnapshot = this.buildSnapshot();
         await Promise.all([this.contactsService.loadContacts(), this.tasksService.loadTasks()]);
         this.setTaskValues();
     }
