@@ -3,6 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { SignUpFormGroup } from '../auth-forms.model';
 
+/** Registration card; the form itself lives in the surrounding page. */
 @Component({
     selector: 'app-sign-up-card',
     standalone: true,

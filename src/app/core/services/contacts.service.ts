@@ -6,6 +6,7 @@ import { SupabaseService } from './supabase.service';
 
 const TABLE = 'contacts';
 
+/** Loads and edits the contacts and keeps them sorted and grouped by letter. */
 @Injectable({ providedIn: 'root' })
 export class ContactsService {
   private readonly supabase = inject(SupabaseService).client;
@@ -18,6 +19,7 @@ export class ContactsService {
   readonly loading = this.loadingSignal.asReadonly();
   readonly error = this.errorSignal.asReadonly();
 
+  /** Reloads all contacts from Supabase into the signal. */
   async loadContacts(): Promise<void> {
     this.startRequest();
     const { data, error } = await this.supabase.from(TABLE).select('*');
@@ -29,6 +31,11 @@ export class ContactsService {
     this.loadingSignal.set(false);
   }
 
+  /**
+   * Creates a contact, assigning an avatar color when none is given.
+   * @param input - Contact values from the form.
+   * @returns Created contact, or `null` when the insert failed.
+   */
   async addContact(input: ContactInput): Promise<Contact | null> {
     this.startRequest();
     const contact: NewContact = { ...input, color: input.color ?? this.nextAvatarColor() };
@@ -41,6 +48,12 @@ export class ContactsService {
     return data as Contact;
   }
 
+  /**
+   * Applies changes to one contact.
+   * @param id - Id of the contact to change.
+   * @param changes - Fields to overwrite.
+   * @returns Updated contact, or `null` when the update failed.
+   */
   async updateContact(id: number, changes: ContactUpdate): Promise<Contact | null> {
     this.startRequest();
     const { data, error } = await this.supabase.from(TABLE).update(changes)
@@ -55,6 +68,11 @@ export class ContactsService {
     return data as Contact;
   }
 
+  /**
+   * Deletes one contact.
+   * @param id - Id of the contact to delete.
+   * @returns `true` when a row was removed, `false` when it was blocked or failed.
+   */
   async deleteContact(id: number): Promise<boolean> {
     this.startRequest();
     const { data, error } = await this.supabase.from(TABLE).delete().eq('id', id).select();
@@ -70,23 +88,42 @@ export class ContactsService {
     return true;
   }
 
+  /**
+   * Assigns a contact to a user account.
+   * @param id - Id of the contact to claim.
+   * @param userId - Supabase user id to link.
+   */
   async claimContact(id: number, userId: string): Promise<void> {
     await this.updateContact(id, { user_id: userId });
   }
 
+  /**
+   * Looks up a loaded contact by id.
+   * @param id - Contact id.
+   * @returns Matching contact, or `undefined` when it is not loaded.
+   */
   findById(id: number): Contact | undefined {
     return this.contactsSignal().find((contact) => contact.id === id);
   }
 
+  /**
+   * Picks an avatar color that stands apart from the ones in use.
+   * @returns Hex color for the next contact.
+   */
   private nextAvatarColor(): string {
     return createAvatarColor(this.contactsSignal().map((contact) => contact.color));
   }
 
+  /** Marks a request as running and clears the previous error. */
   private startRequest(): void {
     this.loadingSignal.set(true);
     this.errorSignal.set(null);
   }
 
+  /**
+   * Stores an error message and ends the running request.
+   * @param message - Text to show in the UI.
+   */
   private failRequest(message: string): void {
     this.errorSignal.set(message);
     this.loadingSignal.set(false);

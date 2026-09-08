@@ -4,6 +4,7 @@ import { Contact } from '../../../core/models/contact.model';
 import { ContactsService } from '../../../core/services/contacts.service';
 import { getInitials } from '../../../core/utils/avatar.utils';
 
+/** Alphabetical contact list, grouped by initial letter. */
 @Component({
   selector: 'app-contact-list',
   standalone: true,
@@ -23,6 +24,7 @@ export class ContactList {
 
   getInitials = getInitials;
 
+  /** Scrolls the selected entry into view whenever the selection changes. */
   constructor() {
     effect(() => {
       const id = this.selectedId();

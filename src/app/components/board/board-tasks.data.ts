@@ -1,5 +1,6 @@
 import { BoardTask } from './board-task.model';
 
+/** Named avatars the sample tasks are assigned to. */
 const assignees = {
   sofia: { id: 69, name: 'Sofia Müller', color: '#00bee8' },
   benedikt: { id: 70, name: 'Benedikt Ziegler', color: '#9327ff' },
@@ -13,6 +14,7 @@ const assignees = {
   julia: { id: 78, name: 'Julia Brandt', color: '#1fd7c1' },
 };
 
+/** Sample tasks used by the board spec. */
 export const BOARD_TASKS: BoardTask[] = [
   {
     id: 1,

@@ -3,6 +3,7 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { TaskToastService } from '../../core/services/task-toast.service';
 
+/** Renders the header with the profile menu and the logout action. */
 @Component({
     selector: 'app-topbar',
     imports: [RouterLink],
@@ -19,15 +20,21 @@ export class Topbar {
 
     protected isProfileMenuOpen = false;
 
+    /**
+     * Opens or closes the profile menu.
+     * @param event - Click event, stopped so the outside-click listener does not fire.
+     */
     protected toggleProfileMenu(event: MouseEvent): void {
         event.stopPropagation();
         this.isProfileMenuOpen = !this.isProfileMenuOpen;
     }
 
+    /** Closes the profile menu. */
     protected closeProfileMenu(): void {
         this.isProfileMenuOpen = false;
     }
 
+    /** Signs the user out, confirms it with a toast and returns to the login page. */
     protected async logout(): Promise<void> {
         await this.authService.logout();
         this.closeProfileMenu();
@@ -35,11 +42,13 @@ export class Topbar {
         this.router.navigate(['/login']);
     }
 
+    /** Closes the profile menu on any click outside it. */
     @HostListener('document:click')
     protected closeProfileMenuOnOutsideClick(): void {
         this.closeProfileMenu();
     }
 
+    /** Closes the profile menu when Escape is pressed. */
     @HostListener('document:keydown.escape')
     protected closeProfileMenuOnEscape(): void {
         this.closeProfileMenu();

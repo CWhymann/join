@@ -3,6 +3,11 @@ import { AbstractControl, ValidationErrors } from '@angular/forms';
 export const EMAIL_PATTERN = /^[\w+-]+(\.[\w+-]+)*@([a-z\d]([a-z\d-]*[a-z\d])?\.){1,3}[a-z]{2,}$/i;
 export const MIN_PASSWORD_LENGTH = 6;
 
+/**
+ * Validates that a name has a first and last part and no digits.
+ * @param control - Form control holding the name.
+ * @returns `invalidName` error, or `null` when empty or valid.
+ */
 export function fullNameValidator(control: AbstractControl): ValidationErrors | null {
     const name = (control.value ?? '').trim();
     if (!name) return null;

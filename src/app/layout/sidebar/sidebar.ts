@@ -2,6 +2,7 @@ import { Component, computed, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 
+/** Renders the main navigation and swaps its entries with the login state. */
 @Component({
   selector: 'app-sidebar',
   imports: [RouterLink, RouterLinkActive],

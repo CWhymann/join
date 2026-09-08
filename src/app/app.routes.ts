@@ -10,6 +10,7 @@ import { Summary } from './components/summary/summary';
 import { Login } from './components/login/login';
 import { authGuard, guestGuard } from './core/guards/auth.guard';
 
+/** Route table; the app routes sit behind the auth guard inside the main layout. */
 export const routes: Routes = [
     { path: 'login', component: Login, canActivate: [guestGuard] },
     { path: '', pathMatch: 'full', redirectTo: 'login' },

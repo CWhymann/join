@@ -1,3 +1,8 @@
+/**
+ * Converts a hex color to its hue angle.
+ * @param hex - Six-digit hex value, with or without a leading `#`.
+ * @returns Hue in degrees, or `null` for greys and invalid input.
+ */
 export function hexToHue(hex: string): number | null {
   const match = /^#?([0-9a-f]{6})$/i.exec(hex.trim());
   if (!match) return null;
@@ -8,6 +13,13 @@ export function hexToHue(hex: string): number | null {
   return rgbToHue(red, green, blue);
 }
 
+/**
+ * Derives the hue from normalized RGB channels.
+ * @param red - Red channel from 0 to 1.
+ * @param green - Green channel from 0 to 1.
+ * @param blue - Blue channel from 0 to 1.
+ * @returns Hue in degrees, or `null` when all channels are equal.
+ */
 function rgbToHue(red: number, green: number, blue: number): number | null {
   const max = Math.max(red, green, blue);
   const span = max - Math.min(red, green, blue);
@@ -16,12 +28,28 @@ function rgbToHue(red: number, green: number, blue: number): number | null {
   return (hue + 360) % 360;
 }
 
+/**
+ * Returns the hue position within its 60-degree color sector.
+ * @param red - Red channel from 0 to 1.
+ * @param green - Green channel from 0 to 1.
+ * @param blue - Blue channel from 0 to 1.
+ * @param max - Largest of the three channels.
+ * @param span - Difference between the largest and smallest channel.
+ * @returns Sector offset in units of 60 degrees.
+ */
 function sectorHue(red: number, green: number, blue: number, max: number, span: number): number {
   if (max === red) return ((green - blue) / span) % 6;
   if (max === green) return (blue - red) / span + 2;
   return (red - green) / span + 4;
 }
 
+/**
+ * Builds a hex color from HSL components.
+ * @param hue - Hue in degrees.
+ * @param saturation - Saturation in percent.
+ * @param lightness - Lightness in percent.
+ * @returns Uppercase hex color with a leading `#`.
+ */
 export function hslToHex(hue: number, saturation: number, lightness: number): string {
   const s = saturation / 100;
   const l = lightness / 100;
@@ -33,6 +61,11 @@ export function hslToHex(hue: number, saturation: number, lightness: number): st
   return `#${toHexPart(channel(0))}${toHexPart(channel(8))}${toHexPart(channel(4))}`;
 }
 
+/**
+ * Converts a channel value to a two-digit hex pair.
+ * @param value - Channel value from 0 to 1.
+ * @returns Uppercase two-digit hex pair.
+ */
 function toHexPart(value: number): string {
   return Math.round(value * 255)
     .toString(16)

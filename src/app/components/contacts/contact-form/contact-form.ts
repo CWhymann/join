@@ -6,6 +6,7 @@ import { Contact } from '../../../core/models/contact.model';
 import { getInitials } from '../../../core/utils/avatar.utils';
 import { EMAIL_PATTERN, fullNameValidator } from '../../../core/utils/validation.utils';
 
+/** Form for adding and editing a contact, including deletion in edit mode. */
 @Component({
     selector: 'app-contact-form',
     standalone: true,
@@ -34,10 +35,16 @@ export class ContactForm implements OnInit {
         phone: ['', [Validators.required, Validators.maxLength(20), Validators.pattern(/^\+?[0-9]+$/)]],
     });
 
+    /**
+     * Reports whether a field has reached its character limit.
+     * @param field - Field to check.
+     * @returns `true` when no further characters fit.
+     */
     atLimit(field: 'name' | 'email' | 'phone'): boolean {
         return (this.form.value[field] ?? '').length >= this.maxLengths[field];
     }
 
+    /** `true` while the form still matches the contact being edited. */
     get isUnchanged(): boolean {
         const contact = this.editingContact();
         if (!contact) return false;
@@ -45,10 +52,12 @@ export class ContactForm implements OnInit {
         return name === contact.name && email === contact.email && phone === contact.phone;
     }
 
+    /** `true` when the form edits an existing contact rather than creating one. */
     get isEditMode(): boolean {
         return this.editingContact() !== null;
     }
 
+    /** Fills the form with the contact being edited. */
     ngOnInit(): void {
         const contact = this.editingContact();
         if (contact) {
@@ -60,10 +69,12 @@ export class ContactForm implements OnInit {
         }
     }
 
+    /** Initials shown in the avatar while editing. */
     get initials(): string {
         return getInitials(this.editingContact()?.name ?? '');
     }
 
+    /** Validates the form, saves the contact and reports the outcome to the page. */
     async onSubmit(): Promise<void> {
         if (this.submissionBlocked()) return;
 
@@ -76,12 +87,21 @@ export class ContactForm implements OnInit {
         this.closed.emit();
     }
 
+    /**
+     * Guards the submit and marks the fields so their errors become visible.
+     * @returns `true` when the form is invalid and submitting must stop.
+     */
     private submissionBlocked(): boolean {
         if (this.form.valid) return false;
         this.form.markAllAsTouched();
         return true;
     }
 
+    /**
+     * Creates or updates the contact, depending on the mode.
+     * @param contact - Contact being edited, or `null` when creating one.
+     * @returns Saved contact, or `null` when the request failed.
+     */
     private saveContact(contact: Contact | null): Promise<Contact | null> {
         const { name, email, phone } = this.form.value;
         const input = { name: name!, email: email!, phone: phone! };
@@ -90,20 +110,24 @@ export class ContactForm implements OnInit {
             : this.contactsService.addContact(input);
     }
 
+    /** Closes the form without saving. */
     onCancel(): void {
         this.closed.emit();
     }
 
+    /** Opens the delete confirmation. */
     onDeleteClick(): void {
         this.deleteError.set(null);
         this.deleteConfirmOpen.set(true);
     }
 
+    /** Closes the delete confirmation and clears its error. */
     cancelDelete(): void {
         this.deleteConfirmOpen.set(false);
         this.deleteError.set(null);
     }
 
+    /** Deletes the contact being edited and keeps the form open when it fails. */
     async confirmDelete(): Promise<void> {
         const contact = this.editingContact();
         if (!contact) return;
@@ -116,6 +140,10 @@ export class ContactForm implements OnInit {
         }
     }
 
+    /**
+     * Closes the form after a delete, or shows why it was refused.
+     * @param success - Whether the delete removed a row.
+     */
     private handleDeleteResult(success: boolean): void {
         if (!success) {
             this.deleteError.set(this.contactsService.error());
