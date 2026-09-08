@@ -7,6 +7,7 @@ import { SupabaseService } from './supabase.service';
 
 const GUEST_EMAIL = 'guest@join.de';
 const GUEST_PASSWORD = 'Guest1234!';
+const DEFAULT_PHONE = '+15550100';
 
 /** Values the registration form hands to the service. */
 export interface SignUpInput {
@@ -87,7 +88,7 @@ export class AuthService {
         await this.contactsService.addContact({
             name: input.name,
             email: input.email,
-            phone: '',
+            phone: DEFAULT_PHONE,
             user_id: userId,
         });
     }
@@ -113,6 +114,15 @@ export class AuthService {
         if (userId && !contact.user_id) {
             await this.contactsService.claimContact(contact.id, userId);
         }
+    }
+
+    /**
+     * Stores a new display name on the account and republishes the user.
+     * @param name - Name to keep in the user metadata.
+     */
+    async updateName(name: string): Promise<void> {
+        const { data } = await this.supabase.auth.updateUser({ data: { name } });
+        if (data.user) this.userSignal.set(data.user);
     }
 
     /** Ends the Supabase session and clears the current user. */
