@@ -59,8 +59,7 @@
     :host {
         width: calc(100% - 32px);
         max-width: 396px;
-        height: auto;
-        min-height: 475px;
+        height: 475px;
         margin-right: 0;
         padding: 32px 16px;
     }
@@ -80,9 +79,9 @@
     }
 }
 
-@media (max-width: #{$breakpoint-mobile}) and (max-height: 900px) {
+@media (max-width: #{$breakpoint-mobile}) and (max-height: 820px) {
     :host {
-        min-height: 0;
+        height: 380px;
         padding-block: 16px;
     }
 
