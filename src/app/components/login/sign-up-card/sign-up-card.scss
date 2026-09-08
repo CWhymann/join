@@ -148,7 +148,7 @@
     }
 }
 
-@media (max-width: #{$breakpoint-mobile}) and (max-height: 820px) {
+@media (max-width: #{$breakpoint-mobile}) and (max-height: 900px) {
     :host {
         padding-block: 16px;
     }
