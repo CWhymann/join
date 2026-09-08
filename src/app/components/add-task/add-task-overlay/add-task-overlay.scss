@@ -18,6 +18,7 @@
         --add-task-surface: #ffffff;
         --add-task-footer-bottom: 0px;
 
+        position: relative;
         display: flex;
         width: 1116px;
         max-width: 100%;
@@ -76,6 +77,63 @@
 
         &:hover {
             background-color: $color-hover;
+        }
+    }
+
+    &__confirm-overlay {
+        position: absolute;
+        inset: 0;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 30px;
+    }
+
+    &__confirm {
+        width: min(320px, 80%);
+        padding: clamp(20px, 3vw, 32px);
+        border-radius: 16px;
+        background: #ffffff;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        text-align: center;
+    }
+
+    &__confirm-text {
+        margin-bottom: 20px;
+        font-size: clamp(15px, 1.5vw, 18px);
+    }
+
+    &__confirm-actions {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+    }
+
+    &__confirm-btn {
+        padding: 8px 24px;
+        border: none;
+        border-radius: 10px;
+        font-size: clamp(14px, 1.2vw, 16px);
+        cursor: pointer;
+
+        &--cancel {
+            background: #f0f0f0;
+            color: #2a3647;
+
+            &:hover {
+                background: #e0e0e0;
+            }
+        }
+
+        &--confirm {
+            background: #ff3b30;
+            color: #fff;
+
+            &:hover {
+                background: #d92e24;
+            }
         }
     }
 }

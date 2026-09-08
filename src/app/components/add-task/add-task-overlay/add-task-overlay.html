@@ -7,10 +7,32 @@
                 class="add-task-overlay__close"
                 type="button"
                 aria-label="Close"
-                (click)="close()"
+                (click)="attemptClose()"
             ></button>
         </header>
 
         <app-add-task-form [task]="task()" (taskCreated)="created()" />
+
+        @if (discardConfirmOpen()) {
+            <div class="add-task-overlay__confirm-overlay">
+                <div class="add-task-overlay__confirm">
+                    <p class="add-task-overlay__confirm-text">Save changes?</p>
+                    <div class="add-task-overlay__confirm-actions">
+                        <button
+                            class="add-task-overlay__confirm-btn add-task-overlay__confirm-btn--cancel"
+                            (click)="cancelSave()"
+                        >
+                            No
+                        </button>
+                        <button
+                            class="add-task-overlay__confirm-btn add-task-overlay__confirm-btn--confirm"
+                            (click)="confirmSave()"
+                        >
+                            Yes
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
     </section>
 </div>
