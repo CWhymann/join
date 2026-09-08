@@ -170,11 +170,23 @@ export class Contacts implements OnInit {
      * Closes the form and reports the outcome in a toast.
      * @param contact - Saved contact, or `null` when saving failed.
      */
-    onFormSaved(contact: Contact | null): void {
+    async onFormSaved(contact: Contact | null): Promise<void> {
         this.showForm.set(false);
         this.editingContact.set(null);
         this.renderer.removeClass(this.document.body, 'modal-open');
-        if (contact) this.selectedContact.set(contact);
+        if (contact) {
+            this.selectedContact.set(contact);
+            await this.syncOwnName(contact);
+        }
         this.showToastMessage(contact ? 'Contact saved' : 'Something went wrong');
+    }
+
+    /**
+     * Copies the name into the account when the saved contact belongs to the signed-in user.
+     * @param contact - Contact that was just saved.
+     */
+    private async syncOwnName(contact: Contact): Promise<void> {
+        if (!contact.user_id || contact.user_id !== this.authService.user()?.id) return;
+        await this.authService.updateName(contact.name);
     }
 }
