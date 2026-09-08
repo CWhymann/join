@@ -1,9 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { AuthFormStateService } from '../../core/services/auth-form-state.service';
 import { AuthService } from '../../core/services/auth.service';
 import { TaskToastService } from '../../core/services/task-toast.service';
-import { EMAIL_PATTERN, fullNameValidator, MIN_PASSWORD_LENGTH } from '../../core/utils/validation.utils';
 import { LoginCard } from './login-card/login-card';
 import { SignUpCard } from './sign-up-card/sign-up-card';
 
@@ -23,29 +22,20 @@ export class Login {
     private readonly authService = inject(AuthService);
     protected readonly taskToastService = inject(TaskToastService);
     private readonly router = inject(Router);
+    private readonly formState = inject(AuthFormStateService);
 
     protected readonly errorMessage = signal('');
     protected readonly isLoading = signal(false);
     protected readonly result = signal<LoginResult>(null);
     protected readonly userName = signal('');
-    protected readonly isSignUp = signal(false);
-    protected readonly showSplash = signal(true);
+    protected readonly isSignUp = this.formState.isSignUp;
+    protected readonly showSplash = this.formState.showSplash;
     protected readonly showLoginPassword = signal(false);
     protected readonly showSignUpPassword = signal(false);
     protected readonly showConfirmPassword = signal(false);
 
-    protected readonly loginForm = new FormBuilder().nonNullable.group({
-        email: ['', [Validators.required, Validators.email]],
-        password: ['', Validators.required],
-    });
-
-    protected readonly signUpForm = new FormBuilder().nonNullable.group({
-        name: ['', [Validators.required, Validators.maxLength(40), fullNameValidator]],
-        email: ['', [Validators.required, Validators.pattern(EMAIL_PATTERN), Validators.maxLength(80)]],
-        password: ['', [Validators.required, Validators.minLength(MIN_PASSWORD_LENGTH)]],
-        confirmPassword: ['', Validators.required],
-        acceptedPrivacy: [false, Validators.requiredTrue],
-    });
+    protected readonly loginForm = this.formState.loginForm;
+    protected readonly signUpForm = this.formState.signUpForm;
 
     /** Switches to the registration card. */
     protected openSignUp(): void {
@@ -168,8 +158,8 @@ export class Login {
         this.showSplash.set(false);
     }
 
-    /** Leaves the greeting and opens the summary. */
+    /** Leaves the greeting, empties the forms and opens the summary. */
     protected finishGreeting(): void {
-        this.router.navigate(['/summary']);
+        this.router.navigate(['/summary']).then(() => this.formState.reset());
     }
 }
