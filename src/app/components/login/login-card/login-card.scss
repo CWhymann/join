@@ -94,8 +94,11 @@
     }
 
     .auth__actions--login {
-        bottom: 16px;
+        position: static;
+        align-items: center;
+        margin-top: 24px;
         gap: 12px;
+        transform: none;
     }
 
     .auth__heading h1 {
