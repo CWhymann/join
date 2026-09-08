@@ -54,7 +54,6 @@
 @include auth-heading-mobile;
 @include auth-field-mobile;
 @include auth-button-mobile;
-
 @include mobile {
     :host {
         width: calc(100% - 32px);
