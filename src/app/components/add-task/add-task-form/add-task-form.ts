@@ -1,13 +1,4 @@
-import {
-    Component,
-    computed,
-    HostListener,
-    inject,
-    input,
-    OnInit,
-    output,
-    signal,
-} from '@angular/core';
+import { Component, computed, HostListener, inject, input, OnInit, output, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BoardTask, NewTask, TaskCategory, TaskPriority } from '../../board/board-task.model';
 import { Contact } from '../../../core/models/contact.model';
