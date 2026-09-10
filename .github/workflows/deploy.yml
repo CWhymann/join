@@ -30,6 +30,11 @@ jobs:
             - name: Build Angular
               run: npm run build
 
+            - name: Check build output
+              run: |
+                  echo "=== dist ==="
+                  find dist -maxdepth 3 -type f
+
             - name: Setup Pages
               uses: actions/configure-pages@v5
 
