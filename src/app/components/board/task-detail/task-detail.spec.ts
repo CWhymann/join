@@ -21,14 +21,12 @@ describe('TaskDetail', () => {
         expect(component).toBeTruthy();
     });
 
-    it('should close when the outer overlay is clicked', async () => {
+    it('should close when the outer overlay is clicked', () => {
         const closeSpy = vi.fn();
         component.closeClicked.subscribe(closeSpy);
         const overlay = document.createElement('div');
 
         component.onOverlayClick({ target: overlay, currentTarget: overlay } as unknown as MouseEvent);
-
-        await new Promise((resolve) => setTimeout(resolve, 310));
 
         expect(closeSpy).toHaveBeenCalled();
     });
@@ -45,13 +43,11 @@ describe('TaskDetail', () => {
         expect(closeSpy).not.toHaveBeenCalled();
     });
 
-    it('should close when Escape is pressed', async () => {
+    it('should close when Escape is pressed', () => {
         const closeSpy = vi.fn();
         component.closeClicked.subscribe(closeSpy);
 
         component.onEscape();
-
-        await new Promise((resolve) => setTimeout(resolve, 310));
 
         expect(closeSpy).toHaveBeenCalled();
     });
